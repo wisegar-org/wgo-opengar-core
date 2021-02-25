@@ -1,5 +1,5 @@
 {
-  "name": "wgo-opengar-js",
+  "name": " @wisegar-org/wgo-opengar-core",
   "version": "0.0.1-dev.3",
   "description": "OpenGarJS Core Library - Dev",
   "main": "dist/src/index.js",
@@ -11,14 +11,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yarielre/opengarjs-core.git"
+    "url": "https://github.com/wisegar-org/wgo-opengar-core.git"
   },
   "author": "Wisegar.org",
-  "license": "ISC",
   "bugs": {
-    "url": "https://github.com/yarielre/opengarjs-core/issues"
+    "url": "https://github.com/wisegar-org/wgo-opengar-core/issues"
   },
-  "homepage": "https://github.com/yarielre/opengarjs-core#readme",
+  "homepage": "https://github.com/wisegar-org/wgo-opengar-core#readme",
   "keywords": [],
   "devDependencies": {
     "@types/axios": "^0.14.0",
