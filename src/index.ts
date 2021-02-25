@@ -12,7 +12,7 @@ export * from "./models/TokenResult";
 /**
  * @class Services Exports
  */
-export * from "./services/ApiService";
+export * from "./services/ApiRestService";
 export * from "./services/CacheService";
 export * from "./services/JwtService";
 /**
