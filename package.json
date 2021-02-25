@@ -1,0 +1,42 @@
+{
+  "name": "wgo-opengar-js",
+  "version": "0.0.1-dev.3",
+  "description": "OpenGarJS Core Library - Dev",
+  "main": "dist/src/index.js",
+  "scripts": {
+    "start": "npm run build && node dist/src/index.js",
+    "dev": "nodemon",
+    "build": "rimraf ./dist && tsc",
+    "test": "jest --detectOpenHandles"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yarielre/opengarjs-core.git"
+  },
+  "author": "Wisegar.org",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yarielre/opengarjs-core/issues"
+  },
+  "homepage": "https://github.com/yarielre/opengarjs-core#readme",
+  "keywords": [],
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/jsonwebtoken": "^8.5.0",
+    "@types/lodash": "^4.14.165",
+    "@types/node": "^14.14.6",
+    "axios": "^0.21.0",
+    "jest": "^26.6.3",
+    "lodash": "^4.17.20",
+    "nodemon": "^2.0.6",
+    "rimraf": "^3.0.2",
+    "supertest": "^6.1.1",
+    "ts-jest": "^26.4.4",
+    "ts-node": "^9.0.0",
+    "tslint": "^5.12.1",
+    "typescript": "^3.3.3"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1"
+  }
+}
