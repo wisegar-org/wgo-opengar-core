@@ -1,11 +1,11 @@
 import axios, { AxiosInstance } from "axios";
 import { CacheService } from "./CacheService";
 
-export interface IApiService {
+export interface IApiRestService {
   getInstance: (baseApiUrl: string) => AxiosInstance;
 }
 
-export const ApiService: IApiService = {
+export const ApiRestService: IApiRestService = {
   getInstance: (baseApiUrl: string): AxiosInstance => {
     const ApiServiceInstance = axios.create({
       baseURL: baseApiUrl,
