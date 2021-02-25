@@ -17,6 +17,9 @@
   "bugs": {
     "url": "https://github.com/wisegar-org/wgo-opengar-core/issues"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "homepage": "https://github.com/wisegar-org/wgo-opengar-core#readme",
   "keywords": [],
   "devDependencies": {
