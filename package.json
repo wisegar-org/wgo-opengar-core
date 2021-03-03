@@ -17,9 +17,6 @@
   "bugs": {
     "url": "https://github.com/wisegar-org/wgo-opengar-core/issues"
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
   "homepage": "https://github.com/wisegar-org/wgo-opengar-core#readme",
   "keywords": [],
   "devDependencies": {
@@ -43,6 +40,7 @@
     "apollo-client": "^2.6.10",
     "apollo-link": "^1.2.14",
     "apollo-link-http": "^1.5.17",
+    "graphql": "^15.5.0",
     "jsonwebtoken": "^8.5.1"
   }
 }
