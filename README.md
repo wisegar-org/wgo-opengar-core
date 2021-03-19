@@ -1,4 +1,4 @@
-# wgo-opengar-js
+# wgo-opengar-core
 
 ## Version Dev 1
 
