@@ -1,5 +1,5 @@
 {
-  "name": " @wisegar-org/wgo-opengar-core",
+  "name": "@wisegar-org/wgo-opengar-core",
   "version": "0.0.1-dev.3",
   "description": "OpenGarJS Core Library - Dev",
   "main": "dist/src/index.js",
