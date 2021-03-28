@@ -8,6 +8,12 @@ export * from "./database/entities/MediaEntity";
 export * from "./database/entities/OGBaseEntity";
 
 /**
+ * @enum Database Enums
+ */
+export * from "./models/enums/MediaEntityTypeEnum";
+export * from "./models/enums/RolEntityEnum";
+
+/**
  *  @interface Exports
  */
 export * from "./interfaces/IApiResponse";
@@ -28,6 +34,8 @@ export * from "./models/enums/RolEntityEnum";
 export * from "./services/ApiRestService";
 export * from "./services/CacheService";
 export * from "./services/JwtService";
+export * from "./services/EmailService";
+export * from "./services/UserDataService";
 
 /**
  * @class Utilities Exports
