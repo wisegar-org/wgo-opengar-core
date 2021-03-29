@@ -71,6 +71,7 @@ export class JwtService {
 
       result.token = token;
       result.username = jwtPayload.username;
+      result.session = jwtPayload.sesion;
       result.isExpiring =
         jwtPayload.exp > new Date().getTime() - timeBeforeExpiration;
       return result;

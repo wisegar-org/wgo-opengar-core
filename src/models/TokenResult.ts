@@ -5,6 +5,7 @@ export class TokenResult {
   token: string;
   isExpiring: boolean;
   error: string;
+  session: string;
 
   constructor() {
     this.isExpiring = false;
