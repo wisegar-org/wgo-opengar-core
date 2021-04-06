@@ -36,7 +36,7 @@ export class UserEntity extends BaseEntity {
   @Column()
   password: string;
 
-  @Column()
+  @Column({ default: false })
   isEmailConfirmed: boolean;
 
   @ManyToMany(() => RolEntity)

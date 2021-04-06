@@ -1,6 +1,5 @@
-import { UserEntity } from "../../server/database/entities/UserEntity";
-import { RolEntity } from "../../server/database/entities/RolEntity";
-import * as _ from "lodash";
+import { UserEntity, RolEntity } from "../../server";
+import _ from "lodash";
 import * as bcrypt from "bcrypt";
 import {
   ErrorResponse,
@@ -11,7 +10,7 @@ import { LoginModel, UserLoginToken } from "../models/AuthModels";
 import { IUser } from "../interfaces/IUser";
 import { JwtService } from "../../server/services/JwtService";
 import { privateKey, publicKey } from "../settings";
-import { EmailServer } from "../../server/services/EmailService";
+import { EmailServer } from "../../server";
 import { Service } from "typedi";
 import { Connection, Repository } from "typeorm";
 
@@ -105,7 +104,7 @@ export class UserDataService {
     roles?: number[]
   ): Promise<Response<UserEntity>> => {
     debugger;
-    const { name, lastName, userName, email, password } = user;
+    const { name, lastName, userName, email, password, isEmailConfirmed } = user;
 
     // checking if all parameters have a value
     if (
@@ -160,53 +159,58 @@ export class UserDataService {
       email,
       hashedPassword,
       userRoles,
-      false
+      isEmailConfirmed
     );
     try {
       const newUser = await this._userRepository.save(userToCreate);
       newUser.roles = userRoles;
-      const JWTObj = new JwtService({
-        privateKey: privateKey,
-        publicKey: publicKey,
-      });
-      const userObj: IUser = user.getJWTUser();
-      const tokenResult = JWTObj.generateToken(userObj);
-      if (_.isUndefined(tokenResult) || _.isEmpty(tokenResult.token)) {
-        return ErrorResponse.Response(
-          "Token generation error." + tokenResult.error
-        );
-      }
 
-      EmailServer.sendEmail({
-        from: process.env.EMAIL_SENDER_ADDRESS,
-        to: user.email,
-        subject: "Confrim Email",
-        html: `
+      if (!isEmailConfirmed) {
+        const JWTObj = new JwtService({
+          privateKey: privateKey,
+          publicKey: publicKey,
+        });
+        const userObj: IUser = user.getJWTUser();
+        const tokenResult = JWTObj.generateToken(userObj);
+        if (_.isUndefined(tokenResult) || _.isEmpty(tokenResult.token)) {
+          return ErrorResponse.Response(
+            "Token generation error." + tokenResult.error
+          );
+        }
+
+        EmailServer.sendEmail({
+          from: process.env.EMAIL_SENDER_ADDRESS,
+          to: user.email,
+          subject: "Confrim Email",
+          html: `
                    <h2>ConfirmEmail</h2>
                    <p>${process.env.CLIENT_URL}/auth/checkEmailConfirmation/${tokenResult.token}</p>
                    `,
-      })
-        .then(
-          () => {
-            return SuccessResponse.Response(
-              newUser,
-              "User registered, check email to confirm acount"
-            );
-          },
-          (error) => {
-            const { message } = error;
+        })
+          .then(
+            () => {
+              return SuccessResponse.Response(
+                newUser,
+                "User registered, check email to confirm acount"
+              );
+            },
+            (error) => {
+              const { message } = error;
+              return ErrorResponse.Response(
+                "Error sending email after user register " + message
+                  ? message
+                  : ""
+              );
+            }
+          )
+          .catch(() => {
             return ErrorResponse.Response(
-              "Error sending email after user register " + message
-                ? message
-                : ""
+              "Error sending email after user register"
             );
-          }
-        )
-        .catch(() => {
-          return ErrorResponse.Response(
-            "Error sending email after user register"
-          );
-        });
+          });
+      }
+
+
 
       return SuccessResponse.Response(newUser, "User registered");
     } catch (error) {
