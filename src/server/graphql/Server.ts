@@ -1,6 +1,5 @@
 import "reflect-metadata";
 import { ApolloServer } from "apollo-server-express";
-import { GetSchema } from "./SchemaHandler";
 import { formatError } from "./ErrorHandler";
 import { GetContext } from "./ContextHandler";
 import { Authenticator } from "./AuthHandler";
