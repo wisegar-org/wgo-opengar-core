@@ -7,9 +7,12 @@ export * from "./database/entities/UserEntity";
 export * from "./database/entities/MediaEntity";
 export * from "./database/entities/OGBaseEntity";
 
-
 /**
  * @class Services Exports
  */
 export * from "./services/JwtService";
 export * from "./services/EmailService";
+export * from "./services/JwtToken";
+
+export * as GQLServer from "./graphql/Server";
+export * from "./graphql/Models";
