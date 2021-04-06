@@ -1,4 +1,4 @@
-import ObjExt from "../utils/ObjExt";
+import ObjExt from "../../shared/utils/ObjExt";
 
 const DbName = "WG_App_DB";
 const ObjStoreName = "WG_App_DBObjectStore";

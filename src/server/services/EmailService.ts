@@ -1,7 +1,10 @@
-import { BasicResponse, SuccessResponse } from '../models/responseModels/BasicResponse';
+import {
+  BasicResponse,
+  SuccessResponse,
+} from "../../shared/models/responseModels/BasicResponse";
 import nodemailer from "nodemailer";
-import { EmailOptions } from "../models/EmailOptions";
-import { ErrorResponse } from "../models/responseModels/BasicResponse";
+import { EmailOptions } from "../../shared/models/EmailOptions";
+import { ErrorResponse } from "../../shared/models/responseModels/BasicResponse";
 
 export class EmailServer {
   static async sendEmail(emailOpts: EmailOptions): Promise<BasicResponse> {
@@ -19,11 +22,11 @@ export class EmailServer {
     return new Promise<BasicResponse>((resolve, reject) => {
       transporter.sendMail(emailOpts, (err, info) => {
         if (err) {
-          reject(new ErrorResponse("Error sending email: "+ err.stack))
+          reject(new ErrorResponse("Error sending email: " + err.stack));
         } else {
-          resolve(new SuccessResponse("Email sent: " + info.response))
+          resolve(new SuccessResponse("Email sent: " + info.response));
         }
       });
-    })
+    });
   }
 }

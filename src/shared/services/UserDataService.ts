@@ -1,5 +1,5 @@
-import { UserEntity } from '../database/entities/UserEntity'
-import { RolEntity } from "../database/entities/RolEntity";
+import { UserEntity } from "../../server/database/entities/UserEntity";
+import { RolEntity } from "../../server/database/entities/RolEntity";
 import * as _ from "lodash";
 import * as bcrypt from "bcrypt";
 import {
@@ -8,25 +8,23 @@ import {
   SuccessResponse,
 } from "../models/responseModels/Response";
 import { LoginModel, UserLoginToken } from "../models/AuthModels";
-import { IUser } from '../interfaces/IUser';
-import { JwtService } from "../services/JwtService";
+import { IUser } from "../interfaces/IUser";
+import { JwtService } from "../../server/services/JwtService";
 import { privateKey, publicKey } from "../settings";
-import { EmailServer } from "../services/EmailService";
+import { EmailServer } from "../../server/services/EmailService";
 import { Service } from "typedi";
-import { Connection, Repository } from 'typeorm';
-
+import { Connection, Repository } from "typeorm";
 
 export class UserDataService {
   private _userRepository: Repository<UserEntity>;
   private _roleRepository: Repository<RolEntity>;
-  private _connection: Connection
+  private _connection: Connection;
 
   constructor(conn: Connection) {
-    this._connection = conn
-    this._userRepository = this._connection.getRepository(UserEntity)
-    this._roleRepository = this._connection.getRepository(RolEntity)
+    this._connection = conn;
+    this._userRepository = this._connection.getRepository(UserEntity);
+    this._roleRepository = this._connection.getRepository(RolEntity);
   }
-
 
   all = async (criteria?: any): Promise<Response<UserEntity[]>> => {
     const users = await this._userRepository.find({

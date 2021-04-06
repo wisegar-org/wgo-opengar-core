@@ -10,7 +10,7 @@ import {
 } from "typeorm";
 import { RolEntity } from "./RolEntity";
 import { MediaEntity } from "./MediaEntity";
-import { IUser } from "../../interfaces/IUser";
+import { IUser } from "../../../shared/interfaces/IUser";
 import { Field, ObjectType } from "type-graphql";
 @Entity({ name: "users" })
 export class UserEntity extends BaseEntity {

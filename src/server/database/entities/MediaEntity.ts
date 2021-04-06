@@ -5,7 +5,7 @@ import {
   ManyToMany,
   JoinTable,
 } from "typeorm";
-import { MediaEntityTypeEnum } from "../../models/enums/MediaEntityTypeEnum";
+import { MediaEntityTypeEnum } from "../../../shared/models/enums/MediaEntityTypeEnum";
 
 @Entity({ name: "media" })
 export class MediaEntity {

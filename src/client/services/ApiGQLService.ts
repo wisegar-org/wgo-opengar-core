@@ -2,7 +2,7 @@ import { ApolloClient } from "apollo-client";
 import { HttpLink } from "apollo-link-http";
 import { InMemoryCache, NormalizedCacheObject } from "apollo-cache-inmemory";
 import { ApolloLink, from } from "apollo-link";
-import { IApiSettings } from "../interfaces/IApiSettings";
+import { IApiSettings } from "../../shared/interfaces/IApiSettings";
 
 export class ApiService extends ApolloClient<NormalizedCacheObject> {
   private readonly authMiddleware = new ApolloLink((operation, forward) => {

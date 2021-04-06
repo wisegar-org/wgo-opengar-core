@@ -1,7 +1,7 @@
 import * as jwt from "jsonwebtoken";
-import { IJwtSettings } from "../interfaces/IJwtSettings";
-import { TokenResult } from "../models/TokenResult";
-import { IUser } from "../interfaces/IUser";
+import { IJwtSettings } from "../../shared/interfaces/IJwtSettings";
+import { TokenResult } from "../../shared/models/TokenResult";
+import { IUser } from "../../shared/interfaces/IUser";
 
 /**
  * @var algorithm Algotithm to apply encription and decription token
