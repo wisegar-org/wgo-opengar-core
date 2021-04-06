@@ -4,9 +4,9 @@
   "description": "OpenGarJS Core Library - Dev",
   "main": "dist/src/index.js",
   "scripts": {
-    "start": "npm run build && node dist/src/index.js",
+    "start": "npm run build && node build/src/index.js",
     "dev": "nodemon",
-    "build": "rimraf ./dist && tsc",
+    "build": "rimraf ./build && tsc",
     "test": "jest --detectOpenHandles"
   },
   "repository": {
