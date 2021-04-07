@@ -37,5 +37,3 @@ export * from "./shared/services/UserDataService";
  * @class Utilities Exports
  */
 export * from "./shared/utils/ObjExt";
-
-export * from "./server";
