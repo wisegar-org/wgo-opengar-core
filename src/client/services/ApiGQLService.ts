@@ -4,6 +4,9 @@ import { InMemoryCache, NormalizedCacheObject } from "apollo-cache-inmemory";
 import { ApolloLink, from } from "apollo-link";
 import { IApiSettings } from "../../shared/interfaces/IApiSettings";
 
+/**
+ * @deprecated Please use ApiService instead
+ */
 export class ApiService extends ApolloClient<NormalizedCacheObject> {
   private readonly authMiddleware = new ApolloLink((operation, forward) => {
     operation.setContext({
