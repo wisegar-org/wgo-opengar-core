@@ -109,7 +109,7 @@ export class UserDataService {
     // checking if all parameters have a value
     if (
       _.isEmpty(name) ||
-      _.isEmpty(lastName) ||
+      (_.isEmpty(lastName) && !isEmailConfirmed) ||
       _.isEmpty(userName) ||
       (_.isEmpty(email) && !isEmailConfirmed) ||
       _.isEmpty(password)
