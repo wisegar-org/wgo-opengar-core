@@ -111,7 +111,7 @@ export class UserDataService {
       _.isEmpty(name) ||
       _.isEmpty(lastName) ||
       _.isEmpty(userName) ||
-      _.isEmpty(email) ||
+      (_.isEmpty(email) && !isEmailConfirmed) ||
       _.isEmpty(password)
     ) {
       return ErrorResponse.Response(
@@ -130,16 +130,19 @@ export class UserDataService {
       );
     }
 
-    usersCount = await this._userRepository.findAndCount({
-      where: { email },
-    });
+    if (!_.isEmpty(email)){
+      usersCount = await this._userRepository.findAndCount({
+        where: { email },
+      });
 
-    if (usersCount[1] > 0) {
-      return ErrorResponse.Response(
-        "email",
-        "Error in register user: email already exist"
-      );
+      if (usersCount[1] > 0) {
+        return ErrorResponse.Response(
+          "email",
+          "Error in register user: email already exist"
+        );
+      }
     }
+
 
     // let profileImg: MediaEntity = null
     // if (_.isEmpty(profileImage)) {
