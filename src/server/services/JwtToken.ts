@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+import * as jwt from "jsonwebtoken";
 
 export const TOKEN_SECRET = "87`'9zMh3VCQzsE8";
 
