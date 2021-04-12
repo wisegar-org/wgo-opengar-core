@@ -12,6 +12,7 @@ export * from "./server";
  * @module Shared
  */
 export * from "./shared";
+export * from "./shared/errors/AuthError";
 export * from "./shared/interfaces/IApiResponse";
 export * from "./shared/interfaces/IJwtSettings";
 export * from "./shared/interfaces/IUser";

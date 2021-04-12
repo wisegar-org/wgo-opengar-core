@@ -28,3 +28,8 @@ export * from "./services/UserDataService";
  * @class Utilities Exports
  */
 export * from "./utils/ObjExt";
+
+/**
+ * @class Errors Exports
+ */
+export * from "./errors/AuthError";
