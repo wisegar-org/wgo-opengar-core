@@ -17,6 +17,7 @@ export * from "./shared/interfaces/IApiResponse";
 export * from "./shared/interfaces/IJwtSettings";
 export * from "./shared/interfaces/IUser";
 export * from "./shared/interfaces/IUserRole";
+export * from "./shared/utils/Runner";
 
 /**
  * @class Models Exports
