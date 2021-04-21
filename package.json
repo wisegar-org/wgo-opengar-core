@@ -1,6 +1,6 @@
 {
   "name": "@wisegar-org/wgo-opengar-core",
-  "version": "0.0.1-build.16",
+  "version": "0.0.1-build.17",
   "description": "OpenGarJS Core Library - Dev",
   "main": "build/src/index.js",
   "scripts": {
@@ -47,6 +47,7 @@
     "bcrypt": "^5.0.1",
     "class-validator": "^0.13.1",
     "graphql": "^15.5.0",
+    "html-pdf": "2.2.0",
     "jsonwebtoken": "^8.5.1",
     "nodemailer": "^6.5.0",
     "type-graphql": "^1.1.1",

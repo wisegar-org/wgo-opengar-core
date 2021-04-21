@@ -13,6 +13,7 @@ export * from "./database/entities/OGBaseEntity";
 export * from "./services/JwtService";
 export * from "./services/EmailService";
 export * from "./services/JwtToken";
+export * from "./services/ExportPdfService";
 
 export * as GQLServer from "./graphql/Server";
 export * from "./graphql/Models";
