@@ -16,3 +16,8 @@ export * from "./services/JwtToken";
 
 export * as GQLServer from "./graphql/Server";
 export * from "./graphql/Models";
+
+/**
+ * @method Middlewares Service
+ */
+export * from './middlewares/UserCredentials'

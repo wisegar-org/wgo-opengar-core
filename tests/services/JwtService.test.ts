@@ -1,5 +1,5 @@
 import { IJwtSettings, IUser, TokenResult } from "../../src";
-import { JwtService } from "../../src/services/JwtService";
+import { JwtService } from "../../src/server/services/JwtService";
 import { privateKey, publicKey } from "../../configs/test-settings";
 describe("Testing JWTService", () => {
   const jwtSettings: IJwtSettings = {
