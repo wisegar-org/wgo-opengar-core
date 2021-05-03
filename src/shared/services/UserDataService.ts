@@ -1,4 +1,4 @@
-import { UserEntity, RolEntity } from "../../server";
+import { UserEntity, RolEntity } from "../../";
 import _ from "lodash";
 import * as bcrypt from "bcrypt";
 import {
@@ -104,7 +104,14 @@ export class UserDataService {
     roles?: number[]
   ): Promise<Response<UserEntity>> => {
     debugger;
-    const { name, lastName, userName, email, password, isEmailConfirmed } = user;
+    const {
+      name,
+      lastName,
+      userName,
+      email,
+      password,
+      isEmailConfirmed,
+    } = user;
 
     // checking if all parameters have a value
     if (
@@ -130,7 +137,7 @@ export class UserDataService {
       );
     }
 
-    if (!_.isEmpty(email)){
+    if (!_.isEmpty(email)) {
       usersCount = await this._userRepository.findAndCount({
         where: { email },
       });
@@ -142,7 +149,6 @@ export class UserDataService {
         );
       }
     }
-
 
     // let profileImg: MediaEntity = null
     // if (_.isEmpty(profileImage)) {
@@ -212,8 +218,6 @@ export class UserDataService {
             );
           });
       }
-
-
 
       return SuccessResponse.Response(newUser, "User registered");
     } catch (error) {

@@ -1,6 +1,6 @@
 {
   "name": "@wisegar-org/wgo-opengar-core",
-  "version": "0.0.1-build.25",
+  "version": "0.0.1-build.26",
   "description": "OpenGarJS Core Library - Dev",
   "main": "build/src/index.js",
   "scripts": {
@@ -39,7 +39,7 @@
     "tslint": "^5.12.1",
     "typescript": "^3.3.3",
     "typedi": "^0.10.0",
-    "typeorm": "^0.2.31",
+    "typeorm": "0.2.31",
     "typeorm-typedi-extensions": "^0.4.1",
     "type-graphql": "^1.1.1",
     "apollo-cache-inmemory": "^1.6.6",
