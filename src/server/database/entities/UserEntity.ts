@@ -6,14 +6,14 @@ import {
   OneToOne,
   JoinTable,
   JoinColumn,
-  BaseEntity,
 } from "typeorm";
 import { RolEntity } from "./RolEntity";
 import { MediaEntity } from "./MediaEntity";
 import { IUser } from "../../../shared/interfaces/IUser";
 import { Field, ObjectType } from "type-graphql";
+import { OGBaseEntity } from "./OGBaseEntity";
 @Entity({ name: "users" })
-export class UserEntity extends BaseEntity {
+export class UserEntity extends OGBaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id: number;

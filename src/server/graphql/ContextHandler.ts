@@ -1,4 +1,4 @@
-import { Session } from "../database/entities/Session";
+import { Session } from "../database/entities/SessionEntity";
 import { verifyAccessToken } from "../services/JwtToken";
 import { Context, ContextUser } from "./Models";
 

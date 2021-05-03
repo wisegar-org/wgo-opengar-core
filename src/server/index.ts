@@ -2,7 +2,7 @@
  *  @interface Exports Database Entities
  */
 export * from "./database/entities/RolEntity";
-export * from "./database/entities/Session";
+export * from "./database/entities/SessionEntity";
 export * from "./database/entities/UserEntity";
 export * from "./database/entities/MediaEntity";
 export * from "./database/entities/OGBaseEntity";
@@ -21,4 +21,4 @@ export * from "./graphql/Models";
 /**
  * @method Middlewares Service
  */
-export * from './middlewares/UserCredentials'
+export * from "./middlewares/UserCredentials";

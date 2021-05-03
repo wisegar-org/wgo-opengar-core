@@ -1,15 +1,6 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  BaseEntity,
-  CreateDateColumn,
-  UpdateDateColumn,
-} from "typeorm";
+import { Entity, Column } from "typeorm";
 import { ISessionLicenze } from "../../graphql/Models";
 import { OGBaseEntity } from "./OGBaseEntity";
-
-// table session can not be exposed!
 
 @Entity()
 export class Session extends OGBaseEntity {

@@ -1,17 +1,9 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToMany,
-  JoinTable,
-} from "typeorm";
+import { Entity, Column } from "typeorm";
 import { MediaEntityTypeEnum } from "../../../shared/models/enums/MediaEntityTypeEnum";
+import { OGBaseEntity } from "./OGBaseEntity";
 
 @Entity({ name: "media" })
-export class MediaEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class MediaEntity extends OGBaseEntity {
   @Column()
   name: string;
 
@@ -26,23 +18,6 @@ export class MediaEntity {
 
   @Column()
   path: string;
-
-  /**
-   *
-   */
-  constructor(
-    name: string,
-    createdAt: Date,
-    mediaType: MediaEntityTypeEnum,
-    checkSum: string,
-    path: string
-  ) {
-    this.name = name;
-    this.createdAt = createdAt;
-    this.mediaType = mediaType;
-    this.checkSum = checkSum;
-    this.path = path;
-  }
 }
 
 export default MediaEntity;
