@@ -1,6 +1,5 @@
 import {
   Entity,
-  PrimaryGeneratedColumn,
   Column,
   ManyToMany,
   OneToOne,
@@ -14,13 +13,6 @@ import { Field, ObjectType } from "type-graphql";
 import { OGBaseEntity } from "./OGBaseEntity";
 @Entity({ name: "users" })
 export class UserEntity extends OGBaseEntity {
-  @Field()
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column()
-  uuid: string;
-
   @Column()
   name: string;
 
@@ -69,9 +61,6 @@ export class UserEntity extends OGBaseEntity {
     this.roles = roles;
     this.profileImage = profileImage;
     this.isEmailConfirmed = !!isEmailConfirmed;
-    this.uuid =
-      Math.random().toString(16).substring(2) +
-      new Date().getTime().toString(16);
   }
 
   getJWTUser(): IUser {
