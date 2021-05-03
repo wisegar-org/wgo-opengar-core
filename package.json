@@ -1,11 +1,12 @@
 {
   "name": "@wisegar-org/wgo-opengar-core",
-  "version": "0.0.1-build.22",
+  "version": "0.0.1-build.24",
   "description": "OpenGarJS Core Library - Dev",
   "main": "build/src/index.js",
   "scripts": {
     "start": "nodemon",
-    "build": "tsc",
+    "build": "npx rimraf build && tsc",
+    "publicate": "npx rimraf build && tsc && npm publish",
     "test": "jest --detectOpenHandles"
   },
   "repository": {
