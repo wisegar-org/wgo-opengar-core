@@ -10,8 +10,7 @@ import { LoginModel, UserLoginToken } from "../models/AuthModels";
 import { IUser } from "../interfaces/IUser";
 import { JwtService } from "../../server/services/JwtService";
 import { privateKey, publicKey } from "../settings";
-import { EmailServer } from "../../server";
-import { Service } from "typedi";
+import { EmailServer } from "../../server/services/EmailService";
 import { Connection, Repository } from "typeorm";
 
 export class UserDataService {
