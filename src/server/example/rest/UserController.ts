@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import { Controller } from '../../decorators/rest/Controller';
 import { Delete } from '../../decorators/rest/Delete';
 import { Get } from '../../decorators/rest/Get';

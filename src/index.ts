@@ -32,7 +32,6 @@ export * from './server/services/JwtAuthService';
 export * from './server/services/JwtService';
 export * from './server/services/JwtToken';
 
-export * as GQLServer from './server/graphql/Server';
 export * from './server/graphql/Models';
 export * from './server/Server';
 
