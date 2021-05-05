@@ -1,17 +1,13 @@
-import { UserEntity, RolEntity } from "../../";
-import _ from "lodash";
-import * as bcrypt from "bcrypt";
-import {
-  ErrorResponse,
-  Response,
-  SuccessResponse,
-} from "../models/responseModels/Response";
-import { LoginModel, UserLoginToken } from "../models/AuthModels";
-import { IUser } from "../interfaces/IUser";
-import { JwtService } from "../../server/services/JwtService";
-import { privateKey, publicKey } from "../settings";
-import { EmailServer } from "../../server/services/EmailService";
-import { Connection, Repository } from "typeorm";
+import { UserEntity, RolEntity } from '../../';
+import _ from 'lodash';
+import * as bcrypt from 'bcrypt';
+import { ErrorResponse, Response, SuccessResponse } from '../models/responseModels/Response';
+import { LoginModel, UserLoginToken } from '../models/AuthModels';
+import { IUser } from '../interfaces/IUser';
+import { JwtService } from '../../server/services/JwtService';
+import { privateKey, publicKey } from '../settings';
+import { EmailServer } from '../../server/services/EmailService';
+import { Connection, Repository } from 'typeorm';
 
 export class UserDataService {
   private _userRepository: Repository<UserEntity>;
@@ -26,7 +22,7 @@ export class UserDataService {
 
   all = async (criteria?: any): Promise<Response<UserEntity[]>> => {
     const users = await this._userRepository.find({
-      relations: ["roles"],
+      relations: ['roles'],
       where: criteria,
     });
     return SuccessResponse.Response(users);
@@ -34,28 +30,28 @@ export class UserDataService {
 
   one = async (criteria?: any): Promise<Response<UserEntity>> => {
     const user = await this._userRepository.findOne({
-      relations: ["roles"],
+      relations: ['roles'],
       where: criteria,
     });
     if (_.isUndefined(user)) {
-      return ErrorResponse.Response("User not found");
+      return ErrorResponse.Response('User not found');
     }
     return SuccessResponse.Response(user);
   };
 
   oneById = async (id: number): Promise<Response<UserEntity>> => {
     const user = await this._userRepository.findOne(id, {
-      relations: ["roles"],
+      relations: ['roles'],
     });
     if (_.isUndefined(user)) {
-      return ErrorResponse.Response("User not found");
+      return ErrorResponse.Response('User not found');
     }
     return SuccessResponse.Response(user);
   };
 
   oneByUuId = async (uuid: string): Promise<Response<UserEntity>> => {
     const user = await this._userRepository.findOne({
-      relations: ["roles"],
+      relations: ['roles'],
       where: { uuid },
     });
     return SuccessResponse.Response(user);
@@ -64,7 +60,7 @@ export class UserDataService {
   login = async (model: LoginModel): Promise<Response<UserLoginToken>> => {
     const { userName, password } = model;
     if (_.isEmpty(userName) || _.isEmpty(password)) {
-      return ErrorResponse.Response("Error: UserName or password are empty");
+      return ErrorResponse.Response('Error: UserName or password are empty');
     }
 
     const userResp = await this.one({ userName });
@@ -72,7 +68,7 @@ export class UserDataService {
       const user = userResp.result;
       const isPasswordValid = await bcrypt.compare(password, user.password);
       if (!isPasswordValid) {
-        return ErrorResponse.Response("Login Error", "Password are wrong");
+        return ErrorResponse.Response('Login Error', 'Password are wrong');
       }
       const JWTObj = new JwtService({
         privateKey: privateKey,
@@ -82,9 +78,7 @@ export class UserDataService {
       const userObj: IUser = user.getJWTUser();
       const tokenResult = JWTObj.generateToken(userObj);
       if (_.isUndefined(tokenResult) || _.isEmpty(tokenResult.token)) {
-        return ErrorResponse.Response(
-          "Token generation error." + tokenResult.error
-        );
+        return ErrorResponse.Response('Token generation error.' + tokenResult.error);
       }
       const tokenUser: UserLoginToken = {
         token: tokenResult.token,
@@ -92,25 +86,12 @@ export class UserDataService {
       };
       return SuccessResponse.Response(tokenUser);
     }
-    return ErrorResponse.Response(
-      "Login Error",
-      `Probably there is not user with username ${userName}`
-    );
+    return ErrorResponse.Response('Login Error', `Probably there is not user with username ${userName}`);
   };
 
-  create = async (
-    user: UserEntity,
-    roles?: number[]
-  ): Promise<Response<UserEntity>> => {
+  create = async (user: UserEntity, roles?: number[]): Promise<Response<UserEntity>> => {
     debugger;
-    const {
-      name,
-      lastName,
-      userName,
-      email,
-      password,
-      isEmailConfirmed,
-    } = user;
+    const { name, lastName, userName, email, password, isEmailConfirmed } = user;
 
     // checking if all parameters have a value
     if (
@@ -120,9 +101,7 @@ export class UserDataService {
       (_.isEmpty(email) && !isEmailConfirmed) ||
       _.isEmpty(password)
     ) {
-      return ErrorResponse.Response(
-        "At least one of the basic params is empty"
-      );
+      return ErrorResponse.Response('At least one of the basic params is empty');
     }
 
     let usersCount = await this._userRepository.findAndCount({
@@ -130,10 +109,7 @@ export class UserDataService {
     });
 
     if (usersCount[1] > 0) {
-      return ErrorResponse.Response(
-        "userName",
-        "Error in register user: user name already exist"
-      );
+      return ErrorResponse.Response('userName', 'Error in register user: user name already exist');
     }
 
     if (!_.isEmpty(email)) {
@@ -142,10 +118,7 @@ export class UserDataService {
       });
 
       if (usersCount[1] > 0) {
-        return ErrorResponse.Response(
-          "email",
-          "Error in register user: email already exist"
-        );
+        return ErrorResponse.Response('email', 'Error in register user: email already exist');
       }
     }
 
@@ -156,19 +129,10 @@ export class UserDataService {
     //     })
     // }
     let userRoles: RolEntity[] = [];
-    if (roles && roles.length > 0)
-      userRoles = await this._roleRepository.findByIds(roles);
+    if (roles && roles.length > 0) userRoles = await this._roleRepository.findByIds(roles);
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const userToCreate = new UserEntity(
-      name,
-      lastName,
-      userName,
-      email,
-      hashedPassword,
-      userRoles,
-      isEmailConfirmed
-    );
+    const userToCreate = new UserEntity(name, lastName, userName, email, hashedPassword, userRoles, isEmailConfirmed);
     try {
       const newUser = await this._userRepository.save(userToCreate);
       newUser.roles = userRoles;
@@ -181,15 +145,13 @@ export class UserDataService {
         const userObj: IUser = user.getJWTUser();
         const tokenResult = JWTObj.generateToken(userObj);
         if (_.isUndefined(tokenResult) || _.isEmpty(tokenResult.token)) {
-          return ErrorResponse.Response(
-            "Token generation error." + tokenResult.error
-          );
+          return ErrorResponse.Response('Token generation error.' + tokenResult.error);
         }
 
         EmailServer.sendEmail({
           from: process.env.EMAIL_SENDER_ADDRESS,
           to: user.email,
-          subject: "Confrim Email",
+          subject: 'Confrim Email',
           html: `
                    <h2>ConfirmEmail</h2>
                    <p>${process.env.CLIENT_URL}/auth/checkEmailConfirmation/${tokenResult.token}</p>
@@ -197,58 +159,37 @@ export class UserDataService {
         })
           .then(
             () => {
-              return SuccessResponse.Response(
-                newUser,
-                "User registered, check email to confirm acount"
-              );
+              return SuccessResponse.Response(newUser, 'User registered, check email to confirm acount');
             },
             (error) => {
               const { message } = error;
-              return ErrorResponse.Response(
-                "Error sending email after user register " + message
-                  ? message
-                  : ""
-              );
+              return ErrorResponse.Response('Error sending email after user register ' + message ? message : '');
             }
           )
           .catch(() => {
-            return ErrorResponse.Response(
-              "Error sending email after user register"
-            );
+            return ErrorResponse.Response('Error sending email after user register');
           });
       }
 
-      return SuccessResponse.Response(newUser, "User registered");
+      return SuccessResponse.Response(newUser, 'User registered');
     } catch (error) {
       const { message } = error;
-      return ErrorResponse.Response(
-        "Error in register user: error saving user in DB " + message
-          ? message
-          : ""
-      );
+      return ErrorResponse.Response('Error in register user: error saving user in DB ' + message ? message : '');
     }
   };
 
-  setUserRoles = async (
-    userUuid: string,
-    roleIds: number[]
-  ): Promise<Response<UserEntity>> => {
+  setUserRoles = async (userUuid: string, roleIds: number[]): Promise<Response<UserEntity>> => {
     try {
       const user = await (await this.oneByUuId(userUuid)).result;
       if (user == null || user == undefined) {
-        return ErrorResponse.Response(
-          "Error when add or remove user's roles: User not found"
-        );
+        return ErrorResponse.Response("Error when add or remove user's roles: User not found");
       }
       const userRoles = await this._roleRepository.findByIds(roleIds);
       user.roles = userRoles;
       await this._userRepository.save(user);
       return SuccessResponse.Response(user);
     } catch (error) {
-      return ErrorResponse.Response(
-        error.message,
-        "Error when add or remove user's roles"
-      );
+      return ErrorResponse.Response(error.message, "Error when add or remove user's roles");
     }
   };
 
@@ -258,25 +199,36 @@ export class UserDataService {
       return SuccessResponse.Response(newUser);
     } catch (error) {
       const { message } = error;
-      return ErrorResponse.Response(
-        "Error trying to update user " + message ? message : ""
-      );
+      return ErrorResponse.Response('Error trying to update user ' + message ? message : '');
+    }
+  };
+
+  updatePassword = async (uuid: string, password: string): Promise<Response<UserEntity>> => {
+    try {
+      const user = await this._userRepository.findOne({
+        uuid: uuid,
+      });
+      if (user) {
+        user.password = await bcrypt.hash(password, 10);
+        this._userRepository.save(user);
+        return SuccessResponse.Response(user);
+      }
+      return ErrorResponse.Response('Error trying yo update user password');
+    } catch (error) {
+      const { message } = error;
+      return ErrorResponse.Response('Error trying to update user ' + message ? message : '');
     }
   };
 
   remove = async (uuid: string): Promise<Response<UserEntity>> => {
     if (!_.isString(uuid)) {
-      return ErrorResponse.Response(
-        "Error trying to remove user. User's uuid must be string"
-      );
+      return ErrorResponse.Response("Error trying to remove user. User's uuid must be string");
     }
     const userResp = await this.one({ uuid: uuid });
     if (!userResp.isSuccess || userResp.result == null) {
-      return ErrorResponse.Response(
-        "Error trying to remove user.User not found"
-      );
+      return ErrorResponse.Response('Error trying to remove user.User not found');
     }
     const userRemoved = await this._userRepository.remove(userResp.result);
-    return SuccessResponse.Response(userRemoved, "User removed successfully");
+    return SuccessResponse.Response(userRemoved, 'User removed successfully');
   };
 }
