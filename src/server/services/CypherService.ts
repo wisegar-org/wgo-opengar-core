@@ -31,7 +31,8 @@ export const cypherData = (data: any): string => {
 export const decypherData = (cypherdata: string): string => {
   const cypherKey = GetCypherKey();
   const keyBuffer = Buffer.from(cypherKey, bufferEncoding);
-  const initVector = getCypherDataInitVector(cypherdata);
+  const initVectorToken = getCypherDataInitVector(cypherdata);
+  const initVector = Buffer.from(initVectorToken, outputEncoding);
   const cypgherContent = getCypherData(cypherdata);
   const decipher = createDecipheriv(algorithm, keyBuffer, initVector);
   const deciphered = decipher.update(cypgherContent, outputEncoding, inputEncoding);
