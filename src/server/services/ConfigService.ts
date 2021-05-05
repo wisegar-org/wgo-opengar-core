@@ -12,17 +12,16 @@ export interface ISettings {
 }
 
 const defaultSettings: ISettings = {
-  CYPHER_KEY: 'INSERT A CYPHER_KEY',
-  PRIVATE_KEY: 'INSERT A PRIVATE_KEY',
-  PUBLIC_KEY: 'INSERT A PUBLIC_KEYFOT TOKEN 422',
+  CYPHER_KEY: 'INSERT A CYPHER_KEY FOR DATA CYPHER HANDLER',
+  PRIVATE_KEY: 'INSERT A PRIVATE_KEY FOR JWT TOKEN HANDLER',
+  PUBLIC_KEY: 'INSERT A PUBLIC_KEY FOR JWT TOKEN HANDLER',
 };
 
 const GetConfig = (): ISettings => {
   const fs = require('fs-extra');
   if (!fs.existsSync(configFilename)) {
     console.error(`Settings file not found. File ${configFilename} will be created!`);
-    const settingsstringify = JSON.stringify(defaultSettings);
-    fs.writeJsonSync(configFilename, settingsstringify);
+    fs.writeJsonSync(configFilename, defaultSettings);
   }
   const settingsReadContent = fs.readFileSync(configFilename);
   const settingsJsonReadContent = JSON.parse(settingsReadContent);
