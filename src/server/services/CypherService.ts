@@ -1,4 +1,4 @@
-import { GetCypherKey } from './EnvService';
+import { GetCypherKey } from './ConfigService';
 import { createCipheriv, createDecipheriv, randomBytes } from 'crypto';
 
 const algorithm = 'aes256';

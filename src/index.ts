@@ -27,7 +27,7 @@ export * from './server/database/entities/OGBaseEntity';
  */
 export * from './server/services/CypherService';
 export * from './server/services/EmailService';
-export * from './server/services/EnvService';
+export * from './server/services/ConfigService';
 export * from './server/services/ExportPdfService';
 export * from './server/services/JwtAuthService';
 export * from './server/services/JwtService';
