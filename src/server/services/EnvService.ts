@@ -23,3 +23,8 @@ export const GetPrivateKey = () => {
   if (process.env.PUBLIC_KEY) return process.env.PUBLIC_KEY;
   throw 'Impossible to get value from PUBLIC_KEY environment key';
 };
+
+export const GetCypherKey = () => {
+  if (process.env.CYPHER_KEY) return process.env.CYPHER_KEY;
+  throw 'Impossible to get value from PUBLIC_KEY environment key';
+};

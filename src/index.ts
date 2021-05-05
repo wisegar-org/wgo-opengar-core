@@ -25,13 +25,13 @@ export * from './server/database/entities/OGBaseEntity';
 /**
  * @module Server - Services
  */
+export * from './server/services/CypherService';
 export * from './server/services/EmailService';
 export * from './server/services/EnvService';
 export * from './server/services/ExportPdfService';
 export * from './server/services/JwtAuthService';
 export * from './server/services/JwtService';
 export * from './server/services/JwtToken';
-
 export * from './server/graphql/Models';
 export * from './server/Server';
 
