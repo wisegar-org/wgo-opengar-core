@@ -1,17 +1,9 @@
-import {
-  Entity,
-  Column,
-  ManyToMany,
-  OneToOne,
-  JoinTable,
-  JoinColumn,
-} from "typeorm";
-import { RolEntity } from "./RolEntity";
-import { MediaEntity } from "./MediaEntity";
-import { IUser } from "../../../shared/interfaces/IUser";
-import { Field, ObjectType } from "type-graphql";
-import { OGBaseEntity } from "./OGBaseEntity";
-@Entity({ name: "users" })
+import { Entity, Column, ManyToMany, OneToOne, JoinTable, JoinColumn } from 'typeorm';
+import { RolEntity } from './RolEntity';
+import { MediaEntity } from './MediaEntity';
+import { IUser } from '../../../shared/interfaces/IUser';
+import { OGBaseEntity } from './OGBaseEntity';
+@Entity({ name: 'users' })
 export class UserEntity extends OGBaseEntity {
   @Column()
   name: string;

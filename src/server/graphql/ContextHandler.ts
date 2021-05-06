@@ -1,6 +1,6 @@
-import { Session } from "../database/entities/SessionEntity";
-import { verifyAccessToken } from "../services/JwtToken";
-import { Context, ContextUser } from "./Models";
+import { Session } from '../database/entities/SessionEntity';
+import { verifyAccessToken } from '../services/JwtToken';
+import { Context, ContextUser } from './Models';
 
 export const GetContext = async ({ req, res }) => {
   let user = undefined;
@@ -22,7 +22,6 @@ export const GetContext = async ({ req, res }) => {
         roles: session.roles,
         permissions: session.permissions,
         extra: session.extra,
-        applicazioni: session.applicazioni,
       };
     }
   }

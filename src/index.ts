@@ -25,6 +25,7 @@ export * from './server/database/entities/OGBaseEntity';
 /**
  * @module Server - Services
  */
+export * from './server/services/AuthService';
 export * from './server/services/CypherService';
 export * from './server/services/EmailService';
 export * from './server/services/ConfigService';
