@@ -8,9 +8,9 @@ export interface IServerOptions {
   app?: any;
   controllers: any[];
   resolvers: NonEmptyArray<Function>;
-  authenticator: (userContext: Context, roles: any) => boolean;
+  authenticator: (userContext: Context, roles: any) => Promise<boolean>;
   formatError: (err: Error) => Error;
-  context: (payload: any) => Context;
+  context: (payload: any) => Promise<Context>;
   authMode?: AuthMode;
   production?: boolean;
   middlewares?: (app: any) => void;
