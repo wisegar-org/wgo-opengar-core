@@ -10,6 +10,7 @@ import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
 import cors from 'cors';
 import { Context } from './graphql/Models';
+import { AccessTokenData, jwtMiddleware } from '..';
 
 export const bootGql = async (options: IServerOptions) => {
   const schema = await buildSchema({
@@ -25,8 +26,10 @@ export const bootGql = async (options: IServerOptions) => {
     playground: !options.production,
     schema: schema,
     formatError: options.formatError,
-    context: () => {
-      options.context({ req: {}, res: {} });
+    context: async ({ req, res }) => {
+      const tokenData: AccessTokenData = jwtMiddleware(req, res);
+      const context = await options.context(tokenData);
+      return context;
     },
   });
 
