@@ -1,5 +1,5 @@
-import axios, { AxiosInstance } from "axios";
-import { CacheService } from "./CacheService";
+import axios, { AxiosInstance } from 'axios';
+import { CacheService } from './CacheService';
 
 export interface IApiRestService {
   getInstance: (baseApiUrl: string) => AxiosInstance;
@@ -19,7 +19,7 @@ export const ApiRestService: IApiRestService = {
     ApiServiceInstance.interceptors.request.use(
       (request) => {
         request.headers = {
-          Authorization: `Bearer ${CacheService.GetUserToken()}`,
+          Authorization: `${CacheService.GetUserToken()}`,
         };
         return request;
       },
@@ -34,15 +34,10 @@ export const ApiRestService: IApiRestService = {
       },
       async function (error) {
         const originalRequest = error.config;
-        if (
-          error.response &&
-          error.response.status === 403 &&
-          !originalRequest._retry
-        ) {
+        if (error.response && error.response.status === 403 && !originalRequest._retry) {
           originalRequest._retry = true;
           const access_token = await refreshAccessToken();
-          axios.defaults.headers.common["Authorization"] =
-            "Bearer " + access_token;
+          axios.defaults.headers.common['authorization'] = access_token;
           return ApiServiceInstance(originalRequest);
         }
         return Promise.reject(error);

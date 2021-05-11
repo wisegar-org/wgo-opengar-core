@@ -38,13 +38,13 @@ export const validateAccessToken = (token: string): AccessTokenData => {
 };
 
 export const jwtMiddleware = (req: Request, res: Response): AccessTokenData => {
-  const token = <string>req.headers['auth-token'];
+  const token: string = req.headers['authorization'];
   if (!token) return undefined;
   try {
     const result: AccessTokenData = validateAccessToken(token);
     if (result.expiring) {
       const newToken = generateAccessToken(result);
-      res.set('auth-newtoken', newToken);
+      res.set('authorization-refresh', newToken);
     }
     return result;
   } catch (error) {
