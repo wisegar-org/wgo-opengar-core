@@ -20,6 +20,8 @@ const algorithm = 'RS256';
 const timeBeforeExpiration = 3600;
 
 export const generateAccessToken = (user: AccessTokenData) => {
+  if (!user) throw 'generateAccessToken - AccessTokenData most be valid';
+  if (!user.userId) throw 'generateAccessToken - user id param most be valid';
   return jwt.sign(user, GetPrivateKey(), { expiresIn: GetExpiresInKey(), algorithm: algorithm });
 };
 
