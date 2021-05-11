@@ -1,7 +1,7 @@
 import { Connection, getConnection, Repository } from 'typeorm';
 import { Session } from '../database/entities/SessionEntity';
 import UserEntity from '../database/entities/UserEntity';
-import { AccessTokenData, generateAccessToken } from './JwtToken';
+import { AccessTokenData, generateAccessToken } from './JwtAuthService';
 import * as bcrypt from 'bcrypt';
 
 export class AuthService {

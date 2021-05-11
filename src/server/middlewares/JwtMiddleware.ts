@@ -1,11 +1,11 @@
-import express from "express";
-import { checkJwt, jwtUser } from "../services/JwtAuthService";
+import express from 'express';
+import { AccessTokenData, jwtMiddleware } from '../services/JwtAuthService';
 
 export const jwt = () => {
   return (req: express.Request, res: express.Response, next: () => void) => {
-    const JWT = checkJwt(req, res) as jwtUser;
+    const JWT: AccessTokenData = jwtMiddleware(req, res);
     if (JWT) {
-      req.user = JWT;
+      // req.user = JWT;
     }
     next();
   };

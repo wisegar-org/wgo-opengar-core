@@ -9,12 +9,14 @@ export interface ISettings {
   PRIVATE_KEY: string;
   PUBLIC_KEY: string;
   CYPHER_KEY: string;
+  TOKEN_EXPIRES_IN: string;
 }
 
 const defaultSettings: ISettings = {
   CYPHER_KEY: 'INSERT A CYPHER_KEY FOR DATA CYPHER HANDLER',
   PRIVATE_KEY: 'INSERT A PRIVATE_KEY FOR JWT TOKEN HANDLER',
   PUBLIC_KEY: 'INSERT A PUBLIC_KEY FOR JWT TOKEN HANDLER',
+  TOKEN_EXPIRES_IN: '7d',
 };
 
 const GetConfig = (): ISettings => {
@@ -49,6 +51,12 @@ export const GetPrivateKey = () => {
   if (settings.PRIVATE_KEY === defaultSettings.PRIVATE_KEY)
     throw 'Impossible to get value from PRIVATE_KEY settings key';
   return settings.PRIVATE_KEY;
+};
+
+export const GetExpiresInKey = () => {
+  const settings = GetConfig();
+  if (settings.TOKEN_EXPIRES_IN === '') throw 'Impossible to get value from PRIVATE_KEY settings key';
+  return settings.TOKEN_EXPIRES_IN;
 };
 
 export const GetCypherKey = () => {

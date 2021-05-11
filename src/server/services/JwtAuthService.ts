@@ -1,70 +1,53 @@
 import { Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
-import { SimpleConsoleLogger } from 'typeorm';
-import { GetPrivateKey, GetPublicKey } from './ConfigService';
+import { GetExpiresInKey, GetPrivateKey, GetPublicKey } from './ConfigService';
 
-export interface ITokenCheckResult {
-  user: string;
-  session: string;
-  expiring: boolean;
+export interface AccessTokenData {
+  userId: number;
+  sessionId: number;
+  iat: number;
+  exp: number;
+  expiring?: boolean;
 }
 
-export interface jwtUser {
-  user: string;
-  session: string;
-}
+/**
+ * @var algorithm Algotithm to apply encription and decription token
+ */
+const algorithm = 'RS256';
+/**
+ * @var timeBeforeExpiration Time to token expiration
+ */
+const timeBeforeExpiration = 3600;
 
-declare global {
-  namespace Express {
-    interface Request {
-      user: jwtUser;
-    }
-  }
-}
-
-export const saveJwt = (jwtUser: jwtUser) => {
-  const privateKey = GetPrivateKey();
-  const newToken = jwt.sign(jwtUser, privateKey, {
-    expiresIn: '7d',
-    algorithm: 'RS256',
-  });
-  return newToken;
+export const generateAccessToken = (user: AccessTokenData) => {
+  return jwt.sign(user, GetPrivateKey(), { expiresIn: GetExpiresInKey(), algorithm: algorithm });
 };
 
-export const checkJwtToken = (token: string): ITokenCheckResult | null => {
+export const validateAccessToken = (token: string): AccessTokenData => {
   if (!token) {
-    console.error('checkJwtToken: Token invalid!');
+    console.error('validateAccessToken: Token invalid!');
     return null;
   }
-  let jwtPayload;
   try {
-    const publicKey = GetPublicKey();
-    jwtPayload = <any>jwt.verify(token, publicKey, { algorithms: ['RS256'] });
-    const { user, session } = jwtPayload;
-    const result: ITokenCheckResult = {
-      user: user,
-      session: session,
-      expiring: jwtPayload.exp > new Date().getTime() - 3600,
-    };
-    return result;
+    const jwtPayload: AccessTokenData = <AccessTokenData>jwt.verify(token, GetPublicKey(), { algorithms: [algorithm] });
+    jwtPayload.expiring = jwtPayload.exp > new Date().getTime() - timeBeforeExpiration;
+    return jwtPayload;
   } catch (error) {
-    console.error('checkJwtToken => Error on token validation: ', error);
-    return null;
+    throw `validateAccessToken => Error on token validation:  ${error}`;
   }
 };
 
-export const checkJwt = (req: Request, res: Response): unknown => {
+export const jwtMiddleware = (req: Request, res: Response): AccessTokenData => {
   const token = <string>req.headers['auth-token'];
   if (!token) return undefined;
   try {
-    const result: ITokenCheckResult = checkJwtToken(token);
-    const { user, session } = result;
+    const result: AccessTokenData = validateAccessToken(token);
     if (result.expiring) {
-      const newToken = saveJwt({ user, session });
-      res.set('auth-token', newToken);
+      const newToken = generateAccessToken(result);
+      res.set('auth-newtoken', newToken);
     }
-    return { user, session };
+    return result;
   } catch (error) {
-    return undefined;
+    throw `jwtMiddleware => Error on token validation:  ${error}`;
   }
 };

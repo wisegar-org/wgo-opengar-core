@@ -8,6 +8,7 @@ import { IServerOptions } from './models/ServerOptions';
 import 'reflect-metadata';
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
+import cors from 'cors';
 
 export const bootGql = async (options: IServerOptions) => {
   const schema = await buildSchema({
@@ -31,6 +32,7 @@ export const bootGql = async (options: IServerOptions) => {
 
 export const boot = async (options: IServerOptions, seedCallback?: any) => {
   options.app = options.app ? options.app : express();
+  options.app.use(cors());
   options.app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
   options.app.use(bodyParser.json({ limit: '50mb' }));
   options.app.use(jwt());
