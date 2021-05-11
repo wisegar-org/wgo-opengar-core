@@ -1,12 +1,11 @@
-import { JwtService } from '../services/JwtService';
 import { NextFunction, Request, Response } from 'express';
-import { RolEntityEnum, TokenResult, UserDataService } from '../../shared';
+import { RolEntityEnum, UserDataService } from '../../shared';
 import UserEntity from '../database/entities/UserEntity';
 import RolEntity from '../database/entities/RolEntity';
-import { GetPublicKey, GetPrivateKey } from '../services/ConfigService';
+import { AccessTokenData, validateAccessToken } from '../services/JwtAuthService';
 
 export interface RequestContext {
-  tokenResult?: TokenResult;
+  tokenResult?: AccessTokenData;
   user?: UserEntity;
 }
 
@@ -22,13 +21,9 @@ export const setUserCredentials = (userDataService: UserDataService) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       const authHeader = req.headers.authorization.split(' ')[1];
-      const JWTObj = new JwtService({
-        publicKey: GetPublicKey(),
-        privateKey: GetPrivateKey(),
-      });
-      const tokenResult = JWTObj.verifyToken(authHeader);
+      const tokenResult = validateAccessToken(authHeader);
       const user = await userDataService.one({
-        userName: tokenResult.username,
+        id: tokenResult.userId,
       });
       req.context = {
         tokenResult: tokenResult,

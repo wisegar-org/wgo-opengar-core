@@ -3,21 +3,22 @@ import _ from 'lodash';
 import * as bcrypt from 'bcrypt';
 import { ErrorResponse, Response, SuccessResponse } from '../models/responseModels/Response';
 import { LoginModel, UserLoginToken } from '../models/AuthModels';
-import { IUser } from '../interfaces/IUser';
-import { JwtService } from '../../server/services/JwtService';
-import { privateKey, publicKey } from '../settings';
 import { EmailServer } from '../../server/services/EmailService';
 import { Connection, Repository } from 'typeorm';
+import { AuthService } from '../../server/services/AuthService';
+import { AccessTokenData, generateAccessToken } from '../../server/services/JwtAuthService';
 
 export class UserDataService {
   private _userRepository: Repository<UserEntity>;
   private _roleRepository: Repository<RolEntity>;
   private _connection: Connection;
+  private _authService: AuthService;
 
   constructor(conn: Connection) {
     this._connection = conn;
     this._userRepository = this._connection.getRepository(UserEntity);
     this._roleRepository = this._connection.getRepository(RolEntity);
+    this._authService = new AuthService(conn);
   }
 
   all = async (criteria?: any): Promise<Response<UserEntity[]>> => {
@@ -66,26 +67,14 @@ export class UserDataService {
     const userResp = await this.one({ userName });
     if (userResp.isSuccess) {
       const user = userResp.result;
-      const isPasswordValid = await bcrypt.compare(password, user.password);
-      if (!isPasswordValid) {
-        return ErrorResponse.Response('Login Error', 'Password are wrong');
-      }
-      const JWTObj = new JwtService({
-        privateKey: privateKey,
-        publicKey: publicKey,
-      });
-
-      const userObj: IUser = user.getJWTUser();
-      const tokenResult = JWTObj.generateToken(userObj);
-      if (_.isUndefined(tokenResult) || _.isEmpty(tokenResult.token)) {
-        return ErrorResponse.Response('Token generation error.' + tokenResult.error);
-      }
+      const token = await this._authService.login({ user, password });
       const tokenUser: UserLoginToken = {
-        token: tokenResult.token,
+        token: token,
         user: user,
       };
       return SuccessResponse.Response(tokenUser);
     }
+
     return ErrorResponse.Response('Login Error', `Probably there is not user with username ${userName}`);
   };
 
@@ -138,14 +127,12 @@ export class UserDataService {
       newUser.roles = userRoles;
 
       if (!isEmailConfirmed) {
-        const JWTObj = new JwtService({
-          privateKey: privateKey,
-          publicKey: publicKey,
+        const token = generateAccessToken(<AccessTokenData>{
+          userId: newUser.id,
         });
-        const userObj: IUser = user.getJWTUser();
-        const tokenResult = JWTObj.generateToken(userObj);
-        if (_.isUndefined(tokenResult) || _.isEmpty(tokenResult.token)) {
-          return ErrorResponse.Response('Token generation error.' + tokenResult.error);
+
+        if (_.isUndefined(token)) {
+          return ErrorResponse.Response('Token generation error.');
         }
 
         EmailServer.sendEmail({
@@ -154,7 +141,7 @@ export class UserDataService {
           subject: 'Confrim Email',
           html: `
                    <h2>ConfirmEmail</h2>
-                   <p>${process.env.CLIENT_URL}/auth/checkEmailConfirmation/${tokenResult.token}</p>
+                   <p>${process.env.CLIENT_URL}/auth/checkEmailConfirmation/${token}</p>
                    `,
         })
           .then(

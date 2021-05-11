@@ -1,4 +1,4 @@
-import { Connection, getConnection, Repository } from 'typeorm';
+import { Connection, Repository } from 'typeorm';
 import { Session } from '../database/entities/SessionEntity';
 import UserEntity from '../database/entities/UserEntity';
 import { AccessTokenData, generateAccessToken } from './JwtAuthService';
@@ -18,11 +18,14 @@ export class AuthService {
   }
 
   public async login(data: any): Promise<string> {
-    const { email, password } = data;
-    let utente = await this.utenteRepository.findOne({
-      where: { email },
-      relations: ['roles'],
-    });
+    const { email, password, user } = data;
+    let utente: UserEntity = user
+      ? user
+      : await this.utenteRepository.findOne({
+          where: { email },
+          relations: ['roles'],
+        });
+
     if (!utente) {
       throw new Error(`login.wrongparameters`);
     }
