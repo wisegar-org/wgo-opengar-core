@@ -10,7 +10,7 @@ export interface IServerOptions {
   resolvers: NonEmptyArray<Function>;
   authenticator: (userContext: Context, roles: any) => boolean;
   formatError: (err: Error) => Error;
-  context: () => Context;
+  context: (payload: any) => Context;
   authMode?: AuthMode;
   production?: boolean;
   middlewares?: (app: any) => void;

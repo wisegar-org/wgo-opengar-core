@@ -39,7 +39,7 @@ export const boot = async (options: IServerOptions, seedCallback?: any) => {
   options.app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
   options.app.use(bodyParser.json({ limit: '50mb' }));
 
-  options.app.use(jwt());
+  options.app.use(jwt(options));
 
   if (options.middlewares) {
     options.middlewares(options.app);

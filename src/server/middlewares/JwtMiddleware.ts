@@ -1,11 +1,12 @@
 import express from 'express';
+import { IServerOptions } from '../models/ServerOptions';
 import { AccessTokenData, jwtMiddleware } from '../services/JwtAuthService';
 
-export const jwt = () => {
+export const jwt = (options: IServerOptions) => {
   return (req: express.Request, res: express.Response, next: () => void) => {
-    const JWT: AccessTokenData = jwtMiddleware(req, res);
-    if (JWT) {
-      // req.user = JWT;
+    const tokenData: AccessTokenData = jwtMiddleware(req, res);
+    if (tokenData) {
+      (req as any).context = options.context(tokenData);
     }
     next();
   };
