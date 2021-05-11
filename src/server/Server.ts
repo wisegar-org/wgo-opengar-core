@@ -35,7 +35,13 @@ export const boot = async (options: IServerOptions, seedCallback?: any) => {
   options.app.use(bodyParser.json({ limit: '50mb' }));
   options.app.use(jwt());
 
-  InitializeRouter(options.controllers, options.app);
+  if (options.middlewares) {
+    options.middlewares(options.app);
+  }
+
+  if (options.controllers) {
+    InitializeRouter(options.controllers, options.app);
+  }
 
   await bootGql(options);
 
@@ -49,8 +55,8 @@ export const boot = async (options: IServerOptions, seedCallback?: any) => {
     res.json(response);
   });
 
-  ((port = process.env.PORT || 5000) => {
-    options.app.listen(port, () => console.log(`> Listening on port ${port}`));
+  (() => {
+    options.app.listen(options.port, () => console.log(`> Listening on port ${options.port}`));
   })();
 
   if (seedCallback) seedCallback();

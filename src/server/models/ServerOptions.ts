@@ -13,4 +13,6 @@ export interface IServerOptions {
   context: any;
   authMode?: AuthMode;
   production?: boolean;
+  middlewares?: (app: any) => void;
+  port: number;
 }
