@@ -1,9 +1,9 @@
 import { JwtService } from '../services/JwtService';
 import { NextFunction, Request, Response } from 'express';
-import { privateKey, publicKey } from '../../shared/settings';
 import { RolEntityEnum, TokenResult, UserDataService } from '../../shared';
 import UserEntity from '../database/entities/UserEntity';
 import RolEntity from '../database/entities/RolEntity';
+import { GetPublicKey, GetPrivateKey } from '../services/ConfigService';
 
 export interface RequestContext {
   tokenResult?: TokenResult;
@@ -23,8 +23,8 @@ export const setUserCredentials = (userDataService: UserDataService) => {
     try {
       const authHeader = req.headers.authorization.split(' ')[1];
       const JWTObj = new JwtService({
-        privateKey,
-        publicKey,
+        publicKey: GetPublicKey(),
+        privateKey: GetPrivateKey(),
       });
       const tokenResult = JWTObj.verifyToken(authHeader);
       const user = await userDataService.one({
