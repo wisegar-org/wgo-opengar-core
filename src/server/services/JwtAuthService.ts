@@ -4,6 +4,7 @@ import { GetExpiresInKey, GetPrivateKey, GetPublicKey } from './ConfigService';
 
 export interface AccessTokenData {
   userId: number;
+  userName: string;
   sessionId: number;
   iat: number;
   exp: number;

@@ -42,6 +42,8 @@ export class AuthService {
 
     return generateAccessToken(<AccessTokenData>{
       sessionId: savedSession.id,
+      userId: utente.id,
+      userName: utente.email,
     });
   }
 }
