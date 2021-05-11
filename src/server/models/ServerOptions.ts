@@ -1,4 +1,4 @@
-import { AuthChecker, AuthMode, NonEmptyArray } from 'type-graphql';
+import { AuthMode, NonEmptyArray } from 'type-graphql';
 import { Context } from '../graphql/Models';
 
 export interface IServerOptions {
@@ -8,9 +8,9 @@ export interface IServerOptions {
   app?: any;
   controllers: any[];
   resolvers: NonEmptyArray<Function>;
-  authenticator: AuthChecker<Context>;
+  authenticator: (userContext: Context, roles: any) => boolean;
   formatError: (err: Error) => Error;
-  context: any;
+  context: () => Context;
   authMode?: AuthMode;
   production?: boolean;
   middlewares?: (app: any) => void;

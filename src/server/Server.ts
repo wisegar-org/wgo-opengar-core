@@ -9,11 +9,14 @@ import 'reflect-metadata';
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
 import cors from 'cors';
+import { Context } from './graphql/Models';
 
 export const bootGql = async (options: IServerOptions) => {
   const schema = await buildSchema({
     resolvers: options.resolvers,
-    authChecker: options.authenticator,
+    authChecker: (context, roles: any) => {
+      return options.authenticator(context as Context, roles);
+    },
     authMode: options.authMode ? options.authMode : 'null',
   });
 
@@ -35,6 +38,7 @@ export const boot = async (options: IServerOptions, seedCallback?: any) => {
   options.app.use(cors());
   options.app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
   options.app.use(bodyParser.json({ limit: '50mb' }));
+
   options.app.use(jwt());
 
   if (options.middlewares) {
