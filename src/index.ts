@@ -32,6 +32,7 @@ export * from './server/services/ConfigService';
 export * from './server/services/ExportPdfService';
 export * from './server/services/JwtAuthService';
 export * from './server/services/JwtService';
+export * from './server/services/UserDataService';
 export * from './server/graphql/Models';
 export * from './server/Server';
 
