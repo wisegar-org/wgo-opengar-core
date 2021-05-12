@@ -10,6 +10,7 @@ export interface ISettings {
   PUBLIC_KEY: string;
   CYPHER_KEY: string;
   TOKEN_EXPIRES_IN: string;
+  TOKEN_TIME_TO_EXPIRE: string;
 }
 
 const defaultSettings: ISettings = {
@@ -17,6 +18,7 @@ const defaultSettings: ISettings = {
   PRIVATE_KEY: 'INSERT A PRIVATE_KEY FOR JWT TOKEN HANDLER',
   PUBLIC_KEY: 'INSERT A PUBLIC_KEY FOR JWT TOKEN HANDLER',
   TOKEN_EXPIRES_IN: '7d',
+  TOKEN_TIME_TO_EXPIRE: '324000',
 };
 
 const GetConfig = (): ISettings => {
@@ -55,8 +57,17 @@ export const GetPrivateKey = () => {
 
 export const GetExpiresInKey = () => {
   const settings = GetConfig();
-  if (settings.TOKEN_EXPIRES_IN === '') throw 'Impossible to get value from PRIVATE_KEY settings key';
+  if (settings.TOKEN_EXPIRES_IN === '') throw 'Impossible to get value from TOKEN_EXPIRES_IN settings key';
   return settings.TOKEN_EXPIRES_IN;
+};
+
+/**
+ * @description Time to token expiration. Default value 90 days (324000s)
+ */
+export const GetTimeToExpireKey = () => {
+  const settings = GetConfig();
+  if (settings.TOKEN_TIME_TO_EXPIRE === '') throw 'Impossible to get value from TOKEN_TIME_TO_EXPIRE settings key';
+  return settings.TOKEN_TIME_TO_EXPIRE;
 };
 
 export const GetCypherKey = () => {
