@@ -1,8 +1,7 @@
-import { Entity, Column } from "typeorm";
-import { MediaEntityTypeEnum } from "../../../shared/models/enums/MediaEntityTypeEnum";
-import { OGBaseEntity } from "./OGBaseEntity";
+import { Entity, Column } from 'typeorm';
+import { OGBaseEntity } from './OGBaseEntity';
 
-@Entity({ name: "media" })
+@Entity({ name: 'media' })
 export class MediaEntity extends OGBaseEntity {
   @Column()
   name: string;

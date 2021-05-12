@@ -3,6 +3,7 @@ import { Session } from '../database/entities/SessionEntity';
 import UserEntity from '../database/entities/UserEntity';
 import { AccessTokenData, generateAccessToken } from './JwtAuthService';
 import * as bcrypt from 'bcrypt';
+import { AuthError } from '@wisegar-org/wgo-opengar-shared';
 
 export class AuthService {
   private readonly utenteRepository: Repository<UserEntity>;
@@ -27,11 +28,11 @@ export class AuthService {
         });
 
     if (!utente) {
-      throw new Error(`login.wrongparameters`);
+      throw AuthError.LoginWrongParameters;
     }
     const result = await this.comparePassword(password, utente.password);
-    if (!result) throw `login.wrongparameters`;
-    if (!utente.roles || utente.roles.length === 0) throw 'login.wrongroles';
+    if (!result) throw AuthError.LoginWrongParameters;
+    if (!utente.roles || utente.roles.length === 0) throw AuthError.LoginWrongRoles;
 
     const session = this.sessionRepository.create();
     session.userId = utente.uuid;

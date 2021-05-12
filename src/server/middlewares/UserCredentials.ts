@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { RolEntityEnum } from '../../shared';
+import { RolEntityEnum } from '@wisegar-org/wgo-opengar-shared';
 import UserEntity from '../database/entities/UserEntity';
 import { AccessTokenData } from '../services/JwtAuthService';
 import { Context } from '../graphql/Models';

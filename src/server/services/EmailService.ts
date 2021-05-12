@@ -1,13 +1,8 @@
-import {
-  BasicResponse,
-  SuccessResponse,
-} from "../../shared/models/responseModels/BasicResponse";
-import nodemailer from "nodemailer";
-import { EmailOptions } from "../../shared/models/EmailOptions";
-import { ErrorResponse } from "../../shared/models/responseModels/BasicResponse";
+import { SuccessResponse, EmailOptions, ErrorResponse } from '@wisegar-org/wgo-opengar-shared';
+import nodemailer from 'nodemailer';
 
 export class EmailServer {
-  static async sendEmail(emailOpts: EmailOptions): Promise<BasicResponse> {
+  static async sendEmail(emailOpts: EmailOptions): Promise<any> {
     const transporter = nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
       logger: true,
@@ -19,12 +14,12 @@ export class EmailServer {
       },
     });
 
-    return new Promise<BasicResponse>((resolve, reject) => {
+    return new Promise<any>((resolve, reject) => {
       transporter.sendMail(emailOpts, (err, info) => {
         if (err) {
-          reject(new ErrorResponse("Error sending email: " + err.stack));
+          reject(new ErrorResponse('Error sending email: ' + err.stack));
         } else {
-          resolve(new SuccessResponse("Email sent: " + info.response));
+          resolve(new SuccessResponse('Email sent: ' + info.response));
         }
       });
     });

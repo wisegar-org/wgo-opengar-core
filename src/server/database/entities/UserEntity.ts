@@ -1,7 +1,7 @@
 import { Entity, Column, ManyToMany, OneToOne, JoinTable, JoinColumn } from 'typeorm';
 import { RolEntity } from './RolEntity';
 import { MediaEntity } from './MediaEntity';
-import { IUser } from '../../../shared/interfaces/IUser';
+import { IUser } from '@wisegar-org/wgo-opengar-shared';
 import { OGBaseEntity } from './OGBaseEntity';
 @Entity({ name: 'users' })
 export class UserEntity extends OGBaseEntity {

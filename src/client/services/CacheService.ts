@@ -1,19 +1,19 @@
-import ObjExt from "../../shared/utils/ObjExt";
+import { ObjExt } from '@wisegar-org/wgo-opengar-shared';
 
-const DbName = "WG_App_DB";
-const ObjStoreName = "WG_App_DBObjectStore";
-const IndexName = "NameIndex";
-const TrasactionAccess = "readwrite";
-const CachedRecordKey = "CachedRecordKey";
-const CurrentOfferKey: string = "CurrentOfferKey";
-const USER_TOKEN = "access_token";
-const USER_NAME = "username";
-const USER_TOKEN_EXPIRATION = "user_token_expiration";
-const APP_LANGUAGE = "app_language";
-const USER_ID = "userid";
-const USER_ISADMIN = "isAdmin";
-const USER_INFO = "FullUserInfo";
-const BASE_URL = "BASE_URL";
+const DbName = 'WG_App_DB';
+const ObjStoreName = 'WG_App_DBObjectStore';
+const IndexName = 'NameIndex';
+const TrasactionAccess = 'readwrite';
+const CachedRecordKey = 'CachedRecordKey';
+const CurrentOfferKey: string = 'CurrentOfferKey';
+const USER_TOKEN = 'access_token';
+const USER_NAME = 'username';
+const USER_TOKEN_EXPIRATION = 'user_token_expiration';
+const APP_LANGUAGE = 'app_language';
+const USER_ID = 'userid';
+const USER_ISADMIN = 'isAdmin';
+const USER_INFO = 'FullUserInfo';
+const BASE_URL = 'BASE_URL';
 
 const GetCachedRecordKey = (id: any) => {
   return `${CachedRecordKey}-${id}`;
@@ -34,7 +34,7 @@ export const CacheService = {
   },
   GetUserToken: () => {
     const token = localStorage.getItem(USER_TOKEN);
-    if (ObjExt.IsNullOrUndefined(token)) return "";
+    if (ObjExt.IsNullOrUndefined(token)) return '';
     return token;
   },
   GetUserData: () => {
@@ -45,18 +45,12 @@ export const CacheService = {
       usertoken: localStorage.getItem(USER_TOKEN),
     };
   },
-  SetUserData: (
-    usertoken: string,
-    user: { username: string; id: string; isAdmin: string }
-  ) => {
+  SetUserData: (usertoken: string, user: { username: string; id: string; isAdmin: string }) => {
     localStorage.setItem(USER_TOKEN, usertoken);
     localStorage.setItem(USER_NAME, user.username);
     localStorage.setItem(USER_ID, user.id);
     localStorage.setItem(USER_ISADMIN, user.isAdmin);
-    localStorage.setItem(
-      USER_TOKEN_EXPIRATION,
-      JSON.stringify(`${60 * 60 * 24 * 1000}${new Date()}`)
-    );
+    localStorage.setItem(USER_TOKEN_EXPIRATION, JSON.stringify(`${60 * 60 * 24 * 1000}${new Date()}`));
   },
   RemoveUserData: () => {
     localStorage.removeItem(USER_TOKEN);
@@ -135,12 +129,7 @@ export const CacheService = {
       onError();
     };
   },
-  Store: (
-    keyName: unknown,
-    data: unknown,
-    onSuccess: (data?: unknown) => void,
-    onError?: () => void
-  ) => {
+  Store: (keyName: unknown, data: unknown, onSuccess: (data?: unknown) => void, onError?: () => void) => {
     var openDB = CacheService.openIndexedDB();
     openDB.onsuccess = () => {
       var db = CacheService.getStoreIndexedDB(openDB);
@@ -154,12 +143,7 @@ export const CacheService = {
     };
     return true;
   },
-  StoreList: (
-    keyName: unknown,
-    data: any,
-    onSuccess: (data?: unknown) => void,
-    onError: (error?: unknown) => void
-  ) => {
+  StoreList: (keyName: unknown, data: any, onSuccess: (data?: unknown) => void, onError: (error?: unknown) => void) => {
     if (ObjExt.IsNullOrUndefined(keyName)) return;
     if (ObjExt.IsNotArrayOrEmpty(data)) return;
     data.forEach((d: any, i: any) => {
@@ -221,11 +205,7 @@ export const CacheService = {
       onSuccess(undefined);
     };
   },
-  Remove: (
-    key: any,
-    onSuccess?: (data?: unknown) => void,
-    onComplete?: () => void
-  ) => {
+  Remove: (key: any, onSuccess?: (data?: unknown) => void, onComplete?: () => void) => {
     var openDB = CacheService.openIndexedDB();
     openDB.onsuccess = () => {
       let db = CacheService.getStoreIndexedDB(openDB);
@@ -255,17 +235,12 @@ export const CacheService = {
   },
   openIndexedDB: (fileindex?: any) => {
     const win: any = window;
-    const indexedDB =
-      win.indexedDB ||
-      win.mozIndexedDB ||
-      win.webkitIndexedDB ||
-      win.msIndexedDB ||
-      win.shimIndexedDB;
+    const indexedDB = win.indexedDB || win.mozIndexedDB || win.webkitIndexedDB || win.msIndexedDB || win.shimIndexedDB;
     var openDB = indexedDB.open(DbName, 1);
     openDB.onupgradeneeded = () => {
       const db: any = {};
       db.result = openDB.result;
-      db.store = db.result.createObjectStore(ObjStoreName, { keyPath: "key" });
+      db.store = db.result.createObjectStore(ObjStoreName, { keyPath: 'key' });
 
       if (fileindex) db.index = db.store.createIndex(IndexName, fileindex);
     };
@@ -273,25 +248,20 @@ export const CacheService = {
   },
   openRequestsIndexedDB: (fileindex?: any) => {
     const win: any = window;
-    const indexedDB =
-      win.indexedDB ||
-      win.mozIndexedDB ||
-      win.webkitIndexedDB ||
-      win.msIndexedDB ||
-      win.shimIndexedDB;
-    var openDB = indexedDB.open("workbox-background-sync", 1);
-    const ObjStoreName = "requests";
+    const indexedDB = win.indexedDB || win.mozIndexedDB || win.webkitIndexedDB || win.msIndexedDB || win.shimIndexedDB;
+    var openDB = indexedDB.open('workbox-background-sync', 1);
+    const ObjStoreName = 'requests';
     openDB.onupgradeneeded = () => {
       const db: any = {};
       db.result = openDB.result;
-      db.store = db.result.createObjectStore(ObjStoreName, { keyPath: "key" });
+      db.store = db.result.createObjectStore(ObjStoreName, { keyPath: 'key' });
 
       if (fileindex) db.index = db.store.createIndex(IndexName, fileindex);
     };
     return openDB;
   },
   getQueueStoreIndexedDB: (openDB: { result: any }) => {
-    const ObjStoreName = "requests";
+    const ObjStoreName = 'requests';
     const db: any = {};
     db.result = openDB.result;
     db.tx = db.result.transaction(ObjStoreName, TrasactionAccess);
@@ -313,36 +283,28 @@ export const CacheService = {
   },
   TestingIndexedDb: () => {
     const example = () => {
-      CacheService.Store(
-        12345,
-        { name: { first: "John", last: "Doe" }, age: 42 },
-        (data: any) => {
-          console.log("Data saved: ", data);
-        }
-      );
-      CacheService.Store(
-        67890,
-        { name: { first: "Bob", last: "Smith" }, age: 35 },
-        (data: any) => {
-          console.log("Data saved: ", data);
-        }
-      );
+      CacheService.Store(12345, { name: { first: 'John', last: 'Doe' }, age: 42 }, (data: any) => {
+        console.log('Data saved: ', data);
+      });
+      CacheService.Store(67890, { name: { first: 'Bob', last: 'Smith' }, age: 35 }, (data: any) => {
+        console.log('Data saved: ', data);
+      });
       CacheService.Get(
         12345,
         (data: any) => {
-          console.log("Data founded: ", data);
+          console.log('Data founded: ', data);
         },
         (error) => {}
       );
       CacheService.Get(
         67890,
         (data: any) => {
-          console.log("Data founded: ", data);
+          console.log('Data founded: ', data);
         },
         (error) => {}
       );
       CacheService.Remove(12345, (data: any) => {
-        console.log("Data removed: 12345");
+        console.log('Data removed: 12345');
       });
     };
     CacheService.RemoveAll(() => {

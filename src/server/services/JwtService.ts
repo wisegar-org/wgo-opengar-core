@@ -1,7 +1,5 @@
 import * as jwt from 'jsonwebtoken';
-import { IJwtSettings } from '../../shared/interfaces/IJwtSettings';
-import { TokenResult } from '../../shared/models/TokenResult';
-import { IUser } from '../../shared/interfaces/IUser';
+import { IJwtSettings, TokenResult, IUser } from '@wisegar-org/wgo-opengar-shared';
 
 /**
  * @deprecated Please use JWTAuthService definition

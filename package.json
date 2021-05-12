@@ -1,12 +1,13 @@
 {
   "name": "@wisegar-org/wgo-opengar-core",
-  "version": "0.0.1-build.51",
+  "version": "0.0.1-build.52",
   "description": "OpenGarJS Core Library - Dev",
   "main": "build/src/index.js",
   "scripts": {
     "start": "nodemon",
     "build": "npx rimraf build && tsc",
     "publicate": "npx rimraf build && tsc && npm publish",
+    "update:shared": "npx rimraf node_modules/@wisegar-org/wgo-opengar-shared && npm install @wisegar-org/wgo-opengar-shared@latest --save",
     "test": "jest --detectOpenHandles"
   },
   "repository": {
@@ -50,6 +51,7 @@
     "typescript": "^3.3.3"
   },
   "dependencies": {
+    "@wisegar-org/wgo-opengar-shared": "0.0.1-build.5",
     "axios": "^0.21.1",
     "bcrypt": "^5.0.1",
     "crypto": "^1.0.1",

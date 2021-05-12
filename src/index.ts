@@ -46,28 +46,4 @@ export * from './server/middlewares/UserCredentials';
 /**
  * @module Shared
  */
-export * from './shared';
-export * from './shared/errors/AuthError';
-export * from './shared/interfaces/IApiResponse';
-export * from './shared/interfaces/IJwtSettings';
-export * from './shared/interfaces/IUser';
-export * from './shared/interfaces/IUserRole';
-export * from './shared/utils/Runner';
-
-/**
- * @module Shared - Models
- */
-export * from './shared/models/TokenResult';
-export * from './shared/models/enums/MediaEntityTypeEnum';
-export * from './shared/models/enums/RolEntityEnum';
-
-/**
- * @module Shared Services
- */
-
-export * from './shared/services/UserDataService';
-
-/**
- * @module Shared  Utilities
- */
-export * from './shared/utils/ObjExt';
+export * from '@wisegar-org/wgo-opengar-shared';
