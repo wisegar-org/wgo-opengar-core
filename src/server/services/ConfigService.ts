@@ -3,9 +3,12 @@ dotenv.config({
   path: '.env',
 });
 
-const configFilename = './settings.json';
-
 export interface ISettings {
+  DB_NAME: string;
+  DB_PASSWORD: string;
+  DB_USERNAME: string;
+  DB_PORT: any;
+  DB_HOST: any;
   PRIVATE_KEY: string;
   PUBLIC_KEY: string;
   CYPHER_KEY: string;
@@ -19,17 +22,11 @@ const defaultSettings: ISettings = {
   PUBLIC_KEY: 'INSERT A PUBLIC_KEY FOR JWT TOKEN HANDLER',
   TOKEN_EXPIRES_IN: '7d',
   TOKEN_TIME_TO_EXPIRE: '324000',
-};
-
-const GetConfig = (): ISettings => {
-  const fs = require('fs-extra');
-  if (!fs.existsSync(configFilename)) {
-    console.error(`Settings file not found. File ${configFilename} will be created!`);
-    fs.writeJsonSync(configFilename, defaultSettings);
-  }
-  const settingsReadContent = fs.readFileSync(configFilename);
-  const settingsJsonReadContent = JSON.parse(settingsReadContent);
-  return settingsJsonReadContent;
+  DB_HOST: 'localhost',
+  DB_PORT: '5432',
+  DB_USERNAME: 'postgres',
+  DB_NAME: 'postgres',
+  DB_PASSWORD: 'postgres',
 };
 
 export const GetNodeEnvKey = () => {
@@ -40,6 +37,20 @@ export const GetNodeEnvKey = () => {
 export const GetPortKey = () => {
   if (process.env.PORT) return process.env.PORT;
   throw 'Impossible to get value from PORT environment key';
+};
+
+const nodeEnv = GetNodeEnvKey();
+const configFilename = nodeEnv === 'production' ? './settings.json' : `./settings.${nodeEnv}.json`;
+
+const GetConfig = (): ISettings => {
+  const fs = require('fs-extra');
+  if (!fs.existsSync(configFilename)) {
+    console.error(`Settings file not found. File ${configFilename} will be created!`);
+    fs.writeJsonSync(configFilename, defaultSettings);
+  }
+  const settingsReadContent = fs.readFileSync(configFilename);
+  const settingsJsonReadContent = JSON.parse(settingsReadContent);
+  return settingsJsonReadContent;
 };
 
 export const GetPublicKey = () => {
@@ -74,4 +85,34 @@ export const GetCypherKey = () => {
   const settings = GetConfig();
   if (settings.CYPHER_KEY === defaultSettings.CYPHER_KEY) throw 'Impossible to get value from CYPHER_KEY settings key';
   return settings.CYPHER_KEY;
+};
+
+export const GetDBHostKey = () => {
+  const settings = GetConfig();
+  if (settings.DB_HOST === '') throw 'Impossible to get value from DB_HOST settings key';
+  return settings.DB_HOST;
+};
+
+export const GetDBPortKey = () => {
+  const settings = GetConfig();
+  if (settings.DB_PORT === '') throw 'Impossible to get value from DB_PORT settings key';
+  return settings.DB_PORT;
+};
+
+export const GetDBUserNameKey = () => {
+  const settings = GetConfig();
+  if (settings.DB_USERNAME === '') throw 'Impossible to get value from DB_USERNAME settings key';
+  return settings.DB_USERNAME;
+};
+
+export const GetDBPasswordKey = () => {
+  const settings = GetConfig();
+  if (settings.DB_PASSWORD === '') throw 'Impossible to get value from DB_PASSWORD settings key';
+  return settings.DB_PASSWORD;
+};
+
+export const GetDBNameKey = () => {
+  const settings = GetConfig();
+  if (settings.DB_NAME === '') throw 'Impossible to get value from DB_NAME settings key';
+  return settings.DB_NAME;
 };
