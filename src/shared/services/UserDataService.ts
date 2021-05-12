@@ -64,15 +64,19 @@ export class UserDataService {
       return ErrorResponse.Response('Error: UserName or password are empty');
     }
 
-    const userResp = await this.one({ userName });
-    if (userResp.isSuccess) {
-      const user = userResp.result;
-      const token = await this._authService.login({ user, password });
-      const tokenUser: UserLoginToken = {
-        token: token,
-        user: user,
-      };
-      return SuccessResponse.Response(tokenUser);
+    try {
+      const userResp = await this.one({ userName });
+      if (userResp.isSuccess) {
+        const user = userResp.result;
+        const token = await this._authService.login({ user, password });
+        const tokenUser: UserLoginToken = {
+          token: token,
+          user: user,
+        };
+        return SuccessResponse.Response(tokenUser);
+      }
+    } catch (error) {
+      return ErrorResponse.Response('Login Error', `${error}`);
     }
 
     return ErrorResponse.Response('Login Error', `Probably there is not user with username ${userName}`);
