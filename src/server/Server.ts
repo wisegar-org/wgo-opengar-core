@@ -54,7 +54,9 @@ export const boot = async (options: IServerOptions, seedCallback?: any) => {
     InitializeRouter(options.controllers, options.app);
   }
 
-  await bootGql(options);
+  if (options.resolvers) {
+    await bootGql(options);
+  }
 
   options.app.use((err: ErrorHandler, req: Request, res: Response, next: NextFunction) => {
     const response = JsonResponse(false, err.statusCode || 500, err.message);

@@ -7,7 +7,7 @@ export interface IServerOptions {
    */
   app?: any;
   controllers: any[];
-  resolvers: NonEmptyArray<Function>;
+  resolvers?: NonEmptyArray<Function>;
   authenticator: (userContext: Context, roles: any) => Promise<boolean>;
   formatError: (err: Error) => Error;
   context: (payload: any) => Promise<Context>;
