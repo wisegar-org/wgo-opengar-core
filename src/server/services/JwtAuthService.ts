@@ -6,8 +6,8 @@ export interface AccessTokenData {
   userId: number;
   userName: string;
   sessionId: number;
-  iat: number;
-  exp: number;
+  iat?: number;
+  exp?: number;
   expiring?: boolean;
 }
 
