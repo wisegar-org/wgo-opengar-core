@@ -1,21 +1,25 @@
+import { MediaEntityTypeEnum } from '@wisegar-org/wgo-opengar-shared';
 import { Entity, Column } from 'typeorm';
 import { OGBaseEntity } from './OGBaseEntity';
 
 @Entity({ name: 'media' })
 export class MediaEntity extends OGBaseEntity {
-  @Column()
-  name: string;
+  @Column({ default: '' })
+  displayName: string;
+  @Column({ default: '' })
+  fileName: string;
+  @Column({ default: '' })
+  fileExt: string;
 
-  @Column()
-  createdAt: Date;
+  @Column({ type: 'bytea' }) fileContent: Buffer;
 
-  @Column()
-  mediaType: number;
+  @Column({ nullable: true, default: false })
+  isPublic: boolean;
 
-  @Column()
-  checkSum: string;
+  @Column({ default: MediaEntityTypeEnum.file })
+  mediaType: MediaEntityTypeEnum;
 
-  @Column()
+  @Column({ nullable: true, default: '' })
   path: string;
 }
 

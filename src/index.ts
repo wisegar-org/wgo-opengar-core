@@ -33,6 +33,7 @@ export * from './server/services/ExportPdfService';
 export * from './server/services/JwtAuthService';
 export * from './server/services/JwtService';
 export * from './server/services/UserDataService';
+export * from './server/services/MediaService';
 export * from './server/graphql/Models';
 export * from './server/Server';
 
@@ -41,6 +42,16 @@ export * from './server/Server';
  */
 export * from './server/middlewares/JwtMiddleware';
 export * from './server/middlewares/UserCredentials';
+
+/**
+ * @method Server - Rest Decorators
+ */
+export * from './server/decorators/rest/Controller';
+export * from './server/decorators/rest/Export';
+export * from './server/decorators/rest/Get';
+export * from './server/decorators/rest/Post';
+export * from './server/decorators/rest/Put';
+export * from './server/decorators/models/RouteDefinition';
 
 //  ############################ //
 //  ###### SHARED EXPORTS ###### //
