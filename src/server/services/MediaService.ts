@@ -98,7 +98,9 @@ export class MediaService {
 
   private async saveBufferInFolder(nameFile: string, pathFolder: string, data: Buffer) {
     const namePath = normalize(join(pathFolder, nameFile));
-    writeFileSync(namePath, data);
+    if (!existsSync(namePath)) {
+      writeFileSync(namePath, data);
+    }
     return namePath;
   }
 
