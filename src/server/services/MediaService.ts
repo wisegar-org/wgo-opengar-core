@@ -47,7 +47,7 @@ export class MediaService {
 
     if (options.isPublic) {
       const pathInPublic = await this.saveBufferInPublicFolder(nameFile, data, mediaType);
-      mediaEntity.path = pathInPublic;
+      mediaEntity.path = `${mediaType}/${nameFile}`;
     }
 
     mediaEntity = await this.mediaRepository.manager.save(mediaEntity);
