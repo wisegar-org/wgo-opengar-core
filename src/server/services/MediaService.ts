@@ -14,15 +14,15 @@ export class MediaService {
   }
 
   async saveImage(uploadedFile: UploadedFile, options: { isPublic: boolean }) {
-    this.saveMedia(uploadedFile, options, MediaEntityTypeEnum.image);
+    return await this.saveMedia(uploadedFile, options, MediaEntityTypeEnum.image);
   }
 
   async saveDocument(uploadedFile: UploadedFile, options: { isPublic: boolean }) {
-    this.saveMedia(uploadedFile, options, MediaEntityTypeEnum.document);
+    return await this.saveMedia(uploadedFile, options, MediaEntityTypeEnum.document);
   }
 
   async saveFile(uploadedFile: UploadedFile, options: { isPublic: boolean }) {
-    this.saveMedia(uploadedFile, options, MediaEntityTypeEnum.file);
+    return await this.saveMedia(uploadedFile, options, MediaEntityTypeEnum.file);
   }
 
   async saveMedia(uploadedFile: UploadedFile, options: { isPublic: boolean }, mediaType: MediaEntityTypeEnum) {
