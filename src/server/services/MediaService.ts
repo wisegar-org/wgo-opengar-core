@@ -33,17 +33,15 @@ export class MediaService {
       fileName: nameFile,
     });
 
-    if (mediaEntity) {
-      return mediaEntity;
+    if (!mediaEntity) {
+      mediaEntity = new MediaEntity();
+      mediaEntity.fileName = nameFile;
+      mediaEntity.fileExt = fileExt;
+      mediaEntity.mediaType = mediaType;
+      mediaEntity.displayName = name;
+      mediaEntity.fileContent = data;
+      mediaEntity.isPublic = options.isPublic;
     }
-
-    mediaEntity = new MediaEntity();
-    mediaEntity.fileName = nameFile;
-    mediaEntity.fileExt = fileExt;
-    mediaEntity.mediaType = mediaType;
-    mediaEntity.displayName = name;
-    mediaEntity.fileContent = data;
-    mediaEntity.isPublic = options.isPublic;
 
     if (options.isPublic) {
       const pathInPublic = await this.saveBufferInPublicFolder(nameFile, data, mediaType);
