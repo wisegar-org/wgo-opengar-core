@@ -10,7 +10,7 @@ export class MediaEntity extends OGBaseEntity {
   fileName: string;
   @Column({ default: '' })
   fileExt: string;
-
+  @Column({ default: '' }) mimeType: string;
   @Column({ type: 'bytea' }) fileContent: Buffer;
 
   @Column({ nullable: true, default: false })

@@ -26,7 +26,7 @@ export class MediaService {
   }
 
   async saveMedia(uploadedFile: UploadedFile, options: { isPublic: boolean }, mediaType: MediaEntityTypeEnum) {
-    const { name, data, encoding, md5, mimetype, truncated, size, tempFilePath } = uploadedFile;
+    const { name, data, md5, mimetype } = uploadedFile;
     const fileExt = extname(name);
     const nameFile = `${md5}${fileExt}`;
     let mediaEntity = await this.mediaRepository.findOne({
@@ -41,6 +41,7 @@ export class MediaService {
       mediaEntity.displayName = name;
       mediaEntity.fileContent = data;
       mediaEntity.isPublic = options.isPublic;
+      mediaEntity.mimeType = mimetype;
     }
 
     if (options.isPublic) {
