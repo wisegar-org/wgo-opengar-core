@@ -54,7 +54,7 @@ export class MediaService {
   }
 
   async saveMediaEntityInPublicFolder(mediaEntity: MediaEntity) {
-    this.saveBufferInPublicFolder(mediaEntity.fileName, mediaEntity.fileContent, mediaEntity.mediaType);
+    return await this.saveBufferInPublicFolder(mediaEntity.fileName, mediaEntity.fileContent, mediaEntity.mediaType);
   }
 
   private async saveBufferInPublicFolder(name: string, data: Buffer, path?: string | undefined) {
