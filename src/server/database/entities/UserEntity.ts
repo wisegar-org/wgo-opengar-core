@@ -1,7 +1,7 @@
 import { Entity, Column, ManyToMany, OneToOne, JoinTable, JoinColumn } from 'typeorm';
 import { RolEntity } from './RolEntity';
 import { MediaEntity } from './MediaEntity';
-import { IUser } from '@wisegar-org/wgo-opengar-shared';
+import { IUser, Language } from '@wisegar-org/wgo-opengar-shared';
 import { OGBaseEntity } from './OGBaseEntity';
 @Entity({ name: 'users' })
 export class UserEntity extends OGBaseEntity {
@@ -22,6 +22,9 @@ export class UserEntity extends OGBaseEntity {
 
   @Column({ default: false })
   isEmailConfirmed: boolean;
+
+  @Column({ nullable: true, default: Language.IT })
+  language: Language;
 
   @ManyToMany(() => RolEntity)
   @JoinTable()

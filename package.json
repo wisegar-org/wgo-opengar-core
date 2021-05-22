@@ -1,6 +1,6 @@
 {
   "name": "@wisegar-org/wgo-opengar-core",
-  "version": "0.0.1-build.63",
+  "version": "0.0.1-build.64",
   "description": "OpenGarJS Core Library - Dev",
   "main": "build/src/index.js",
   "scripts": {
@@ -52,7 +52,7 @@
     "typescript": "^3.3.3"
   },
   "dependencies": {
-    "@wisegar-org/wgo-opengar-shared": "0.0.1-build.6",
+    "@wisegar-org/wgo-opengar-shared": "0.0.1-build.7",
     "axios": "^0.21.1",
     "bcrypt": "^5.0.1",
     "crypto": "^1.0.1",
