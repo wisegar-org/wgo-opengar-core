@@ -1,4 +1,4 @@
-import { Entity, Column, ManyToMany, OneToOne, JoinTable, JoinColumn } from 'typeorm';
+import { Entity, Column, ManyToMany, JoinTable, ManyToOne } from 'typeorm';
 import { RolEntity } from './RolEntity';
 import { MediaEntity } from './MediaEntity';
 import { IUser, Language } from '@wisegar-org/wgo-opengar-shared';
@@ -30,8 +30,9 @@ export class UserEntity extends OGBaseEntity {
   @JoinTable()
   roles: RolEntity[];
 
-  @OneToOne(() => MediaEntity)
-  @JoinColumn()
+  @Column({ nullable: true })
+  profileImageId: number;
+  @ManyToOne(() => MediaEntity, (media) => media.id)
   profileImage: MediaEntity;
 
   /**
