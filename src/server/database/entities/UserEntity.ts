@@ -35,6 +35,9 @@ export class UserEntity extends OGBaseEntity {
   @ManyToOne(() => MediaEntity, (media) => media.id)
   profileImage: MediaEntity;
 
+  @Column({ nullable: true })
+  confirmationToken: string;
+
   /**
    *
    */
@@ -46,7 +49,8 @@ export class UserEntity extends OGBaseEntity {
     password?: string,
     roles?: RolEntity[],
     isEmailConfirmed?: Boolean,
-    profileImage?: MediaEntity
+    profileImage?: MediaEntity,
+    confirmationToken?: string
   ) {
     super();
     this.name = name;
@@ -57,6 +61,7 @@ export class UserEntity extends OGBaseEntity {
     this.roles = roles;
     this.profileImage = profileImage;
     this.isEmailConfirmed = !!isEmailConfirmed;
+    this.confirmationToken = confirmationToken;
   }
 
   getJWTUser(): IUser {
