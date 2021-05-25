@@ -50,6 +50,10 @@ export const jwtMiddleware = (req: Request, res: Response): AccessTokenData => {
   if (!token) return undefined;
   try {
     const result: AccessTokenData = validateAccessToken(token);
+    // TODO: REMOVE
+    const newToken = generateAccessToken(result);
+    res.set('authorization-refresh', newToken);
+    // TODO: REMOVE END
     if (result.expiring) {
       const newToken = generateAccessToken(result);
       res.set('authorization-refresh', newToken);
