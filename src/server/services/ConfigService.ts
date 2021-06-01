@@ -14,6 +14,9 @@ export interface ISettings {
   CYPHER_KEY: string;
   TOKEN_EXPIRES_IN: string;
   TOKEN_TIME_TO_EXPIRE: string;
+  EMAIL_HOST: string;
+  EMAIL_SENDER_ADDRESS: string;
+  EMAIL_SENDER_PASSWORD: string;
 }
 
 const defaultSettings: ISettings = {
@@ -27,6 +30,9 @@ const defaultSettings: ISettings = {
   DB_USERNAME: 'postgres',
   DB_NAME: 'postgres',
   DB_PASSWORD: 'postgres',
+  EMAIL_HOST: 'INSERT HOST EMAIL',
+  EMAIL_SENDER_ADDRESS: 'INSERT USER EMAIL',
+  EMAIL_SENDER_PASSWORD: 'INSERT EMAIL PASSWORD'
 };
 
 export const GetNodeEnvKey = () => {
@@ -43,6 +49,17 @@ const nodeEnv = GetNodeEnvKey();
 const configFilename = nodeEnv === 'production' ? './settings.json' : `./settings.${nodeEnv}.json`;
 
 const GetConfig = (): ISettings => {
+  const fs = require('fs-extra');
+  if (!fs.existsSync(configFilename)) {
+    console.error(`Settings file not found. File ${configFilename} will be created!`);
+    fs.writeJsonSync(configFilename, defaultSettings);
+  }
+  const settingsReadContent = fs.readFileSync(configFilename);
+  const settingsJsonReadContent = JSON.parse(settingsReadContent);
+  return settingsJsonReadContent;
+};
+
+export const GetGenericConfig = () => {
   const fs = require('fs-extra');
   if (!fs.existsSync(configFilename)) {
     console.error(`Settings file not found. File ${configFilename} will be created!`);

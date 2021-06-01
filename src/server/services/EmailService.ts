@@ -1,16 +1,18 @@
+import { ISettings, GetGenericConfig } from './ConfigService';
 import { SuccessResponse, EmailOptions, ErrorResponse } from '@wisegar-org/wgo-opengar-shared';
 import nodemailer from 'nodemailer';
 
 export class EmailServer {
   static async sendEmail(emailOpts: EmailOptions): Promise<any> {
+    const config : ISettings = GetGenericConfig();
     const transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
+      host: process.env.EMAIL_HOST || config.EMAIL_HOST,
       logger: true,
       debug: true,
       secure: false,
       auth: {
-        user: process.env.EMAIL_SENDER_ADDRESS,
-        pass: process.env.EMAIL_SENDER_PASSWORD,
+        user: process.env.EMAIL_SENDER_ADDRESS || config.EMAIL_SENDER_ADDRESS,
+        pass: process.env.EMAIL_SENDER_PASSWORD || config.EMAIL_SENDER_PASSWORD,
       },
     });
 
