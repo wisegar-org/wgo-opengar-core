@@ -1,14 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { RolEntityEnum } from '@wisegar-org/wgo-opengar-shared';
-import UserEntity from '../database/entities/UserEntity';
-import { AccessTokenData } from '../services/JwtAuthService';
 import { Context } from '../graphql/Models';
-
-export interface RequestContext {
-  tokenResult?: AccessTokenData;
-  user?: UserEntity;
-}
-
 declare module 'express-serve-static-core' {
   interface Request {
     context?: Context;
