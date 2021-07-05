@@ -24,14 +24,14 @@ export const jwt = (options: IServerOptions) => {
           `{
             "errors":[
               {"message":${AuthError.NotAuthorized}}, 
-              {"message":${error}}
+              {"message":${error.name} - ${error.message}}
             ],
           "data":null
         }`
         );
       } else {
         res.statusCode = 401;
-        res.statusMessage = `${error}`;
+        res.statusMessage = `Error: ${error.name} - ${error.message}`;
       }
       res.end();
     }
