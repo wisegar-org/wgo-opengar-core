@@ -47,7 +47,7 @@ export const validateAccessToken = (token: string): AccessTokenData => {
 
 export const jwtMiddleware = (req: Request, res: Response): AccessTokenData => {
   const token: string = req.headers['authorization'];
-  if (!token) return undefined;
+  if (!token) return;
   try {
     const result: AccessTokenData = validateAccessToken(token);
     if (result.expiring) {
@@ -57,6 +57,6 @@ export const jwtMiddleware = (req: Request, res: Response): AccessTokenData => {
     }
     return result;
   } catch (error) {
-    throw `jwtMiddleware => Error on token validation:  ${error}`;
+    throw error;
   }
 };
