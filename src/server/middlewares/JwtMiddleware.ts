@@ -19,7 +19,7 @@ export const jwt = (options: IServerOptions) => {
       console.error(error);
       if (req.originalUrl.includes('graphql')) {
         res.status(200);
-        res.send(`{"errors":[{"message":${AuthError.NotAuthorized}}], "data":null }`);
+        res.send(`{"errors":[{"message":"${AuthError.NotAuthorized}"}, {"message":"${error}"}], "data":null }`);
       } else {
         res.status(401);
         res.statusMessage = `${AuthError.NotAuthorized}`;
