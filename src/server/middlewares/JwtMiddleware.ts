@@ -1,5 +1,4 @@
 import { AuthError } from '@wisegar-org/wgo-opengar-shared';
-import { registerDecorator } from 'class-validator';
 import express from 'express';
 import { IServerOptions } from '../models/ServerOptions';
 import { AccessTokenData, jwtMiddleware } from '../services/JwtAuthService';
@@ -20,18 +19,10 @@ export const jwt = (options: IServerOptions) => {
       console.error(error);
       if (req.originalUrl.includes('graphql')) {
         res.status(200);
-        res.send(
-          `{
-            "errors":[
-              {"message":${AuthError.NotAuthorized}}, 
-              {"message":${error.name} - ${error.message}}
-            ],
-          "data":null
-        }`
-        );
+        res.send(`{"errors":[{"message":${AuthError.NotAuthorized}}], "data":null }`);
       } else {
-        res.statusCode = 401;
-        res.statusMessage = `Error: ${error.name} - ${error.message}`;
+        res.status(401);
+        res.statusMessage = `${AuthError.NotAuthorized}`;
       }
       res.end();
     }
