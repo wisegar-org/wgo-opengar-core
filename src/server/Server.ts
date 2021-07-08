@@ -31,6 +31,10 @@ export const bootGql = async (options: IServerOptions) => {
       const context = await options.context(tokenData);
       return context;
     },
+    uploads: {
+      maxFieldSize: 10000000, //10 MB
+      maxFiles: 100,
+    },
   });
 
   server.applyMiddleware({ app: options.app });
