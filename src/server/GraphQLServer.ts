@@ -35,6 +35,7 @@ const getGqlServer = async (options: IServerOptions) => {
       const context = await options.context(tokenData);
       return context;
     },
+    uploads: true,
   });
 };
 
@@ -43,8 +44,6 @@ export const bootFullGql = async (options: IServerOptions, seedCallback?: any) =
   options.app.use(jwt(options));
 
   const server = await getGqlServer(options);
-
-  options.app.use(graphqlUploadExpress());
 
   server.applyMiddleware({ app: options.app });
 
