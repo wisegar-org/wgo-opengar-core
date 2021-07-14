@@ -32,10 +32,6 @@ export const bootGql = async (options: IServerOptions) => {
       const context = await options.context(tokenData);
       return context;
     },
-    uploads: {
-      maxFileSize: options.maxFileSize,
-      maxFiles: options.maxFiles,
-    },
   });
 
   options.app.use(graphqlUploadExpress());
