@@ -1,17 +1,13 @@
 import express, { Request, Response, NextFunction } from 'express';
-import bodyParser from 'body-parser';
 import { jwt } from './middlewares/JwtMiddleware';
-import { InitializeRouter as bootRestServerRouter } from './RestServer';
 import { JsonResponse } from './models/JsonResponse';
 import ErrorHandler from './models/ErrorHandler';
 import { IServerOptions } from './models/ServerOptions';
 import 'reflect-metadata';
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
-import cors from 'cors';
 import { Context } from './graphql/Models';
 import { AccessTokenData, jwtMiddleware } from '..';
-import { graphqlUploadExpress } from 'graphql-upload';
 
 const getGqlSchema = async (options: IServerOptions) => {
   return await buildSchema({
@@ -74,8 +70,6 @@ export const bootFullGql = async (options: IServerOptions, seedCallback?: any) =
 
 export const bootGql = async (options: IServerOptions) => {
   const server = await getGqlServer(options);
-
-  options.app.use(graphqlUploadExpress());
 
   server.applyMiddleware({ app: options.app });
 

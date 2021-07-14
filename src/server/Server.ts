@@ -6,12 +6,7 @@ import { JsonResponse } from './models/JsonResponse';
 import ErrorHandler from './models/ErrorHandler';
 import { IServerOptions } from './models/ServerOptions';
 import 'reflect-metadata';
-import { ApolloServer } from 'apollo-server-express';
-import { buildSchema } from 'type-graphql';
 import cors from 'cors';
-import { Context } from './graphql/Models';
-import { AccessTokenData, jwtMiddleware } from '..';
-import { graphqlUploadExpress } from 'graphql-upload';
 import { bootFullGql, bootGql as bootGqlServer } from './GraphQLServer';
 
 export const boot = async (options: IServerOptions, seedCallback?: any) => {
