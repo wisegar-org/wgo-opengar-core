@@ -38,7 +38,7 @@ export const bootGql = async (options: IServerOptions) => {
 
   server.applyMiddleware({ app: options.app });
 
-  console.log(server.graphqlPath);
+  console.log(`GraphQL Path: ${server.graphqlPath}`);
 };
 
 export const boot = async (options: IServerOptions, seedCallback?: any) => {
@@ -53,11 +53,11 @@ export const boot = async (options: IServerOptions, seedCallback?: any) => {
     options.middlewares(options.app);
   }
 
-  if (options.controllers) {
+  if (options.disableRest && options.controllers) {
     InitializeRouter(options.controllers, options.app);
   }
 
-  if (options.resolvers) {
+  if (options.disableGraphQL && options.resolvers) {
     await bootGql(options);
   }
 
