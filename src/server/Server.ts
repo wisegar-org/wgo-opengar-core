@@ -11,6 +11,7 @@ import { buildSchema } from 'type-graphql';
 import cors from 'cors';
 import { Context } from './graphql/Models';
 import { AccessTokenData, jwtMiddleware } from '..';
+import { graphqlUploadExpress } from 'graphql-upload';
 
 export const bootGql = async (options: IServerOptions) => {
   const schema = await buildSchema({
@@ -36,6 +37,8 @@ export const bootGql = async (options: IServerOptions) => {
       maxFiles: options.maxFiles,
     },
   });
+
+  options.app.use(graphqlUploadExpress());
 
   server.applyMiddleware({ app: options.app });
 
