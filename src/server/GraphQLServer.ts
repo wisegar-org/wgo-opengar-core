@@ -41,6 +41,10 @@ export const bootFullGql = async (options: IServerOptions, seedCallback?: any) =
 
   const server = await getGqlServer(options);
 
+  if (options.middlewares) {
+    options.middlewares(options.app);
+  }
+
   server.applyMiddleware({ app: options.app });
 
   console.log(`GraphQL Path: ${server.graphqlPath}`);
