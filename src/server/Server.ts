@@ -32,8 +32,8 @@ export const bootGql = async (options: IServerOptions) => {
       return context;
     },
     uploads: {
-      maxFieldSize: 10000000, //10 MB
-      maxFiles: 100,
+      maxFileSize: options.maxFileSize,
+      maxFiles: options.maxFiles,
     },
   });
 
