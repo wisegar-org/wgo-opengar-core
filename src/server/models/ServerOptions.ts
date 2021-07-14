@@ -21,6 +21,5 @@ export interface IServerOptions {
   maxFileSize?: number;
   //Max allowed number of files (default: Infinity).
   maxFiles?: number;
-  disableRest?: boolean;
-  disableGraphQL?: boolean;
+  useOnlyGraphQL?: boolean;
 }

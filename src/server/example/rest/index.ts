@@ -3,7 +3,7 @@ import express from 'express';
 import UserController from './UserController';
 import TestController from './TestController';
 import bodyParser from 'body-parser';
-import { ExportData, InitializeRouter } from '../../Router';
+import { ExportData, InitializeRouter } from '../../RestServer';
 
 const app = express();
 

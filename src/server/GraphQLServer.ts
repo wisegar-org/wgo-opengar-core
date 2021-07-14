@@ -12,32 +12,43 @@ import cors from 'cors';
 import { Context } from './graphql/Models';
 import { AccessTokenData, jwtMiddleware } from '..';
 import { graphqlUploadExpress } from 'graphql-upload';
-import { bootFullGql, bootGql as bootGqlServer } from './GraphQLServer';
 
-export const boot = async (options: IServerOptions, seedCallback?: any) => {
-  if (options.useOnlyGraphQL) {
-    await bootFullGql(options);
-    return;
-  }
+const getGqlSchema = async (options: IServerOptions) => {
+  return await buildSchema({
+    resolvers: options.resolvers,
+    authChecker: (context, roles: any) => {
+      return options.authenticator(context as Context, roles);
+    },
+    authMode: options.authMode ? options.authMode : 'null',
+  });
+};
 
+const getGqlServer = async (options: IServerOptions) => {
+  const schema = await getGqlSchema(options);
+  return new ApolloServer({
+    introspection: !options.production,
+    playground: !options.production,
+    schema: schema,
+    formatError: options.formatError,
+    context: async ({ req, res }) => {
+      const tokenData: AccessTokenData = jwtMiddleware(req, res);
+      const context = await options.context(tokenData);
+      return context;
+    },
+  });
+};
+
+export const bootFullGql = async (options: IServerOptions, seedCallback?: any) => {
   options.app = options.app ? options.app : express();
-  options.app.use(cors());
-  options.app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
-  options.app.use(bodyParser.json({ limit: '50mb' }));
-
   options.app.use(jwt(options));
 
-  if (options.middlewares) {
-    options.middlewares(options.app);
-  }
+  const server = await getGqlServer(options);
 
-  if (options.controllers) {
-    bootRestServerRouter(options.controllers, options.app);
-  }
+  options.app.use(graphqlUploadExpress());
 
-  if (options.resolvers) {
-    await bootGqlServer(options);
-  }
+  server.applyMiddleware({ app: options.app });
+
+  console.log(`GraphQL Path: ${server.graphqlPath}`);
 
   options.app.use((err: ErrorHandler, req: Request, res: Response, next: NextFunction) => {
     const response = JsonResponse(false, err.statusCode || 500, err.message);
@@ -60,4 +71,14 @@ export const boot = async (options: IServerOptions, seedCallback?: any) => {
   process.on('SIGINT', function () {
     process.exit(0);
   });
+};
+
+export const bootGql = async (options: IServerOptions) => {
+  const server = await getGqlServer(options);
+
+  options.app.use(graphqlUploadExpress());
+
+  server.applyMiddleware({ app: options.app });
+
+  console.log(`GraphQL Path: ${server.graphqlPath}`);
 };
