@@ -3,7 +3,7 @@ const { execSync } = require('child_process');
 
 console.log('\x1b[33m', 'UPDATING APPLICATION LIBRARY');
 
-const packageJsonPath = 'package.json';
+const packageJsonPath = './package.json';
 const destination = './build';
 
 if (!fs.existsSync(destination)) {
