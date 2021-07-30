@@ -6,12 +6,6 @@ on:
   pull_request:
     branches: [main]
 
-uses: ferluisxd/create-npmrc@3
- with:
-   org_name: https://npm.pkg.github.com
-   env:
-     AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,6 +15,12 @@ jobs:
         node-version: [14.x, 16.x]
 
     steps:
+      - uses: ferluisxd/create-npmrc@3
+        with:
+          org_name: https://npm.pkg.github.com
+          env:
+            AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - uses: actions/checkout@v2
 
       - name: Use Node.js ${{ matrix.node-version }}
