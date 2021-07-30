@@ -21,7 +21,6 @@
   "homepage": "https://github.com/wisegar-org/wgo-opengar-core#readme",
   "keywords": [],
   "devDependencies": {
-    "@types/axios": "^0.14.0",
     "@types/bcrypt": "^3.0.0",
     "@types/html-pdf": "^2.2.0",
     "@types/jsonwebtoken": "^8.5.0",

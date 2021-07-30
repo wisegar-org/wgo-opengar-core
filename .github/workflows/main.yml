@@ -6,6 +6,12 @@ on:
   pull_request:
     branches: [main]
 
+uses: ferluisxd/create-npmrc@3
+ with:
+   org_name: https://npm.pkg.github.com
+   env:
+     AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
