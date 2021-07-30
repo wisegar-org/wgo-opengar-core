@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon",
     "build": "npx rimraf build && tsc",
-    "publish": "node ./scripts.publish.js",
+    "publish": "node ./scripts-publish.js",
     "update:shared": "npx rimraf node_modules/@wisegar-org/wgo-opengar-shared && npm install @wisegar-org/wgo-opengar-shared@latest --save",
     "test": "jest --detectOpenHandles"
   },
