@@ -15,12 +15,13 @@ jobs:
         node-version: [14.x, 16.x]
 
     steps:
+        env:
+          AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - uses: ferluisxd/create-npmrc@3
         with:
-          org_name: https://npm.pkg.github.com
-          env:
-            AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+          org_name: wisegar-org
+          
       - uses: actions/checkout@v2
 
       - name: Use Node.js ${{ matrix.node-version }}
