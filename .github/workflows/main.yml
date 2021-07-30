@@ -1,49 +1,49 @@
-name: NodeJS with Webpack
+# name: NodeJS with Webpack
 
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+# on:
+#   push:
+#     branches: [main]
+#   pull_request:
+#     branches: [main]
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [14.x, 16.x]
+#     strategy:
+#       matrix:
+#         node-version: [14.x, 16.x]
 
-    steps:
-        env:
-          AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#     steps:
+#         env:
+#           AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: ferluisxd/create-npmrc@3
-        with:
-          org_name: wisegar-org
-          
-      - uses: actions/checkout@v2
+#       - uses: ferluisxd/create-npmrc@3
+#         with:
+#           org_name: wisegar-org
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
+#       - uses: actions/checkout@v2
 
-      - name: Build
-        run: |
-          npm install
-          npm run test
+#       - name: Use Node.js ${{ matrix.node-version }}
+#         uses: actions/setup-node@v1
+#         with:
+#           node-version: ${{ matrix.node-version }}
 
-  # publish-gpr:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/setup-node@v1
-  #       with:
-  #         node-version: 14
-  #         registry-url: https://npm.pkg.github.com/
-  #     - run: npm ci
-  #     - run: npm publish
-  #       env:
-  #         NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+#       - name: Build
+#         run: |
+#           npm install
+#           npm run test
+
+#   # publish-gpr:
+#   #   needs: build
+#   #   runs-on: ubuntu-latest
+#   #   steps:
+#   #     - uses: actions/checkout@v2
+#   #     - uses: actions/setup-node@v1
+#   #       with:
+#   #         node-version: 14
+#   #         registry-url: https://npm.pkg.github.com/
+#   #     - run: npm ci
+#   #     - run: npm publish
+#   #       env:
+#   #         NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
