@@ -16,13 +16,26 @@ jobs:
         node-version: [14.x]
 
     steps:
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
+      - name: File settings creation
+        uses: finnp/create-file-action@1.0.0 
+        env:
+          FILE_NAME: "settings.test.json"
+          FILE_DATA: "{ GITHUB_TOKEN: ${{ secrets.GH_API_TOKEN }} }"
+      - name: Create file
+        run: |
+          echo @wisegar-org:registry=https://npm.pkg.github.com            > .npmrc
+          echo //npm.pkg.github.com/:_authToken=${{secrets.GH_API_TOKEN}} >> .npmrc
+#       - name: File .npmrc creation
+#         uses: finnp/create-file-action@1.0.0 
+#         env:
+#           FILE_NAME: ".npmrc"
+#           FILE_DATA: "@wisegar-org:registry=https://npm.pkg.github.com"
+#           FILE_BASE64: "QHdpc2VnYXItb3JnOnJlZ2lzdHJ5PWh0dHBzOi8vbnBtLnBrZy5naXRodWIuY29tIA0KLy9ucG0ucGtnLmdpdGh1Yi5jb20vOl9hdXRoVG9rZW49Z2hwX040cnJveDZEdkI2QjNnN3preDNOUWM4N21GTGNLVjB0c3BHZg=="
       # - run: npm ci
       - run: npm install
       - run: npm test
