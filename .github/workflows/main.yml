@@ -28,7 +28,7 @@ jobs:
           FILE_DATA: "{ GITHUB_TOKEN: ${{ secrets.GH_API_TOKEN }} }"
       - name: Create file
         run: |
-          printf "@wisegar-org:registry=https://npm.pkg.github.com\n//npm.pkg.github.com/:_authToken=${{ secrets.GH_API_TOKEN }}\n" > .npmrc
+          printf "@wisegar-org:registry=https://npm.pkg.github.com\n//npm.pkg.github.com/:_authToken=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\n" > .npmrc
 #       - name: File .npmrc creation
 #         uses: finnp/create-file-action@1.0.0 
 #         env:
