@@ -26,6 +26,11 @@ jobs:
         env:
           FILE_NAME: "settings.test.json"
           FILE_DATA: "{ GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} }"
+      - name: File .npmrc creation
+        uses: finnp/create-file-action@1.0.0 
+        env:
+          FILE_NAME: ".npmrc"
+          FILE_DATA: "@wisegar-org:registry=https://npm.pkg.github.com /n/r //npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}"
       # - run: npm ci
       - run: npm install
       - run: npm test
