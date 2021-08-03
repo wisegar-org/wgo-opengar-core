@@ -23,7 +23,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: File settings creation
         run: |
-          echo { GITHUB_TOKEN: ${{ secrets.GH_API_TOKEN }} } > settings.test.json
+          echo { "GITHUB_TOKEN": ${{ secrets.GH_API_TOKEN }} } > settings.test.json
 #         uses: finnp/create-file-action@1.0.0 
 #         env:
 #           FILE_NAME: "settings.test.json"
