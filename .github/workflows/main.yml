@@ -29,7 +29,7 @@ jobs:
       - name: Create file
         run: |
           echo @wisegar-org:registry=https://npm.pkg.github.com                           > .npmrc
-          echo //npm.pkg.github.com/:_authToken=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 >> .npmrc
+#          echo //npm.pkg.github.com/:_authToken=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 >> .npmrc
 #       - name: File .npmrc creation
 #         uses: finnp/create-file-action@1.0.0 
 #         env:
