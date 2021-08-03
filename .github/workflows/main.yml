@@ -39,6 +39,8 @@ jobs:
       # - run: npm ci
       - run: npm install
       - run: npm test
+        env:
+          NODE_ENV: "test"
 
 
 # name: NodeJS with Webpack
