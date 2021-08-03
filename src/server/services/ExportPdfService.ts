@@ -1,5 +1,5 @@
 import { create, CreateResult, CreateOptions } from 'html-pdf'
-import { ReadStream } from 'node:fs'
+import { ReadStream } from 'fs'
 export { CreateOptions } from 'html-pdf'
 
 export async function exportHTMLToPdf(
