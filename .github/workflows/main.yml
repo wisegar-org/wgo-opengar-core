@@ -30,7 +30,7 @@ jobs:
         uses: finnp/create-file-action@1.0.0 
         env:
           FILE_NAME: ".npmrc"
-          FILE_DATA: "@wisegar-org:registry=https://npm.pkg.github.com"
+          FILE_BASE64: "QHdpc2VnYXItb3JnOnJlZ2lzdHJ5PWh0dHBzOi8vbnBtLnBrZy5naXRodWIuY29tDQovL25wbS5wa2cuZ2l0aHViLmNvbS86X2F1dGhUb2tlbj1naHBfTjRycm94NkR2QjZCM2c3emt4M05RYzg3bUZMY0tWMHRzcEdmm"
       # - run: npm ci
       - run: npm install
       - run: npm test
