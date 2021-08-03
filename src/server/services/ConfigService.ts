@@ -76,6 +76,12 @@ export const GetPublicKey = () => {
   return settings.PUBLIC_KEY;
 };
 
+export const GetGithubToken = () => {
+  const settings = GetGenericConfig();
+  if (settings.GITHUB_TOKEN === '' || settings.GITHUB_TOKEN === null) throw 'Impossible to get value from GITHUB_TOKEN settings key';
+  return settings.GITHUB_TOKEN;
+};
+
 export const GetPrivateKey = () => {
   const settings = GetConfig();
   if (settings.PRIVATE_KEY === defaultSettings.PRIVATE_KEY)
