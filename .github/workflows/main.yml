@@ -25,7 +25,7 @@ jobs:
         uses: finnp/create-file-action@1.0.0 
         env:
           FILE_NAME: "settings.test.json"
-          FILE_DATA: "{ \"GITHUB_TOKEN\": ${{ secrets.GH_API_TOKEN }} }"
+          FILE_DATA: "{ \"GITHUB_TOKEN\": \"${{ secrets.GH_API_TOKEN }}\" }"
       - name: Create file .npmrc
         run: |
           echo @wisegar-org:registry=https://npm.pkg.github.com            > .npmrc
