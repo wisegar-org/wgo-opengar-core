@@ -1,7 +1,7 @@
 import IssueService from '../../src/server/services/IssueService';
 
-describe('Test CurrencyFurterService', () => {
-  test('Getting Currency list', async (done) => {
+describe('Test IssueService', () => {
+  test('Creating Issue', async (done) => {
     const issueService = new IssueService();
     const response = await issueService.sendIssue({
         owner: 'wisegar-org',
