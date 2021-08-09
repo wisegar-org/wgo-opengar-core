@@ -30,9 +30,9 @@ const defaultSettings: ISettings = {
   DB_USERNAME: 'postgres',
   DB_NAME: 'postgres',
   DB_PASSWORD: 'postgres',
-  EMAIL_HOST: 'INSERT HOST EMAIL',
-  EMAIL_SENDER_ADDRESS: 'INSERT USER EMAIL',
-  EMAIL_SENDER_PASSWORD: 'INSERT EMAIL PASSWORD',
+  EMAIL_HOST: '',
+  EMAIL_SENDER_ADDRESS: '',
+  EMAIL_SENDER_PASSWORD: '',
 };
 
 export const GetNodeEnvKey = () => {
@@ -144,14 +144,15 @@ export const GetDBNameKey = () => {
 export const GetEmailHostKey = () => {
   if (process.env.EMAIL_HOST) return process.env.EMAIL_HOST;
   const settings = GetConfig();
-  if (settings.EMAIL_HOST === '') throw 'Impossible to get value from EMAIL_HOST env variable and settings key';
+  if (!settings.EMAIL_HOST || settings.EMAIL_HOST === '')
+    throw 'Impossible to get value from EMAIL_HOST env variable and settings key';
   return settings.EMAIL_HOST;
 };
 
 export const GetEmailSenderKey = () => {
   if (process.env.EMAIL_SENDER_ADDRESS) return process.env.EMAIL_SENDER_ADDRESS;
   const settings = GetConfig();
-  if (settings.EMAIL_SENDER_ADDRESS === '')
+  if (!settings.EMAIL_SENDER_ADDRESS || settings.EMAIL_SENDER_ADDRESS === '')
     throw 'Impossible to get value from EMAIL_SENDER_ADDRESS env variable and settings key';
   return settings.EMAIL_SENDER_ADDRESS;
 };
@@ -159,7 +160,7 @@ export const GetEmailSenderKey = () => {
 export const GetEmailSenderPassKey = () => {
   if (process.env.EMAIL_SENDER_PASSWORD) return process.env.EMAIL_SENDER_PASSWORD;
   const settings = GetConfig();
-  if (settings.EMAIL_SENDER_PASSWORD === '')
+  if (!settings.EMAIL_SENDER_PASSWORD || settings.EMAIL_SENDER_PASSWORD === '')
     throw 'Impossible to get value from EMAIL_SENDER_PASSWORD env variable and settings key';
   return settings.EMAIL_SENDER_PASSWORD;
 };
