@@ -11,7 +11,7 @@ export class EmailServer {
       logger: true,
       debug: true,
       port: GetEmailPortKey(),
-      secure: false,
+      secure: true,
       auth: {
         user: GetEmailSenderKey(),
         pass: GetEmailSenderPassKey(),
