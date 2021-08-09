@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import internal from 'node:stream';
 dotenv.config({
   path: '.env',
 });
@@ -15,6 +16,7 @@ export interface ISettings {
   TOKEN_EXPIRES_IN: string;
   TOKEN_TIME_TO_EXPIRE: string;
   EMAIL_HOST: string;
+  EMAIL_PORT: number;
   EMAIL_SENDER_ADDRESS: string;
   EMAIL_SENDER_PASSWORD: string;
 }
@@ -31,6 +33,7 @@ const defaultSettings: ISettings = {
   DB_NAME: 'postgres',
   DB_PASSWORD: 'postgres',
   EMAIL_HOST: '',
+  EMAIL_PORT: 587,
   EMAIL_SENDER_ADDRESS: '',
   EMAIL_SENDER_PASSWORD: '',
 };
@@ -147,6 +150,12 @@ export const GetEmailHostKey = () => {
   if (!settings.EMAIL_HOST || settings.EMAIL_HOST === '')
     throw 'Impossible to get value from EMAIL_HOST env variable and settings key';
   return settings.EMAIL_HOST;
+};
+export const GetEmailPortKey = () => {
+  if (process.env.EMAIL_PORT) return parseInt(process.env.EMAIL_PORT);
+  const settings = GetConfig();
+  if (!settings.EMAIL_PORT) throw 'Impossible to get value from EMAIL_PORT env variable and settings key';
+  return settings.EMAIL_PORT;
 };
 
 export const GetEmailSenderKey = () => {

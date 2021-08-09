@@ -1,4 +1,4 @@
-import { ISettings, GetGenericConfig } from './ConfigService';
+import { ISettings, GetGenericConfig, GetEmailPortKey } from './ConfigService';
 import { SuccessResponse, EmailOptions, ErrorResponse } from '@wisegar-org/wgo-opengar-shared';
 import nodemailer from 'nodemailer';
 import { GetEmailHostKey, GetEmailSenderKey, GetEmailSenderPassKey } from './ConfigService';
@@ -10,6 +10,7 @@ export class EmailServer {
       host: GetEmailHostKey(),
       logger: true,
       debug: true,
+      port: GetEmailPortKey(),
       secure: false,
       auth: {
         user: GetEmailSenderKey(),
