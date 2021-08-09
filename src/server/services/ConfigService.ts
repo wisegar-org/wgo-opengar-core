@@ -32,7 +32,7 @@ const defaultSettings: ISettings = {
   DB_PASSWORD: 'postgres',
   EMAIL_HOST: 'INSERT HOST EMAIL',
   EMAIL_SENDER_ADDRESS: 'INSERT USER EMAIL',
-  EMAIL_SENDER_PASSWORD: 'INSERT EMAIL PASSWORD'
+  EMAIL_SENDER_PASSWORD: 'INSERT EMAIL PASSWORD',
 };
 
 export const GetNodeEnvKey = () => {
@@ -78,7 +78,8 @@ export const GetPublicKey = () => {
 
 export const GetGithubToken = () => {
   const settings = GetGenericConfig();
-  if (settings.GITHUB_TOKEN === '' || settings.GITHUB_TOKEN === null) throw 'Impossible to get value from GITHUB_TOKEN settings key';
+  if (settings.GITHUB_TOKEN === '' || settings.GITHUB_TOKEN === null)
+    throw 'Impossible to get value from GITHUB_TOKEN settings key';
   return settings.GITHUB_TOKEN;
 };
 
@@ -138,4 +139,27 @@ export const GetDBNameKey = () => {
   const settings = GetConfig();
   if (settings.DB_NAME === '') throw 'Impossible to get value from DB_NAME settings key';
   return settings.DB_NAME;
+};
+
+export const GetEmailHostKey = () => {
+  if (process.env.EMAIL_HOST) return process.env.EMAIL_HOST;
+  const settings = GetConfig();
+  if (settings.EMAIL_HOST === '') throw 'Impossible to get value from EMAIL_HOST env variable and settings key';
+  return settings.EMAIL_HOST;
+};
+
+export const GetEmailSenderKey = () => {
+  if (process.env.EMAIL_SENDER_ADDRESS) return process.env.EMAIL_SENDER_ADDRESS;
+  const settings = GetConfig();
+  if (settings.EMAIL_SENDER_ADDRESS === '')
+    throw 'Impossible to get value from EMAIL_SENDER_ADDRESS env variable and settings key';
+  return settings.EMAIL_SENDER_ADDRESS;
+};
+
+export const GetEmailSenderPassKey = () => {
+  if (process.env.EMAIL_SENDER_PASSWORD) return process.env.EMAIL_SENDER_PASSWORD;
+  const settings = GetConfig();
+  if (settings.EMAIL_SENDER_PASSWORD === '')
+    throw 'Impossible to get value from EMAIL_SENDER_PASSWORD env variable and settings key';
+  return settings.EMAIL_SENDER_PASSWORD;
 };
