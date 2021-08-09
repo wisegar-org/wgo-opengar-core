@@ -8,10 +8,10 @@ export class EmailServer {
     const config: ISettings = GetGenericConfig();
     const transporter = nodemailer.createTransport({
       host: GetEmailHostKey(),
-      logger: true,
-      debug: true,
+      logger: true, // TODO: Add to settings
+      debug: true, // TODO: Add to settings
       port: GetEmailPortKey(),
-      secure: true,
+      secure: false, // TODO: Add to settings
       auth: {
         user: GetEmailSenderKey(),
         pass: GetEmailSenderPassKey(),
