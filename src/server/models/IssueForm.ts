@@ -1,4 +1,4 @@
-import { ExportableForm } from "@wisegar-org/wgo-opengar-core/build/src/server/decorators/rest/Export";
+import { ExportableForm } from '../decorators/rest/Export';
 
 export class IssueForm extends ExportableForm {
   owner: string;
@@ -7,9 +7,9 @@ export class IssueForm extends ExportableForm {
   body: string;
   constructor() {
     super();
-    this.owner = "";
-    this.repo = "";
-    this.title = "";
-    this.body = "";
+    this.owner = '';
+    this.repo = '';
+    this.title = '';
+    this.body = '';
   }
 }
