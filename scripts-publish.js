@@ -42,8 +42,8 @@ fs.writeJsonSync(packageJsonPath, package);
 console.log('\x1b[33m', 'Building application library...');
 execSync('npx tsc', { stdio: 'inherit' });
 
-console.log('\x1b[33m', 'Running application tests...');
-execSync('npm run test', { stdio: 'inherit' });
+// console.log('\x1b[33m', 'Running application tests...');
+// execSync('npm run test', { stdio: 'inherit' });
 
 console.log('\x1b[33m', 'Adding package.json changes commit...');
 execSync(`git add ${packageJsonPath}`, { stdio: 'inherit' });
