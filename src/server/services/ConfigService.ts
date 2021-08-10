@@ -17,6 +17,9 @@ export interface ISettings {
   TOKEN_TIME_TO_EXPIRE: string;
   EMAIL_HOST: string;
   EMAIL_PORT: number;
+  EMAIL_LOG: boolean;
+  EMAIL_DEBUG: boolean;
+  EMAIL_SECURE: boolean;
   EMAIL_SENDER_ADDRESS: string;
   EMAIL_SENDER_PASSWORD: string;
 }
@@ -34,6 +37,9 @@ const defaultSettings: ISettings = {
   DB_PASSWORD: 'postgres',
   EMAIL_HOST: '',
   EMAIL_PORT: 587,
+  EMAIL_LOG: true,
+  EMAIL_DEBUG: true,
+  EMAIL_SECURE: false, // Use SSL
   EMAIL_SENDER_ADDRESS: '',
   EMAIL_SENDER_PASSWORD: '',
 };
@@ -62,6 +68,10 @@ const GetConfig = (): ISettings => {
   return settingsJsonReadContent;
 };
 
+/**
+ * @deprecated Please use a typed defined & new implemented function for the specified setting!
+ * @returns A not defined & not typed settings values
+ */
 export const GetGenericConfig = () => {
   const fs = require('fs-extra');
   if (!fs.existsSync(configFilename)) {
@@ -156,6 +166,27 @@ export const GetEmailPortKey = () => {
   const settings = GetConfig();
   if (!settings.EMAIL_PORT) throw 'Impossible to get value from EMAIL_PORT env variable and settings key';
   return settings.EMAIL_PORT;
+};
+
+export const GetEmailLogKey = () => {
+  if (process.env.EMAIL_LOG) return process.env.EMAIL_LOG === 'true';
+  const settings = GetConfig();
+  if (!settings.EMAIL_LOG) throw 'Impossible to get value from EMAIL_LOG env variable and settings key';
+  return settings.EMAIL_LOG;
+};
+
+export const GetEmailDebugKey = () => {
+  if (process.env.EMAIL_DEBUG) return process.env.EMAIL_DEBUG === 'true';
+  const settings = GetConfig();
+  if (!settings.EMAIL_DEBUG) throw 'Impossible to get value from EMAIL_DEBUG env variable and settings key';
+  return settings.EMAIL_DEBUG;
+};
+
+export const GetEmailSecureKey = () => {
+  if (process.env.EMAIL_SECURE) return process.env.EMAIL_SECURE === 'true';
+  const settings = GetConfig();
+  if (!settings.EMAIL_SECURE) throw 'Impossible to get value from EMAIL_SECURE env variable and settings key';
+  return settings.EMAIL_SECURE;
 };
 
 export const GetEmailSenderKey = () => {
