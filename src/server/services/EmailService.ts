@@ -41,7 +41,7 @@ export class EmailServer {
     });
   }
 
-  public async sendAnonimous(options: EmailOptions) {
+  public async sendAnonymous(options: EmailOptions) {
     const transporter = await this.getAnonymousTransport();
     return new Promise<any>((resolve, reject) => {
       transporter.sendMail(options, (err, info) => {
