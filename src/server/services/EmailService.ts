@@ -1,15 +1,15 @@
 import {
   ISettings,
-  GetGenericConfig,
   GetEmailPortKey,
   GetEmailSecureKey,
   GetEmailLogKey,
   GetEmailDebugKey,
+  GetEmailHostKey,
+  GetEmailSenderKey,
+  GetEmailSenderPassKey,
 } from './ConfigService';
 import { SuccessResponse, EmailOptions, ErrorResponse } from '@wisegar-org/wgo-opengar-shared';
 import nodemailer from 'nodemailer';
-import { GetEmailHostKey, GetEmailSenderKey, GetEmailSenderPassKey } from './ConfigService';
-
 export class EmailServer {
   static async sendEmail(emailOpts: EmailOptions): Promise<any> {
     const transporter = nodemailer.createTransport({

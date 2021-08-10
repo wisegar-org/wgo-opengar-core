@@ -17,9 +17,9 @@ export interface ISettings {
   TOKEN_TIME_TO_EXPIRE: string;
   EMAIL_HOST: string;
   EMAIL_PORT: number;
-  EMAIL_LOG: boolean;
-  EMAIL_DEBUG: boolean;
-  EMAIL_SECURE: boolean;
+  EMAIL_LOG: string;
+  EMAIL_DEBUG: string;
+  EMAIL_SECURE: string;
   EMAIL_SENDER_ADDRESS: string;
   EMAIL_SENDER_PASSWORD: string;
 }
@@ -172,21 +172,21 @@ export const GetEmailLogKey = () => {
   if (process.env.EMAIL_LOG) return process.env.EMAIL_LOG === 'true';
   const settings = GetConfig();
   if (!settings.EMAIL_LOG) throw 'Impossible to get value from EMAIL_LOG env variable and settings key';
-  return settings.EMAIL_LOG;
+  return settings.EMAIL_LOG === 'true';
 };
 
 export const GetEmailDebugKey = () => {
   if (process.env.EMAIL_DEBUG) return process.env.EMAIL_DEBUG === 'true';
   const settings = GetConfig();
   if (!settings.EMAIL_DEBUG) throw 'Impossible to get value from EMAIL_DEBUG env variable and settings key';
-  return settings.EMAIL_DEBUG;
+  return settings.EMAIL_DEBUG === 'true';
 };
 
 export const GetEmailSecureKey = () => {
   if (process.env.EMAIL_SECURE) return process.env.EMAIL_SECURE === 'true';
   const settings = GetConfig();
   if (!settings.EMAIL_SECURE) throw 'Impossible to get value from EMAIL_SECURE env variable and settings key';
-  return settings.EMAIL_SECURE;
+  return settings.EMAIL_SECURE === 'true';
 };
 
 export const GetEmailSenderKey = () => {
