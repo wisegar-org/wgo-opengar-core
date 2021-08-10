@@ -37,9 +37,9 @@ const defaultSettings: ISettings = {
   DB_PASSWORD: 'postgres',
   EMAIL_HOST: '',
   EMAIL_PORT: 587,
-  EMAIL_LOG: true,
-  EMAIL_DEBUG: true,
-  EMAIL_SECURE: false, // Use SSL
+  EMAIL_LOG: 'true',
+  EMAIL_DEBUG: 'true',
+  EMAIL_SECURE: 'false', // Use SSL
   EMAIL_SENDER_ADDRESS: '',
   EMAIL_SENDER_PASSWORD: '',
 };
