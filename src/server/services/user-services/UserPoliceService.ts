@@ -34,6 +34,7 @@ export class UserPoliceService {
     const resetUserPwdTemplate = GetUserPoliceResetPwdEmailKey();
     if (!fs.existsSync(resetUserPwdTemplate)) throw `Email template not found at ${resetUserPwdTemplate}`;
     let templateContent = fs.readFileSync(resetUserPwdTemplate);
+    templateContent = templateContent.toString('utf8');
     templateContent = templateContent.replace('[LINK]', link.href);
     templateContent = templateContent.replace('[NAME]', user.name);
     templateContent = templateContent.replace('[LASTNAME]', user.lastname);
