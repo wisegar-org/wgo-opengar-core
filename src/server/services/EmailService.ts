@@ -71,6 +71,9 @@ export class EmailServer {
     });
   }
 
+  /**
+   * @deprecated Please use send method and class instance
+   */
   static async sendEmail(emailOpts: EmailOptions): Promise<any> {
     const transporter = nodemailer.createTransport({
       host: GetEmailHostKey(),
