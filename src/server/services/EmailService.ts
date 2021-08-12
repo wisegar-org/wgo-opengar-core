@@ -7,6 +7,7 @@ import {
   GetEmailHostKey,
   GetEmailSenderKey,
   GetEmailSenderPassKey,
+  GetEmailSenderAnonymousKey,
 } from './ConfigService';
 import { SuccessResponse, EmailOptions, ErrorResponse } from '@wisegar-org/wgo-opengar-shared';
 import nodemailer from 'nodemailer';
@@ -55,7 +56,10 @@ export class EmailServer {
   }
 
   public async send(emailOpts: EmailOptions) {
-    const transporter = await this.getTransport();
+    if (!emailOpts) throw 'Invalid email options';
+    if (!emailOpts.from) emailOpts.from = GetEmailSenderKey();
+    const isAnonymous = GetEmailSenderAnonymousKey();
+    const transporter = isAnonymous ? await this.getAnonymousTransport() : await this.getTransport();
     return new Promise<any>((resolve, reject) => {
       transporter.sendMail(emailOpts, (err, info) => {
         if (err) {

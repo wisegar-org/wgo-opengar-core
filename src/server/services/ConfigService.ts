@@ -5,6 +5,7 @@ dotenv.config({
 });
 
 export interface ISettings {
+  HOST_BASE: string;
   DB_NAME: string;
   DB_PASSWORD: string;
   DB_USERNAME: string;
@@ -20,11 +21,16 @@ export interface ISettings {
   EMAIL_LOG: string;
   EMAIL_DEBUG: string;
   EMAIL_SECURE: string;
+  EMAIL_SENDER_ANONYMOUS: string;
   EMAIL_SENDER_ADDRESS: string;
   EMAIL_SENDER_PASSWORD: string;
+  USER_POLICE_TOKEN: string;
+  USER_POLICE_RESETPWD_URL: string;
+  USER_POLICE_RESETPWD_EMAIL: string;
 }
 
 const defaultSettings: ISettings = {
+  HOST_BASE: '',
   CYPHER_KEY: 'INSERT A CYPHER_KEY FOR DATA CYPHER HANDLER',
   PRIVATE_KEY: 'INSERT A PRIVATE_KEY FOR JWT TOKEN HANDLER',
   PUBLIC_KEY: 'INSERT A PUBLIC_KEY FOR JWT TOKEN HANDLER',
@@ -40,8 +46,12 @@ const defaultSettings: ISettings = {
   EMAIL_LOG: 'true',
   EMAIL_DEBUG: 'true',
   EMAIL_SECURE: 'false', // Use SSL
+  EMAIL_SENDER_ANONYMOUS: 'false',
   EMAIL_SENDER_ADDRESS: '',
   EMAIL_SENDER_PASSWORD: '',
+  USER_POLICE_TOKEN: '',
+  USER_POLICE_RESETPWD_URL: '',
+  USER_POLICE_RESETPWD_EMAIL: '',
 };
 
 export const GetNodeEnvKey = () => {
@@ -124,6 +134,13 @@ export const GetCypherKey = () => {
   return settings.CYPHER_KEY;
 };
 
+export const GetHostBaseKey = () => {
+  if (process.env.HOST_BASE) return process.env.HOST_BASE;
+  const settings = GetConfig();
+  if (!settings.HOST_BASE) throw 'Impossible to get value from HOST_BASE env variable and settings key';
+  return settings.HOST_BASE;
+};
+
 export const GetDBHostKey = () => {
   const settings = GetConfig();
   if (settings.DB_HOST === '') throw 'Impossible to get value from DB_HOST settings key';
@@ -161,6 +178,7 @@ export const GetEmailHostKey = () => {
     throw 'Impossible to get value from EMAIL_HOST env variable and settings key';
   return settings.EMAIL_HOST;
 };
+
 export const GetEmailPortKey = () => {
   if (process.env.EMAIL_PORT) return parseInt(process.env.EMAIL_PORT);
   const settings = GetConfig();
@@ -189,6 +207,14 @@ export const GetEmailSecureKey = () => {
   return settings.EMAIL_SECURE === 'true';
 };
 
+export const GetEmailSenderAnonymousKey = (): boolean => {
+  if (process.env.EMAIL_SENDER_ANONYMOUS) return process.env.EMAIL_SENDER_ANONYMOUS === 'true';
+  const settings = GetConfig();
+  if (!settings.EMAIL_SENDER_ANONYMOUS || settings.EMAIL_SENDER_ANONYMOUS === '')
+    throw 'Impossible to get value from EMAIL_SENDER_ANONYMOUS env variable and settings key';
+  return settings.EMAIL_SENDER_ANONYMOUS === 'true';
+};
+
 export const GetEmailSenderKey = () => {
   if (process.env.EMAIL_SENDER_ADDRESS) return process.env.EMAIL_SENDER_ADDRESS;
   const settings = GetConfig();
@@ -203,4 +229,28 @@ export const GetEmailSenderPassKey = () => {
   if (!settings.EMAIL_SENDER_PASSWORD || settings.EMAIL_SENDER_PASSWORD === '')
     throw 'Impossible to get value from EMAIL_SENDER_PASSWORD env variable and settings key';
   return settings.EMAIL_SENDER_PASSWORD;
+};
+
+export const GetUserPoliceTokenKey = () => {
+  if (process.env.USER_POLICE_TOKEN) return process.env.USER_POLICE_TOKEN;
+  const settings = GetConfig();
+  if (!settings.USER_POLICE_TOKEN || settings.USER_POLICE_TOKEN === '')
+    throw 'Impossible to get value from USER_POLICE_TOKEN env variable and settings key';
+  return settings.USER_POLICE_TOKEN;
+};
+
+export const GetUserPoliceResetPwdUrlKey = () => {
+  if (process.env.USER_POLICE_RESETPWD_URL) return process.env.USER_POLICE_RESETPWD_URL;
+  const settings = GetConfig();
+  if (!settings.USER_POLICE_RESETPWD_URL || settings.USER_POLICE_RESETPWD_URL === '')
+    throw 'Impossible to get value from USER_POLICE_RESETPWD_URL env variable and settings key';
+  return settings.USER_POLICE_RESETPWD_URL;
+};
+
+export const GetUserPoliceResetPwdEmailKey = () => {
+  if (process.env.USER_POLICE_RESETPWD_EMAIL) return process.env.USER_POLICE_RESETPWD_EMAIL;
+  const settings = GetConfig();
+  if (!settings.USER_POLICE_RESETPWD_EMAIL || settings.USER_POLICE_RESETPWD_EMAIL === '')
+    throw 'Impossible to get value from USER_POLICE_RESETPWD_EMAIL env variable and settings key';
+  return settings.USER_POLICE_RESETPWD_EMAIL;
 };
