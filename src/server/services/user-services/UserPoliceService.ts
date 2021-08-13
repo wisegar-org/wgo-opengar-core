@@ -53,7 +53,7 @@ export class UserPoliceService {
     };
   }
 
-  protected validateResetUserPwdToken(cypherToken: string, userIsValid: (user: IUser) => boolean) {
+  protected validateResetUserPwdToken(cypherToken: string, userIsValid: (user: IUser) => any) {
     try {
       const tokenPayload: ITokenPayload = this.decypherUserResetPwdToken(cypherToken);
       if (new Date().getTime() > new Date(tokenPayload.expiration).getTime()) throw `ResetUserPwdToken expired`;
@@ -98,7 +98,7 @@ export class UserPoliceService {
 
   protected async requestResetUserPwd(
     user: IUser,
-    userIsValid: (user: IUser) => boolean,
+    userIsValid: (user: IUser) => any,
     tokenHander?: (user: IUser, link: URL, template: string) => string
   ) {
     if (!userIsValid(user)) throw 'User not valid!';
