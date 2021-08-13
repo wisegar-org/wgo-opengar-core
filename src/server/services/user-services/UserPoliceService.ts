@@ -27,7 +27,7 @@ export class UserPoliceService {
     this.emailService = new EmailServer();
   }
 
-  generateResetUserPwdToken(user: IUser) {
+  protected generateResetUserPwdToken(user: IUser) {
     const tokenPayload: ITokenPayload = {
       deferedKey: this.RESET_USER_PWD_KEY,
       expiration: new Date().setMinutes(GetUserPoliceResetPwdExpKey()).toString(),
@@ -39,28 +39,41 @@ export class UserPoliceService {
     return cypherData(userPoliceGenerationKey);
   }
 
-  validateResetUserPwdToken(cypherToken: string, user: IUser) {
+  protected decypherUserResetPwdToken(cypherToken: string): ITokenPayload {
+    const decypheredToken = decypherData(cypherToken);
+    const tokenPayload: ITokenPayload = JSON.parse(decypheredToken);
+    return tokenPayload;
+  }
+  protected getUserFromTokenPayload(payload: ITokenPayload): IUser {
+    return {
+      email: payload.useremail,
+      name: '',
+      lastname: '',
+      username: payload.username,
+    };
+  }
+
+  protected validateResetUserPwdToken(cypherToken: string, userIsValid: (user: IUser) => boolean) {
     try {
-      const decypheredToken = decypherData(cypherToken);
-      const tokenPayload: ITokenPayload = JSON.parse(decypheredToken);
+      const tokenPayload: ITokenPayload = this.decypherUserResetPwdToken(cypherToken);
       if (new Date().getTime() > new Date(tokenPayload.expiration).getTime()) throw `ResetUserPwdToken expired`;
       if (tokenPayload.deferedKey !== this.RESET_USER_PWD_KEY) throw `ResetUserPwdToken invalid defered token data`;
       if (tokenPayload.ramdonKey !== GetUserPoliceTokenKey()) throw `ResetUserPwdToken invalid rmd token data`;
-      if (tokenPayload.useremail !== user.email) throw `ResetUserPwdToken invalid umail token data`;
-      if (tokenPayload.username !== user.username) throw `ResetUserPwdToken invalid uname token data`;
+      const user = this.getUserFromTokenPayload(tokenPayload);
+      if (!userIsValid(user)) throw 'User not valid!';
       return true;
     } catch (error) {
       throw `ResetUserPwdToken invalid: ${error}`;
     }
   }
 
-  generateResetUserPwdTokenUrl(token: string): URL {
+  protected generateResetUserPwdTokenUrl(token: string): URL {
     const hostname = GetHostBaseKey();
     const resetPwdUrl = GetUserPoliceResetPwdUrlKey();
     return new URL(`${resetPwdUrl}/?val=${token}`, hostname);
   }
 
-  defaultTokenHandler(user: IUser, link: URL, template: string) {
+  private defaultTokenHandler(user: IUser, link: URL, template: string) {
     template = template.replace('[LINK]', link.href);
     template = template.replace('[NAME]', user.name);
     template = template.replace('[LASTNAME]', user.lastname);
@@ -69,7 +82,11 @@ export class UserPoliceService {
     return template;
   }
 
-  loadResetUserPwdEmail(user: IUser, link: URL, tokenHander?: (user: IUser, link: URL, template: string) => string) {
+  private loadResetUserPwdEmail(
+    user: IUser,
+    link: URL,
+    tokenHander?: (user: IUser, link: URL, template: string) => string
+  ) {
     const fs = require('fs-extra');
     const resetUserPwdTemplate = GetUserPoliceResetPwdEmailKey();
     if (!fs.existsSync(resetUserPwdTemplate)) throw `Email template not found at ${resetUserPwdTemplate}`;
@@ -79,24 +96,15 @@ export class UserPoliceService {
     return this.defaultTokenHandler(user, link, templateContent);
   }
 
-  /**
-   * @deprecated Please use requestResetUserPwd
-   */
-  async resetUserPwd(user: IUser, userIsValid: (user: IUser) => boolean) {
-    const result = await this.requestResetUserPwd(user, userIsValid);
-    return result;
-  }
-
-  async requestResetUserPwd(
+  protected async requestResetUserPwd(
     user: IUser,
     userIsValid: (user: IUser) => boolean,
-    tokenHandler?: (token: string) => void
+    tokenHander?: (user: IUser, link: URL, template: string) => string
   ) {
     if (!userIsValid(user)) throw 'User not valid!';
     const resetUserPwdToken = this.generateResetUserPwdToken(user);
     const resetUserPwdUrl = this.generateResetUserPwdTokenUrl(resetUserPwdToken);
-    if (tokenHandler) tokenHandler(resetUserPwdToken);
-    const resetUserPwdTemplate = this.loadResetUserPwdEmail(user, resetUserPwdUrl);
+    const resetUserPwdTemplate = this.loadResetUserPwdEmail(user, resetUserPwdUrl, tokenHander);
     const result = await this.emailService.send({
       to: user.email,
       subject: 'Email Password Reset',
@@ -104,12 +112,5 @@ export class UserPoliceService {
       from: undefined,
     });
     return result;
-  }
-
-  executeResetPwdToken(cypherToken: string, user: IUser, updatePassword: (user: IUser) => boolean) {
-    const result = this.validateResetUserPwdToken(cypherToken, user);
-    if (!result) throw `Impossible to execute the token validation`;
-    if (!updatePassword) throw `User password update handler most be valid`;
-    updatePassword(user);
   }
 }
