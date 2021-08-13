@@ -7,5 +7,5 @@
   "arrowParens": "always",
   "proseWrap": "never",
   "jsxBracketSameLine": true,
-  "printWidth": 120
+  "printWidth": 150
 }
