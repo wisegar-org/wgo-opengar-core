@@ -1,4 +1,5 @@
 import { EmailOptions, IUser } from '@wisegar-org/wgo-opengar-shared';
+import { Url } from 'node:url';
 import {
   GetHostBaseKey,
   GetUserPoliceResetPwdEmailKey,
@@ -29,16 +30,23 @@ export class UserPoliceService {
     return new URL(`${resetPwdUrl}/?val=${token}`, hostname);
   }
 
-  loadResetUserPwdEmail(user: IUser, link: URL) {
+  defaultTokenHandler(user: IUser, link: URL, template: string) {
+    template = template.replace('[LINK]', link.href);
+    template = template.replace('[NAME]', user.name);
+    template = template.replace('[LASTNAME]', user.lastname);
+    template = template.replace('[USERNAME]', user.username);
+    template = template.replace('[EMAIL]', user.email);
+    return template;
+  }
+
+  loadResetUserPwdEmail(user: IUser, link: URL, tokenHander?: (user: IUser, link: URL, template: string) => string) {
     const fs = require('fs-extra');
     const resetUserPwdTemplate = GetUserPoliceResetPwdEmailKey();
     if (!fs.existsSync(resetUserPwdTemplate)) throw `Email template not found at ${resetUserPwdTemplate}`;
     let templateContent = fs.readFileSync(resetUserPwdTemplate);
     templateContent = templateContent.toString('utf8');
-    templateContent = templateContent.replace('[LINK]', link.href);
-    templateContent = templateContent.replace('[NAME]', user.name);
-    templateContent = templateContent.replace('[LASTNAME]', user.lastname);
-    return templateContent;
+    if (tokenHander) return tokenHander(user, link, templateContent);
+    return this.defaultTokenHandler(user, link, templateContent);
   }
 
   async resetUserPwd(user: IUser, userIsValid: (user: IUser) => boolean) {
