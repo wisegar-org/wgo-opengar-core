@@ -27,6 +27,7 @@ export interface ISettings {
   USER_POLICE_TOKEN: string;
   USER_POLICE_RESETPWD_URL: string;
   USER_POLICE_RESETPWD_EMAIL: string;
+  USER_POLICE_RESETPWD_EXP: number;
 }
 
 const defaultSettings: ISettings = {
@@ -52,6 +53,7 @@ const defaultSettings: ISettings = {
   USER_POLICE_TOKEN: '',
   USER_POLICE_RESETPWD_URL: '',
   USER_POLICE_RESETPWD_EMAIL: '',
+  USER_POLICE_RESETPWD_EXP: 1800,
 };
 
 export const GetNodeEnvKey = () => {
@@ -253,4 +255,12 @@ export const GetUserPoliceResetPwdEmailKey = () => {
   if (!settings.USER_POLICE_RESETPWD_EMAIL || settings.USER_POLICE_RESETPWD_EMAIL === '')
     throw 'Impossible to get value from USER_POLICE_RESETPWD_EMAIL env variable and settings key';
   return settings.USER_POLICE_RESETPWD_EMAIL;
+};
+
+export const GetUserPoliceResetPwdExpKey = () => {
+  if (process.env.USER_POLICE_RESETPWD_EXP) return parseInt(process.env.USER_POLICE_RESETPWD_EXP);
+  const settings = GetConfig();
+  if (!settings.USER_POLICE_RESETPWD_EXP)
+    throw 'Impossible to get value from USER_POLICE_RESETPWD_EXP env variable and settings key';
+  return settings.USER_POLICE_RESETPWD_EXP;
 };
