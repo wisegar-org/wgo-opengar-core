@@ -21,6 +21,7 @@ export * from './server/database/entities/SessionEntity';
 export * from './server/database/entities/UserEntity';
 export * from './server/database/entities/MediaEntity';
 export * from './server/database/entities/OGBaseEntity';
+export * from './server/database/entities/TemplateEntity';
 
 /**
  * @module Server - Services
@@ -37,6 +38,8 @@ export * from './server/services/MediaService';
 export * from './server/services/CurrencyFurterService/CurrencyFurterService';
 export * from './server/services/CurrencyFurterService/CurrencyModel';
 export * from './server/services/user-services/UserPoliceService';
+export * from './server/services/TemplateService';
+export * from './server/services/ParseTemplateService';
 export * from './server/graphql/Models';
 export * from './server/Server';
 
