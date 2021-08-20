@@ -5,6 +5,6 @@ export interface ITemplateTokens {
 }
 
 export interface ITemplateArg {
-  cicleParse: (textCicle: string, tokens: ITemplateTokens[], templateService: ParseTemplateService) => string;
+  cicleParse?: (textCicle: string, tokens: ITemplateTokens[], templateService: ParseTemplateService) => string;
   tokens: ITemplateTokens[];
 }
