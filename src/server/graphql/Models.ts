@@ -1,3 +1,5 @@
+import { Language } from '@wisegar-org/wgo-opengar-shared';
+
 export interface Utente {
   id: number;
   name: string;
@@ -12,6 +14,7 @@ export interface ContextUser {
   permissions: { [key: string]: string };
   extra: { [key: string]: string };
   applicazioni: ISessionLicenze;
+  language: Language | string;
 }
 
 export interface Context {
