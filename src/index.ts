@@ -22,6 +22,7 @@ export * from './server/database/entities/UserEntity';
 export * from './server/database/entities/MediaEntity';
 export * from './server/database/entities/OGBaseEntity';
 export * from './server/database/entities/TemplateEntity';
+export * from './server/database/entities/TranslationEntity';
 
 /**
  * @module Server - Services
