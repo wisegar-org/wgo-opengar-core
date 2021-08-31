@@ -1,4 +1,4 @@
-import { Session } from '../database/entities/SessionEntity';
+import { SessionEntity } from '../database/entities/SessionEntity';
 import { verifyAccessToken } from '../services/JwtToken';
 import { Context, ContextUser } from './Models';
 
@@ -13,7 +13,7 @@ export const GetContext = async ({ req, res }) => {
 
   const data = verifyAccessToken(res, token);
   if (data) {
-    const session = await Session.findOne({ id: data.sessionId });
+    const session = await SessionEntity.findOne({ id: data.sessionId });
     if (session) {
       user = <ContextUser>{
         sessionId: data.sessionId.toString(),

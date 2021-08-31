@@ -1,5 +1,5 @@
 import { Connection, Repository } from 'typeorm';
-import { Session } from '../database/entities/SessionEntity';
+import { SessionEntity } from '../database/entities/SessionEntity';
 import UserEntity from '../database/entities/UserEntity';
 import { AccessTokenData, generateAccessToken } from './JwtAuthService';
 import * as bcrypt from 'bcrypt';
@@ -7,11 +7,11 @@ import { AuthError } from '@wisegar-org/wgo-opengar-shared';
 
 export class AuthService {
   private readonly utenteRepository: Repository<UserEntity>;
-  private readonly sessionRepository: Repository<Session>;
+  private readonly sessionRepository: Repository<SessionEntity>;
 
   constructor(connection: Connection) {
     this.utenteRepository = connection.getRepository(UserEntity);
-    this.sessionRepository = connection.getRepository(Session);
+    this.sessionRepository = connection.getRepository(SessionEntity);
   }
 
   public async comparePassword(attempt: string, password: string): Promise<boolean> {
