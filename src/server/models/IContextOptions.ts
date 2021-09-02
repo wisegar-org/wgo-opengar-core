@@ -1,5 +1,4 @@
-import { AccessTokenData } from '../services/JwtAuthService';
-
-export interface IContextOptions extends AccessTokenData {
+export interface IContextOptions {
+  tokenPayload: any;
   requestHeaders?: any;
 }

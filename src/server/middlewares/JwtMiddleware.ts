@@ -26,22 +26,20 @@ const graphqlTokenErrorHandler = (res: express.Response, error: any) => {
 export const jwt = (options: IServerOptions) => {
   return (req: express.Request, res: express.Response, next: () => void) => {
     try {
-      /**
-       * If graphql request, the token handler w'll be executed into the context server function. Context and token resolution here are actually unneeded!
-       */
+      const tokenData: AccessTokenData = jwtMiddleware(req, res);
       if (isGraphql(req)) {
+        (req as any).tokenPayload = tokenData;
         next();
         return;
       }
-
-      const tokenData: AccessTokenData = jwtMiddleware(req, res);
       if (isNullOrUndefined(tokenData)) {
         next();
         return;
       }
-      const contextOptions: IContextOptions = Object.assign({}, tokenData);
-      contextOptions.requestHeaders = req.headers;
-
+      const contextOptions: IContextOptions = {
+        tokenPayload: tokenData,
+        requestHeaders: req.headers,
+      };
       options.context(contextOptions).then((result) => {
         (req as any).context = result;
         next();
