@@ -27,12 +27,12 @@ export const jwt = (options: IServerOptions) => {
   return (req: express.Request, res: express.Response, next: () => void) => {
     try {
       const tokenData: AccessTokenData = jwtMiddleware(req, res);
-      if (isGraphql(req)) {
-        (req as any).tokenPayload = tokenData;
+      if (isNullOrUndefined(tokenData)) {
         next();
         return;
       }
-      if (isNullOrUndefined(tokenData)) {
+      if (isGraphql(req)) {
+        (req as any).tokenPayload = tokenData;
         next();
         return;
       }
