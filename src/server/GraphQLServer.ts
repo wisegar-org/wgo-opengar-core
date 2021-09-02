@@ -27,8 +27,6 @@ const getGqlServer = async (options: IServerOptions) => {
     schema: schema,
     formatError: options.formatError,
     context: async ({ req, res }) => {
-      debugger;
-      const tokenData: AccessTokenData = jwtMiddleware(req, res);
       const contextOptions: IContextOptions = {
         tokenPayload: (req as any).tokenPayload,
         requestHeaders: req.headers,

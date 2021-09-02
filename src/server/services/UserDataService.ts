@@ -82,7 +82,6 @@ export class UserDataService {
   };
 
   create = async (user: UserEntity, roles?: number[]): Promise<Response<UserEntity>> => {
-    debugger;
     const { name, lastName, userName, email, password, isEmailConfirmed } = user;
 
     // checking if all parameters have a value
