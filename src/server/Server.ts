@@ -4,7 +4,7 @@ import { jwt } from './middlewares/JwtMiddleware';
 import { InitializeRouter as bootRestServerRouter } from './RestServer';
 import { JsonResponse } from './models/JsonResponse';
 import ErrorHandler from './models/ErrorHandler';
-import { IServerOptions } from './models/ServerOptions';
+import { IServerOptions } from './models/IServerOptions';
 import 'reflect-metadata';
 import cors from 'cors';
 import { bootFullGql, bootGql as bootGqlServer } from './GraphQLServer';

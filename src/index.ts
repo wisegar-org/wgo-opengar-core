@@ -25,6 +25,11 @@ export * from './server/database/entities/TemplateEntity';
 export * from './server/database/entities/TranslationEntity';
 
 /**
+ * @method Server - Models
+ */
+export * from './server/models/IContextOptions';
+
+/**
  * @module Server - Services
  */
 export * from './server/services/AuthService';

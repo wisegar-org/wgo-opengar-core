@@ -2,12 +2,12 @@ import express, { Request, Response, NextFunction } from 'express';
 import { jwt } from './middlewares/JwtMiddleware';
 import { JsonResponse } from './models/JsonResponse';
 import ErrorHandler from './models/ErrorHandler';
-import { IServerOptions } from './models/ServerOptions';
+import { IServerOptions } from './models/IServerOptions';
 import 'reflect-metadata';
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
 import { Context } from './graphql/Models';
-import { AccessTokenData, jwtMiddleware } from '..';
+import { AccessTokenData, IContextOptions, jwtMiddleware } from '..';
 
 const getGqlSchema = async (options: IServerOptions) => {
   return await buildSchema({
@@ -28,6 +28,8 @@ const getGqlServer = async (options: IServerOptions) => {
     formatError: options.formatError,
     context: async ({ req, res }) => {
       const tokenData: AccessTokenData = jwtMiddleware(req, res);
+      const contextOptions: IContextOptions = Object.assign({}, tokenData);
+      contextOptions.requestHeaders = req.headers;
       const context = await options.context(tokenData);
       return context;
     },

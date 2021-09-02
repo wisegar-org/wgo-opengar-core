@@ -1,7 +1,8 @@
 import { AuthError } from '@wisegar-org/wgo-opengar-shared';
 import express from 'express';
 import { isNullOrUndefined } from '../../utils/Validator';
-import { IServerOptions } from '../models/ServerOptions';
+import { IContextOptions } from '../models/IContextOptions';
+import { IServerOptions } from '../models/IServerOptions';
 import { AccessTokenData, jwtMiddleware } from '../services/JwtAuthService';
 
 const isGraphql = (req: express.Request) => {
@@ -25,16 +26,23 @@ const graphqlTokenErrorHandler = (res: express.Response, error: any) => {
 export const jwt = (options: IServerOptions) => {
   return (req: express.Request, res: express.Response, next: () => void) => {
     try {
-      if (!isGraphql(req)) {
+      /**
+       * If graphql request, the token handler w'll be executed into the context server function. Context and token resolution here are actually unneeded!
+       */
+      if (isGraphql(req)) {
         next();
         return;
       }
+
       const tokenData: AccessTokenData = jwtMiddleware(req, res);
       if (isNullOrUndefined(tokenData)) {
         next();
         return;
       }
-      options.context(tokenData).then((result) => {
+      const contextOptions: IContextOptions = Object.assign({}, tokenData);
+      contextOptions.requestHeaders = req.headers;
+
+      options.context(contextOptions).then((result) => {
         (req as any).context = result;
         next();
       });

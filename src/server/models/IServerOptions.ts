@@ -1,5 +1,6 @@
 import { AuthMode, NonEmptyArray } from 'type-graphql';
 import { Context } from '../graphql/Models';
+import { IContextOptions } from './IContextOptions';
 
 export interface IServerOptions {
   /**
@@ -10,7 +11,7 @@ export interface IServerOptions {
   resolvers?: NonEmptyArray<Function>;
   authenticator: (userContext: Context, roles: any) => Promise<boolean>;
   formatError: (err: Error) => Error;
-  context: (payload: any) => Promise<Context>;
+  context: (contextOptions: IContextOptions) => Promise<Context>;
   authMode?: AuthMode;
   production?: boolean;
   middlewares?: (app: any) => void;
