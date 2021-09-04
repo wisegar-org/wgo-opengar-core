@@ -23,6 +23,7 @@ export interface ISettings {
   EMAIL_SECURE: string;
   EMAIL_SENDER_ANONYMOUS: string;
   EMAIL_SENDER_ADDRESS: string;
+  EMAIL_SENDER_ADDRESS_NAME: string;
   EMAIL_SENDER_PASSWORD: string;
   USER_POLICE_TOKEN: string;
   USER_POLICE_RESETPWD_URL: string;
@@ -49,6 +50,7 @@ const defaultSettings: ISettings = {
   EMAIL_SECURE: 'false', // Use SSL
   EMAIL_SENDER_ANONYMOUS: 'false',
   EMAIL_SENDER_ADDRESS: '',
+  EMAIL_SENDER_ADDRESS_NAME: '',
   EMAIL_SENDER_PASSWORD: '',
   USER_POLICE_TOKEN: '',
   USER_POLICE_RESETPWD_URL: '',
@@ -103,15 +105,13 @@ export const GetPublicKey = () => {
 
 export const GetGithubToken = () => {
   const settings = GetGenericConfig();
-  if (settings.GITHUB_TOKEN === '' || settings.GITHUB_TOKEN === null)
-    throw 'Impossible to get value from GITHUB_TOKEN settings key';
+  if (settings.GITHUB_TOKEN === '' || settings.GITHUB_TOKEN === null) throw 'Impossible to get value from GITHUB_TOKEN settings key';
   return settings.GITHUB_TOKEN;
 };
 
 export const GetPrivateKey = () => {
   const settings = GetConfig();
-  if (settings.PRIVATE_KEY === defaultSettings.PRIVATE_KEY)
-    throw 'Impossible to get value from PRIVATE_KEY settings key';
+  if (settings.PRIVATE_KEY === defaultSettings.PRIVATE_KEY) throw 'Impossible to get value from PRIVATE_KEY settings key';
   return settings.PRIVATE_KEY;
 };
 
@@ -176,8 +176,7 @@ export const GetDBNameKey = () => {
 export const GetEmailHostKey = () => {
   if (process.env.EMAIL_HOST) return process.env.EMAIL_HOST;
   const settings = GetConfig();
-  if (!settings.EMAIL_HOST || settings.EMAIL_HOST === '')
-    throw 'Impossible to get value from EMAIL_HOST env variable and settings key';
+  if (!settings.EMAIL_HOST || settings.EMAIL_HOST === '') throw 'Impossible to get value from EMAIL_HOST env variable and settings key';
   return settings.EMAIL_HOST;
 };
 
@@ -225,6 +224,14 @@ export const GetEmailSenderKey = () => {
   return settings.EMAIL_SENDER_ADDRESS;
 };
 
+export const GetEmailSenderNameKey = () => {
+  if (process.env.EMAIL_SENDER_ADDRESS_NAME) return process.env.EMAIL_SENDER_ADDRESS_NAME;
+  const settings = GetConfig();
+  if (!settings.EMAIL_SENDER_ADDRESS_NAME || settings.EMAIL_SENDER_ADDRESS_NAME === '')
+    throw 'Impossible to get value from EMAIL_SENDER_ADDRESS_NAME env variable and settings key';
+  return settings.EMAIL_SENDER_ADDRESS_NAME;
+};
+
 export const GetEmailSenderPassKey = () => {
   if (process.env.EMAIL_SENDER_PASSWORD) return process.env.EMAIL_SENDER_PASSWORD;
   const settings = GetConfig();
@@ -260,7 +267,6 @@ export const GetUserPoliceResetPwdEmailKey = () => {
 export const GetUserPoliceResetPwdExpKey = () => {
   if (process.env.USER_POLICE_RESETPWD_EXP) return parseInt(process.env.USER_POLICE_RESETPWD_EXP);
   const settings = GetConfig();
-  if (!settings.USER_POLICE_RESETPWD_EXP)
-    throw 'Impossible to get value from USER_POLICE_RESETPWD_EXP env variable and settings key';
+  if (!settings.USER_POLICE_RESETPWD_EXP) throw 'Impossible to get value from USER_POLICE_RESETPWD_EXP env variable and settings key';
   return settings.USER_POLICE_RESETPWD_EXP;
 };
