@@ -25,6 +25,8 @@ export interface ISettings {
   EMAIL_SENDER_ADDRESS: string;
   EMAIL_SENDER_ADDRESS_NAME: string;
   EMAIL_SENDER_PASSWORD: string;
+  EMAIL_APP_ADDRESS: string;
+  EMAIL_APP_ADDRESS_NAME: string;
   USER_POLICE_TOKEN: string;
   USER_POLICE_RESETPWD_URL: string;
   USER_POLICE_RESETPWD_EMAIL: string;
@@ -52,6 +54,8 @@ const defaultSettings: ISettings = {
   EMAIL_SENDER_ADDRESS: '',
   EMAIL_SENDER_ADDRESS_NAME: '',
   EMAIL_SENDER_PASSWORD: '',
+  EMAIL_APP_ADDRESS: '',
+  EMAIL_APP_ADDRESS_NAME: '',
   USER_POLICE_TOKEN: '',
   USER_POLICE_RESETPWD_URL: '',
   USER_POLICE_RESETPWD_EMAIL: '',
@@ -238,6 +242,22 @@ export const GetEmailSenderPassKey = () => {
   if (!settings.EMAIL_SENDER_PASSWORD || settings.EMAIL_SENDER_PASSWORD === '')
     throw 'Impossible to get value from EMAIL_SENDER_PASSWORD env variable and settings key';
   return settings.EMAIL_SENDER_PASSWORD;
+};
+
+export const GetEmailAppAddressKey = () => {
+  if (process.env.EMAIL_APP_ADDRESS) return process.env.EMAIL_APP_ADDRESS;
+  const settings = GetConfig();
+  if (!settings.EMAIL_APP_ADDRESS || settings.EMAIL_APP_ADDRESS === '')
+    throw 'Impossible to get value from EMAIL_APP_ADDRESS env variable and settings key';
+  return settings.EMAIL_APP_ADDRESS;
+};
+
+export const GetEmailAppAddressNameKey = () => {
+  if (process.env.EMAIL_APP_ADDRESS_NAME) return process.env.EMAIL_APP_ADDRESS_NAME;
+  const settings = GetConfig();
+  if (!settings.EMAIL_APP_ADDRESS_NAME || settings.EMAIL_APP_ADDRESS_NAME === '')
+    throw 'Impossible to get value from EMAIL_APP_ADDRESS_NAME env variable and settings key';
+  return settings.EMAIL_APP_ADDRESS_NAME;
 };
 
 export const GetUserPoliceTokenKey = () => {
