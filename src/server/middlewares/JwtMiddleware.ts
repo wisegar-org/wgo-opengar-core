@@ -6,7 +6,7 @@ import { IServerOptions } from '../models/IServerOptions';
 import { AccessTokenData, jwtMiddleware } from '../services/JwtAuthService';
 
 const isGraphql = (req: express.Request) => {
-  return req.originalUrl.includes('graphql');
+  return req.originalUrl.toLocaleLowerCase().includes('graphql');
 };
 
 const expressTokenErrorHandler = (res: express.Response, error: any) => {
