@@ -4,19 +4,20 @@ export class HandlebarsTemplateService {
   /**
    *
    */
-  constructor() {
+  constructor(registerHelpers?: (handlebar: typeof Handlebars) => unknown) {
     this.registerHelpers();
+    if (registerHelpers) registerHelpers(Handlebars);
   }
 
   private registerHelpers() {
     Handlebars.registerHelper('dateDMY', function (str: string) {
       const date = new Date(str);
-      return `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;
+      return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
     });
 
     Handlebars.registerHelper('dateYMD', function (str: string) {
       const date = new Date(str);
-      return `${date.getFullYear()}/${date.getMonth()}/${date.getDay()}`;
+      return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
     });
 
     Handlebars.registerHelper('prod', function (o1: string, o2: string) {
