@@ -46,6 +46,8 @@ export * from './server/services/CurrencyFurterService/CurrencyModel';
 export * from './server/services/user-services/UserPoliceService';
 export * from './server/services/TemplateService';
 export * from './server/services/ParseTemplateService';
+export * from './server/services/HandlebarsTemplateService';
+export * from './server/services/EmailNotifyService';
 export * from './server/graphql/Models';
 export * from './server/Server';
 
