@@ -1,5 +1,4 @@
-import { EmailOptions, IUser } from '@wisegar-org/wgo-opengar-shared';
-import { Url } from 'node:url';
+import { IUser } from '@wisegar-org/wgo-opengar-shared';
 import {
   GetHostBaseKey,
   GetUserPoliceResetPwdEmailKey,

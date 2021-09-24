@@ -1,5 +1,4 @@
 import dotenv from 'dotenv';
-import internal from 'node:stream';
 dotenv.config({
   path: '.env',
 });
