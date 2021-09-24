@@ -3,6 +3,7 @@ import { RolEntity } from './RolEntity';
 import { MediaEntity } from './MediaEntity';
 import { IUser, Language } from '@wisegar-org/wgo-opengar-shared';
 import { OGBaseEntity } from './OGBaseEntity';
+import { LanguageEntity } from './LanguageEntity';
 @Entity({ name: 'users' })
 export class UserEntity extends OGBaseEntity {
   @Column()
@@ -23,8 +24,10 @@ export class UserEntity extends OGBaseEntity {
   @Column({ default: false })
   isEmailConfirmed: boolean;
 
-  @Column({ nullable: true, default: Language.IT })
-  language: Language;
+  @Column({ nullable: true })
+  languageId: number;
+  @ManyToOne(() => LanguageEntity, (lang) => lang.id)
+  language: LanguageEntity;
 
   @ManyToMany(() => RolEntity)
   @JoinTable()

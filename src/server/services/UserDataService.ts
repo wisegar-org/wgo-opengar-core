@@ -6,10 +6,12 @@ import { EmailServer } from '../../server/services/EmailService';
 import { Connection, Repository } from 'typeorm';
 import { AuthService } from '../../server/services/AuthService';
 import { AccessTokenData, generateAccessToken } from '../../server/services/JwtAuthService';
+import { LanguageEntity } from '../database/entities/LanguageEntity';
 
 export class UserDataService {
   private _userRepository: Repository<UserEntity>;
   private _roleRepository: Repository<RolEntity>;
+  private _languageRepository: Repository<LanguageEntity>;
   private _connection: Connection;
   private _authService: AuthService;
 
@@ -17,12 +19,13 @@ export class UserDataService {
     this._connection = conn;
     this._userRepository = this._connection.getRepository(UserEntity);
     this._roleRepository = this._connection.getRepository(RolEntity);
+    this._languageRepository = this._connection.getRepository(LanguageEntity);
     this._authService = new AuthService(conn);
   }
 
   all = async (criteria?: any): Promise<Response<UserEntity[]>> => {
     const users = await this._userRepository.find({
-      relations: ['roles'],
+      relations: ['roles', 'language'],
       where: criteria,
     });
     return SuccessResponse.Response(users);
@@ -30,7 +33,7 @@ export class UserDataService {
 
   one = async (criteria?: any): Promise<Response<UserEntity>> => {
     const user = await this._userRepository.findOne({
-      relations: ['roles'],
+      relations: ['roles', 'language'],
       where: criteria,
     });
     if (_.isUndefined(user)) {
@@ -41,7 +44,7 @@ export class UserDataService {
 
   oneById = async (id: number): Promise<Response<UserEntity>> => {
     const user = await this._userRepository.findOne(id, {
-      relations: ['roles'],
+      relations: ['roles', 'language'],
     });
     if (_.isUndefined(user)) {
       return ErrorResponse.Response('User not found');
@@ -51,7 +54,7 @@ export class UserDataService {
 
   oneByUuId = async (uuid: string): Promise<Response<UserEntity>> => {
     const user = await this._userRepository.findOne({
-      relations: ['roles'],
+      relations: ['roles', 'language'],
       where: { uuid },
     });
     return SuccessResponse.Response(user);
@@ -179,6 +182,21 @@ export class UserDataService {
       return SuccessResponse.Response(user);
     } catch (error) {
       return ErrorResponse.Response(error.message, "Error when add or remove user's roles");
+    }
+  };
+
+  setUserLanguage = async (userUuid: string, langId: number): Promise<Response<UserEntity>> => {
+    try {
+      const user = await (await this.oneByUuId(userUuid)).result;
+      if (user == null || user == undefined) {
+        return ErrorResponse.Response("Error when set user's language: User not found");
+      }
+      const lang = await this._languageRepository.findOne(langId);
+      user.language = lang;
+      await this._userRepository.save(user);
+      return SuccessResponse.Response(user);
+    } catch (error) {
+      return ErrorResponse.Response(error.message, "Error when set user's language");
     }
   };
 
