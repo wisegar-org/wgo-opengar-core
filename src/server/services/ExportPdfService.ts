@@ -4,7 +4,7 @@ import { Readable } from 'stream';
 
 export async function exportHTMLToPdf(content: string, config: PDFOptions, callback: (doc: ReadStream) => any | undefined) {
   //create browser
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({ ignoreDefaultArgs: ['--disable-extensions'] });
   //set page content
   const page = await browser.newPage();
   await page.setContent(content);
