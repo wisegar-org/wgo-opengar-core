@@ -29,6 +29,7 @@ export * from './server/database/entities/TranslationEntity';
  * @method Server - Models
  */
 export * from './server/models/IContextOptions';
+export * from './server/models/ILanguageTranslations';
 
 /**
  * @module Server - Services
@@ -51,6 +52,8 @@ export * from './server/services/TemplateService';
 export * from './server/services/ParseTemplateService';
 export * from './server/services/HandlebarsTemplateService';
 export * from './server/services/EmailNotifyService';
+export * from './server/services/LanguageService';
+export * from './server/services/TranslationService';
 export * from './server/graphql/Models';
 export * from './server/Server';
 
