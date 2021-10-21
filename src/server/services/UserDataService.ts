@@ -1,7 +1,7 @@
 import { UserEntity, RolEntity } from '../../';
 import _ from 'lodash';
 import * as bcrypt from 'bcrypt';
-import { LoginModel, UserLoginToken, SuccessResponse, ErrorResponse, Response } from '@wisegar-org/wgo-opengar-shared';
+import { LoginModel, UserLoginToken, SuccessResponse, ErrorResponse, Response, EmailOptions } from '@wisegar-org/wgo-opengar-shared';
 import { EmailServer } from '../../server/services/EmailService';
 import { Connection, Repository } from 'typeorm';
 import { AuthService } from '../../server/services/AuthService';
@@ -14,6 +14,7 @@ export class UserDataService {
   private _languageRepository: Repository<LanguageEntity>;
   private _connection: Connection;
   private _authService: AuthService;
+  private _emailService: EmailServer;
 
   constructor(conn: Connection) {
     this._connection = conn;
@@ -21,6 +22,7 @@ export class UserDataService {
     this._roleRepository = this._connection.getRepository(RolEntity);
     this._languageRepository = this._connection.getRepository(LanguageEntity);
     this._authService = new AuthService(conn);
+    this._emailService = new EmailServer();
   }
 
   all = async (criteria?: any): Promise<Response<UserEntity[]>> => {
@@ -84,7 +86,7 @@ export class UserDataService {
     return ErrorResponse.Response('Login Error', `Probably there is not user with username ${userName}`);
   };
 
-  create = async (user: UserEntity, roles?: number[]): Promise<Response<UserEntity>> => {
+  create = async (user: UserEntity, roles?: number[], emailOptions: EmailOptions | null = null): Promise<Response<UserEntity>> => {
     const { name, lastName, userName, email, password, isEmailConfirmed } = user;
 
     // checking if all parameters have a value
@@ -131,7 +133,7 @@ export class UserDataService {
       const newUser = await this._userRepository.save(userToCreate);
       newUser.roles = userRoles;
 
-      if (!isEmailConfirmed) {
+      if (!isEmailConfirmed && !!emailOptions) {
         const token = generateAccessToken(<AccessTokenData>{
           userId: newUser.id,
         });
@@ -140,15 +142,8 @@ export class UserDataService {
           return ErrorResponse.Response('Token generation error.');
         }
 
-        EmailServer.sendEmail({
-          from: process.env.EMAIL_SENDER_ADDRESS,
-          to: user.email,
-          subject: 'Confrim Email',
-          html: `
-                   <h2>ConfirmEmail</h2>
-                   <p>${process.env.CLIENT_URL}/auth/checkEmailConfirmation/${token}</p>
-                   `,
-        })
+        this._emailService
+          .send(emailOptions)
           .then(
             () => {
               return SuccessResponse.Response(newUser, 'User registered, check email to confirm acount');
