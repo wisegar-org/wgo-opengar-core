@@ -86,7 +86,11 @@ export class UserDataService {
     return ErrorResponse.Response('Login Error', `Probably there is not user with username ${userName}`);
   };
 
-  create = async (user: UserEntity, roles?: number[], emailOptions: EmailOptions | null = null): Promise<Response<UserEntity>> => {
+  create = async (
+    user: UserEntity,
+    roles?: number[],
+    getEmailOptions: (token: string) => EmailOptions = () => null
+  ): Promise<Response<UserEntity>> => {
     const { name, lastName, userName, email, password, isEmailConfirmed } = user;
 
     // checking if all parameters have a value
@@ -133,10 +137,12 @@ export class UserDataService {
       const newUser = await this._userRepository.save(userToCreate);
       newUser.roles = userRoles;
 
-      if (!isEmailConfirmed && !!emailOptions) {
+      if (!isEmailConfirmed && !!getEmailOptions) {
         const token = generateAccessToken(<AccessTokenData>{
           userId: newUser.id,
         });
+
+        const emailOptions = getEmailOptions(token);
 
         if (_.isUndefined(token)) {
           return ErrorResponse.Response('Token generation error.');
