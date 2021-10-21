@@ -134,34 +134,38 @@ export class UserDataService {
     const hashedPassword = await bcrypt.hash(password, 10);
     const userToCreate = new UserEntity(name, lastName, userName, email, hashedPassword, userRoles, isEmailConfirmed);
     try {
-      const newUser = await this._userRepository.save(userToCreate);
+      let newUser = await this._userRepository.save(userToCreate);
       newUser.roles = userRoles;
 
-      if (!isEmailConfirmed && !!getEmailOptions) {
+      if (!isEmailConfirmed) {
         const token = generateAccessToken(<AccessTokenData>{
           userId: newUser.id,
         });
-
-        const emailOptions = getEmailOptions(token);
 
         if (_.isUndefined(token)) {
           return ErrorResponse.Response('Token generation error.');
         }
 
-        this._emailService
-          .send(emailOptions)
-          .then(
-            () => {
-              return SuccessResponse.Response(newUser, 'User registered, check email to confirm acount');
-            },
-            (error) => {
-              const { message } = error;
-              return ErrorResponse.Response('Error sending email after user register ' + message ? message : '');
-            }
-          )
-          .catch(() => {
-            return ErrorResponse.Response('Error sending email after user register');
-          });
+        newUser.confirmationToken = token;
+        newUser = await this._userRepository.save(newUser);
+
+        if (!!getEmailOptions) {
+          const emailOptions = getEmailOptions(token);
+          this._emailService
+            .send(emailOptions)
+            .then(
+              () => {
+                return SuccessResponse.Response(newUser, 'User registered, check email to confirm acount');
+              },
+              (error) => {
+                const { message } = error;
+                return ErrorResponse.Response('Error sending email after user register ' + message ? message : '');
+              }
+            )
+            .catch(() => {
+              return ErrorResponse.Response('Error sending email after user register');
+            });
+        }
       }
 
       return SuccessResponse.Response(newUser, 'User registered');
