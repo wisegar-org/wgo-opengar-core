@@ -26,7 +26,6 @@ export class TranslationService {
     });
 
     if (!translation) {
-      await this.setTranslation(lang, key, key);
       return key;
     }
 
