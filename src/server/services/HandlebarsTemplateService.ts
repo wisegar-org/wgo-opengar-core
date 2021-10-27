@@ -21,26 +21,26 @@ export class HandlebarsTemplateService {
     });
 
     Handlebars.registerHelper('prod', function (o1: string, o2: string) {
-      const op1 = parseInt(o1);
-      const op2 = parseInt(o2);
+      const op1 = parseFloat(o1);
+      const op2 = parseFloat(o2);
       return `${op1 * op2}`;
     });
 
     Handlebars.registerHelper('div', function (o1: string, o2: string) {
-      const op1 = parseInt(o1);
-      const op2 = parseInt(o2);
+      const op1 = parseFloat(o1);
+      const op2 = parseFloat(o2);
       return `${op1 / op2}`;
     });
 
     Handlebars.registerHelper('sum', function (o1: string, o2: string) {
-      const op1 = parseInt(o1);
-      const op2 = parseInt(o2);
+      const op1 = parseFloat(o1);
+      const op2 = parseFloat(o2);
       return `${op1 + op2}`;
     });
 
     Handlebars.registerHelper('subs', function (o1: string, o2: string) {
-      const op1 = parseInt(o1);
-      const op2 = parseInt(o2);
+      const op1 = parseFloat(o1);
+      const op2 = parseFloat(o2);
       return `${op1 - op2}`;
     });
 
