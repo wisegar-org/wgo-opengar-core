@@ -29,6 +29,7 @@ export class UserDataService {
     const users = await this._userRepository.find({
       relations: ['roles', 'language'],
       where: criteria,
+      order: { userName: 'ASC' },
     });
     return SuccessResponse.Response(users);
   };
