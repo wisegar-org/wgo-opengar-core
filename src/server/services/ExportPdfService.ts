@@ -1,25 +1,39 @@
-import puppeteer, { PDFOptions } from 'puppeteer';
-import { ReadStream } from 'fs';
+import puppeteer, { BrowserConnectOptions, BrowserLaunchArgumentOptions, LaunchOptions, PDFOptions, Product } from 'puppeteer';
+import { ReadStream } from 'fs-extra';
 import { Readable } from 'stream';
 
-export async function exportHTMLToPdf(content: string, config: PDFOptions, callback: (doc: ReadStream) => any | undefined) {
+export type ConfigLaunch = LaunchOptions &
+  BrowserLaunchArgumentOptions &
+  BrowserConnectOptions & {
+    product?: Product;
+    extraPrefsFirefox?: Record<string, unknown>;
+  };
+
+export async function exportHTMLToPdfBuffer(
+  content: string,
+  config: PDFOptions,
+  configLaunch: ConfigLaunch = { ignoreDefaultArgs: ['--disable-extensions'] }
+): Promise<Buffer> {
   //create browser
-  const browser = await puppeteer.launch({ ignoreDefaultArgs: ['--disable-extensions'] });
+  const browser = await puppeteer.launch(configLaunch);
   //set page content
   const page = await browser.newPage();
   await page.setContent(content);
   //generate pdf, return Buffer
   const pdfBuffer = await page.pdf(config);
   await browser.close();
-
-  if (callback) {
-    //convert buffer in ReadStream to load callback function
-    const readable = new Readable();
-    readable._read = () => {};
-    readable.push(pdfBuffer);
-    readable.push(null);
-    callback(readable as any);
-  }
-
   return pdfBuffer;
+}
+
+export async function exportHTMLToPdfReadStream(
+  content: string,
+  config: PDFOptions,
+  configLaunch: ConfigLaunch = { ignoreDefaultArgs: ['--disable-extensions'] }
+): Promise<ReadStream> {
+  const pdfBuffer = await exportHTMLToPdfBuffer(content, config, configLaunch);
+  const readable = new Readable();
+  readable._read = () => {};
+  readable.push(pdfBuffer);
+  readable.push(null);
+  return readable as ReadStream;
 }

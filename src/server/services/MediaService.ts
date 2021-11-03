@@ -1,6 +1,6 @@
 import { UploadedFile } from 'express-fileupload';
 import { Connection, Repository } from 'typeorm';
-import { writeFileSync, existsSync, mkdirSync } from 'fs';
+import { writeFileSync, existsSync, mkdirSync } from 'fs-extra';
 import { join, normalize, extname } from 'path';
 import { MediaEntityTypeEnum } from '@wisegar-org/wgo-opengar-shared';
 import MediaEntity from '../database/entities/MediaEntity';
@@ -88,11 +88,7 @@ export class MediaService {
   }
 
   async saveMediaEntityInFolder(mediaEntity: MediaEntity, folderPath: string, displayName: boolean) {
-    return await this.saveBufferInFolder(
-      displayName ? mediaEntity.displayName : mediaEntity.fileName,
-      folderPath,
-      mediaEntity.fileContent
-    );
+    return await this.saveBufferInFolder(displayName ? mediaEntity.displayName : mediaEntity.fileName, folderPath, mediaEntity.fileContent);
   }
 
   private async saveBufferInFolder(nameFile: string, pathFolder: string, data: Buffer) {
