@@ -16,14 +16,12 @@ export class EmailNotifyService {
   }
 
   async sendNotification(config: IEmailNotify) {
-    const { to, subject } = config.emailOptions;
     const { template, data } = config.bodyTemplate;
     const body = data ? this.handlebarsTemplate.getTemplateData(template, data) : template;
     const result = await this.emailServer.send(<EmailOptions>{
+      ...config.emailOptions,
       from: `${GetEmailAppAddressNameKey()} <${GetEmailAppAddressKey()}>`,
-      subject: subject,
-      to: to,
-      html: body,
+      html: body || config.emailOptions.html,
     });
     return result;
   }
