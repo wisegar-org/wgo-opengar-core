@@ -37,3 +37,32 @@ export async function exportHTMLToPdfReadStream(
   readable.push(null);
   return readable as ReadStream;
 }
+
+export async function exportUrlToPdfBuffer(
+  url: string,
+  config: PDFOptions,
+  configLaunch: ConfigLaunch = { ignoreDefaultArgs: ['--disable-extensions'] }
+) {
+  //create browser
+  const browser = await puppeteer.launch(configLaunch);
+  const page = await browser.newPage();
+  //go to page
+  await page.goto(url);
+  //generate pdf, return Buffer
+  const pdfBuffer = await page.pdf(config);
+  await browser.close();
+  return pdfBuffer;
+}
+
+export async function exportUrlToPdfReadStream(
+  url: string,
+  config: PDFOptions,
+  configLaunch: ConfigLaunch = { ignoreDefaultArgs: ['--disable-extensions'] }
+): Promise<ReadStream> {
+  const pdfBuffer = await exportUrlToPdfBuffer(url, config, configLaunch);
+  const readable = new Readable();
+  readable._read = () => {};
+  readable.push(pdfBuffer);
+  readable.push(null);
+  return readable as ReadStream;
+}
