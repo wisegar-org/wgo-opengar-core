@@ -71,11 +71,14 @@ export const GetPortKey = () => {
   throw 'Impossible to get value from PORT environment key';
 };
 
-const nodeEnv = GetNodeEnvKey();
-const configFilename = nodeEnv === 'production' ? './settings.json' : `./settings.${nodeEnv}.json`;
+export const GetConfigFileName = () => {
+  const nodeEnv = GetNodeEnvKey();
+  return nodeEnv === 'production' ? './settings.json' : `./settings.${nodeEnv}.json`;
+};
 
-const GetConfig = (): ISettings => {
+export const GetConfig = <TSettings extends ISettings>(): TSettings => {
   const fs = require('fs-extra');
+  const configFilename = GetConfigFileName();
   if (!fs.existsSync(configFilename)) {
     console.error(`Settings file not found. File ${configFilename} will be created!`);
     fs.writeJsonSync(configFilename, defaultSettings);
@@ -91,6 +94,7 @@ const GetConfig = (): ISettings => {
  */
 export const GetGenericConfig = () => {
   const fs = require('fs-extra');
+  const configFilename = GetConfigFileName();
   if (!fs.existsSync(configFilename)) {
     console.error(`Settings file not found. File ${configFilename} will be created!`);
     fs.writeJsonSync(configFilename, defaultSettings);
