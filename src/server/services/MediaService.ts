@@ -28,14 +28,14 @@ export class MediaService {
   async saveMedia(uploadedFile: UploadedFile, options: { isPublic: boolean }, mediaType: MediaEntityTypeEnum) {
     const { name, data, md5, mimetype } = uploadedFile;
     const fileExt = extname(name);
-    const nameFile = `${md5}${fileExt}`;
+    const fileName = `${md5}${fileExt}`;
     let mediaEntity = await this.mediaRepository.findOne({
-      fileName: nameFile,
+      fileName: fileName,
     });
 
     if (!mediaEntity) {
       mediaEntity = new MediaEntity();
-      mediaEntity.fileName = nameFile;
+      mediaEntity.fileName = fileName;
       mediaEntity.fileExt = fileExt;
       mediaEntity.mediaType = mediaType;
       mediaEntity.displayName = name;
@@ -45,14 +45,24 @@ export class MediaService {
     }
 
     if (options.isPublic) {
-      const pathInPublic = await this.saveBufferInPublicFolder(nameFile, data, mediaType);
-      mediaEntity.path = `${mediaType}/${nameFile}`;
+      const pathInPublic = await this.saveBufferInPublicFolder(fileName, data, mediaType);
+      mediaEntity.path = `${mediaType}/${fileName}`;
     }
 
     mediaEntity = await this.mediaRepository.manager.save(mediaEntity);
     return mediaEntity;
   }
-
+  async saveMediaEntity(mediaEntity: MediaEntity): Promise<MediaEntity> {
+    const mediaEntityFounded = await this.mediaRepository.findOne({
+      fileName: mediaEntity.fileName,
+    });
+    if (mediaEntity.isPublic) {
+      const pathInPublic = await this.saveBufferInPublicFolder(mediaEntity.fileName, mediaEntity.fileContent, mediaEntity.mediaType);
+      mediaEntity.path = `${mediaEntity.mediaType}/${mediaEntity.fileName}`;
+    }
+    mediaEntity = await this.mediaRepository.manager.save(mediaEntity);
+    return mediaEntity;
+  }
   async saveMediaEntityInPublicFolder(mediaEntity: MediaEntity) {
     return await this.saveBufferInPublicFolder(mediaEntity.fileName, mediaEntity.fileContent, mediaEntity.mediaType);
   }
