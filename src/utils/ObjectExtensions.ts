@@ -1,1 +1,1 @@
-export * from '@wisegar-org/wgo-opengar-shared/build/utils/ObjectExtensions';
+export * from '@wisegar-org/wgo-opengar-shared/build/utils';

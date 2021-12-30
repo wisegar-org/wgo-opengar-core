@@ -76,7 +76,6 @@ export * from './server/decorators/models/RouteDefinition';
 //  ############################ //
 //  ###### UTILS EXPORTS ###### //
 export * from './utils/ObjectExtensions';
-export * from './utils/ObjectMapper';
 
 //  ############################ //
 //  ###### SHARED EXPORTS ###### //
