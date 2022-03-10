@@ -6,8 +6,8 @@ import { IServerOptions } from './models/IServerOptions';
 import 'reflect-metadata';
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
-import { Context } from './graphql/Models';
-import { AccessTokenData, IContextOptions, jwtMiddleware } from '..';
+import { Context } from '@wisegar-org/wgo-core';
+import { IContextOptions } from './models/IContextOptions';
 
 const getGqlSchema = async (options: IServerOptions) => {
   return await buildSchema({

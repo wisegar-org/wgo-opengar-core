@@ -2,9 +2,8 @@ import fs, { readFileSync, unlinkSync, ReadStream, createWriteStream, existsSync
 import { join } from 'path';
 import { Repository, ILike, Connection } from 'typeorm';
 import { LanguageService } from './LanguageService';
-import { LanguageEntity } from '../database/entities/LanguageEntity';
-import { TranslationEntity } from '../database/entities/TranslationEntity';
 import { CultureTranslation, TransaltionsType, TranslationsByCulture } from '../models/ILanguageTranslations';
+import { LanguageEntity, TranslationEntity } from '@wisegar-org/wgo-core';
 
 export class TranslationService {
   translationRepository: Repository<TranslationEntity>;

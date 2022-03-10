@@ -1,7 +1,5 @@
+import { LanguageEntity, MediaEntity, TranslationEntity } from '@wisegar-org/wgo-core';
 import { Connection, Repository } from 'typeorm';
-import { LanguageEntity } from '../database/entities/LanguageEntity';
-import { MediaEntity } from '../database/entities/MediaEntity';
-import { TranslationEntity } from '../database/entities/TranslationEntity';
 import { ILanguage } from '../models/ILanguageTranslations';
 
 export class LanguageService {

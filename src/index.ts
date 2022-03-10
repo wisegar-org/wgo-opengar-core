@@ -14,17 +14,6 @@ export * from './client/services/CacheService';
 //  ############################ //
 //  ###### SERVER EXPORTS ###### //
 /**
- * @module Server - Database
- */
-export * from './server/database/entities/RolEntity';
-export * from './server/database/entities/SessionEntity';
-export * from './server/database/entities/UserEntity';
-export * from './server/database/entities/MediaEntity';
-export * from './server/database/entities/OGBaseEntity';
-export * from './server/database/entities/TemplateEntity';
-export * from './server/database/entities/LanguageEntity';
-export * from './server/database/entities/TranslationEntity';
-
 /**
  * @method Server - Models
  */
@@ -52,7 +41,6 @@ export * from './server/services/HandlebarsTemplateService';
 export * from './server/services/EmailNotifyService';
 export * from './server/services/LanguageService';
 export * from './server/services/TranslationService';
-export * from './server/graphql/Models';
 export * from './server/Server';
 
 /**

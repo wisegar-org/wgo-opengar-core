@@ -1,9 +1,7 @@
 import { Connection, Repository } from 'typeorm';
-import { SessionEntity } from '../database/entities/SessionEntity';
-import UserEntity from '../database/entities/UserEntity';
 import { AccessTokenData, generateAccessToken } from './JwtAuthService';
 import * as bcrypt from 'bcrypt';
-import { AuthError } from '@wisegar-org/wgo-core';
+import { AuthError, SessionEntity, UserEntity } from '@wisegar-org/wgo-core';
 
 export class AuthService {
   private readonly utenteRepository: Repository<UserEntity>;

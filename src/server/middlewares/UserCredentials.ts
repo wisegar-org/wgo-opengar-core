@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { RolEntityEnum } from '@wisegar-org/wgo-core';
-import { Context } from '../graphql/Models';
+import { Context, RolEntityEnum } from '@wisegar-org/wgo-core';
 declare module 'express-serve-static-core' {
   interface Request {
     context?: Context;

@@ -1,5 +1,5 @@
+import { Context } from '@wisegar-org/wgo-core';
 import { AuthMode, NonEmptyArray } from 'type-graphql';
-import { Context } from '../graphql/Models';
 import { IContextOptions } from './IContextOptions';
 
 export interface IServerOptions {

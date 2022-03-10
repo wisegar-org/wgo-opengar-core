@@ -1,5 +1,5 @@
+import { TemplateDocumentType, TemplateEntity } from '@wisegar-org/wgo-core';
 import { Connection, Repository } from 'typeorm';
-import TemplateEntity, { TemplateDocumentType } from '../database/entities/TemplateEntity';
 
 export class TemplateService {
   private connection: Connection;

@@ -1,6 +1,5 @@
-import { SessionEntity } from '../database/entities/SessionEntity';
+import { Context, ContextUser, SessionEntity } from '@wisegar-org/wgo-core';
 import { verifyAccessToken } from '../services/JwtToken';
-import { Context, ContextUser } from './Models';
 
 export const GetContext = async ({ req, res }) => {
   let user = undefined;
