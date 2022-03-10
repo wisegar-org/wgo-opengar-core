@@ -19,6 +19,7 @@ export * from './client/services/CacheService';
  */
 export * from './server/models/IContextOptions';
 export * from './server/models/ILanguageTranslations';
+export * from './server/models/IServerOptions';
 
 /**
  * @module Server - Services
