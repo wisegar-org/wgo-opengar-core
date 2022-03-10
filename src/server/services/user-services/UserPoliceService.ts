@@ -7,9 +7,8 @@ import {
   IUser,
   cypherData,
   decypherData,
+  EmailServer,
 } from '@wisegar-org/wgo-core';
-
-import { EmailServer } from '../EmailService';
 
 interface ITokenPayload {
   username: string;

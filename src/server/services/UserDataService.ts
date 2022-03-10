@@ -1,8 +1,16 @@
 import { UserEntity, RolEntity } from '../../';
 import _ from 'lodash';
 import * as bcrypt from 'bcrypt';
-import { LoginModel, UserLoginToken, SuccessResponse, ErrorResponse, Response, EmailOptions, LanguageEntity } from '@wisegar-org/wgo-core';
-import { EmailServer } from '../../server/services/EmailService';
+import {
+  LoginModel,
+  UserLoginToken,
+  SuccessResponse,
+  ErrorResponse,
+  Response,
+  EmailOptions,
+  LanguageEntity,
+  EmailServer,
+} from '@wisegar-org/wgo-core';
 import { Connection, Repository } from 'typeorm';
 import { AuthService } from '../../server/services/AuthService';
 import { AccessTokenData, generateAccessToken } from '../../server/services/JwtAuthService';
