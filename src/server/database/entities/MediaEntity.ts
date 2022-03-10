@@ -1,4 +1,4 @@
-import { MediaEntityTypeEnum } from '@wisegar-org/wgo-opengar-shared';
+import { MediaEntityTypeEnum } from '@wisegar-org/wgo-core';
 import { Entity, Column } from 'typeorm';
 import { OGBaseEntity } from './OGBaseEntity';
 

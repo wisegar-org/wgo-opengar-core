@@ -1,4 +1,4 @@
-import { EmailOptions, IEmailNotify } from '@wisegar-org/wgo-opengar-shared';
+import { EmailOptions, IEmailNotify } from '@wisegar-org/wgo-core';
 import { GetEmailAppAddressKey, GetEmailAppAddressNameKey } from './ConfigService';
 import { EmailServer } from './EmailService';
 import { HandlebarsTemplateService } from './HandlebarsTemplateService';

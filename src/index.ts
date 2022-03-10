@@ -82,4 +82,4 @@ export * from './utils/ObjectExtensions';
 /**
  * @module Shared
  */
-export * from '@wisegar-org/wgo-opengar-shared';
+export * from '@wisegar-org/wgo-core';

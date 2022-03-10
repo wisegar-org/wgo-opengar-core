@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { RolEntityEnum } from '@wisegar-org/wgo-opengar-shared';
+import { RolEntityEnum } from '@wisegar-org/wgo-core';
 import { Context } from '../graphql/Models';
 declare module 'express-serve-static-core' {
   interface Request {
@@ -13,9 +13,7 @@ export const AuthorizeUserRol = (roles: RolEntityEnum[] = []) => {
       if (req.context) {
         const context: Context = req.context;
         const validRroles =
-          context.user && context.user.roles
-            ? context.user.roles.filter((rol: string) => roles.indexOf(RolEntityEnum[rol]) !== -1)
-            : [];
+          context.user && context.user.roles ? context.user.roles.filter((rol: string) => roles.indexOf(RolEntityEnum[rol]) !== -1) : [];
         if ((roles.length === 0 && !!context.user) || validRroles.length > 0) {
           next();
           return;

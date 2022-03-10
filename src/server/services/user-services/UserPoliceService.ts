@@ -1,4 +1,4 @@
-import { IUser } from '@wisegar-org/wgo-opengar-shared';
+import { IUser } from '@wisegar-org/wgo-core';
 import {
   GetHostBaseKey,
   GetUserPoliceResetPwdEmailKey,

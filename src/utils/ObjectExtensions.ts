@@ -1,1 +1,1 @@
-export * from '@wisegar-org/wgo-opengar-shared/build/utils';
+export * from '@wisegar-org/wgo-core';

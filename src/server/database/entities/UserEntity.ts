@@ -1,7 +1,7 @@
 import { Entity, Column, ManyToMany, JoinTable, ManyToOne } from 'typeorm';
 import { RolEntity } from './RolEntity';
 import { MediaEntity } from './MediaEntity';
-import { IUser, Language } from '@wisegar-org/wgo-opengar-shared';
+import { IUser } from '@wisegar-org/wgo-core';
 import { OGBaseEntity } from './OGBaseEntity';
 import { LanguageEntity } from './LanguageEntity';
 @Entity({ name: 'users' })

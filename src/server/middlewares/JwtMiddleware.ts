@@ -1,4 +1,4 @@
-import { AuthError } from '@wisegar-org/wgo-opengar-shared';
+import { AuthError } from '@wisegar-org/wgo-core';
 import express from 'express';
 import { isNullOrUndefined } from '../../utils/Validator';
 import { IContextOptions } from '../models/IContextOptions';

@@ -1,7 +1,7 @@
 import { UserEntity, RolEntity } from '../../';
 import _ from 'lodash';
 import * as bcrypt from 'bcrypt';
-import { LoginModel, UserLoginToken, SuccessResponse, ErrorResponse, Response, EmailOptions } from '@wisegar-org/wgo-opengar-shared';
+import { LoginModel, UserLoginToken, SuccessResponse, ErrorResponse, Response, EmailOptions } from '@wisegar-org/wgo-core';
 import { EmailServer } from '../../server/services/EmailService';
 import { Connection, Repository } from 'typeorm';
 import { AuthService } from '../../server/services/AuthService';

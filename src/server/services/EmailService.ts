@@ -9,7 +9,7 @@ import {
   GetEmailSenderPassKey,
   GetEmailSenderAnonymousKey,
 } from './ConfigService';
-import { SuccessResponse, EmailOptions, ErrorResponse } from '@wisegar-org/wgo-opengar-shared';
+import { SuccessResponse, EmailOptions, ErrorResponse } from '@wisegar-org/wgo-core';
 import nodemailer from 'nodemailer';
 export class EmailServer {
   protected async getAnonymousTransport() {
