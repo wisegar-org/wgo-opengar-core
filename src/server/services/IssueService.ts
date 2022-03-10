@@ -1,5 +1,5 @@
-import { GetGithubToken } from './ConfigService';
 import { Octokit } from '@octokit/core';
+import { GetGithubToken } from '@wisegar-org/wgo-core';
 import { IssueForm } from '../models/IssueForm';
 
 export default class IssueService {
@@ -19,14 +19,14 @@ export default class IssueService {
         title: issue.title,
         body: issue.body,
       });
-      
+
       return {
         succeeded: true,
       };
-    } catch (err){
+    } catch (err) {
       return {
         succeeded: false,
-        error: err.message || err.toString()
+        error: err.message || err.toString(),
       };
     }
   }

@@ -1,12 +1,14 @@
-import { IUser } from '@wisegar-org/wgo-core';
 import {
   GetHostBaseKey,
   GetUserPoliceResetPwdEmailKey,
   GetUserPoliceResetPwdExpKey,
   GetUserPoliceResetPwdUrlKey,
   GetUserPoliceTokenKey,
-} from '../ConfigService';
-import { cypherData, decypherData } from '../CypherService';
+  IUser,
+  cypherData,
+  decypherData,
+} from '@wisegar-org/wgo-core';
+
 import { EmailServer } from '../EmailService';
 
 interface ITokenPayload {

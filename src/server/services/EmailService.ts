@@ -1,5 +1,7 @@
 import {
-  ISettings,
+  SuccessResponse,
+  EmailOptions,
+  ErrorResponse,
   GetEmailPortKey,
   GetEmailSecureKey,
   GetEmailLogKey,
@@ -8,8 +10,7 @@ import {
   GetEmailSenderKey,
   GetEmailSenderPassKey,
   GetEmailSenderAnonymousKey,
-} from './ConfigService';
-import { SuccessResponse, EmailOptions, ErrorResponse } from '@wisegar-org/wgo-core';
+} from '@wisegar-org/wgo-core';
 import nodemailer from 'nodemailer';
 export class EmailServer {
   protected async getAnonymousTransport() {

@@ -1,6 +1,6 @@
+import { GetExpiresInKey, GetPrivateKey, GetPublicKey } from '@wisegar-org/wgo-core';
 import { Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
-import { GetExpiresInKey, GetPrivateKey, GetPublicKey } from './ConfigService';
 
 export interface AccessTokenData {
   userId: number;
