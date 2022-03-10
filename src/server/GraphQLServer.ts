@@ -34,6 +34,7 @@ const getGqlServer = async (options: IServerOptions) => {
       return await options.context(contextOptions);
     },
     uploads: true,
+    typeDefs: options.typeDefs,
   });
 };
 

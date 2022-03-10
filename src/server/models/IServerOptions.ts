@@ -1,4 +1,5 @@
 import { Context } from '@wisegar-org/wgo-core';
+import { DocumentNode } from 'graphql';
 import { AuthMode, NonEmptyArray } from 'type-graphql';
 import { IContextOptions } from './IContextOptions';
 
@@ -23,4 +24,5 @@ export interface IServerOptions {
   //Max allowed number of files (default: Infinity).
   maxFiles?: number;
   useOnlyGraphQL?: boolean;
+  typeDefs?: DocumentNode | Array<DocumentNode> | string | Array<string>;
 }
