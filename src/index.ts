@@ -28,7 +28,6 @@ export * from './server/services/AuthService';
 export * from './server/services/JwtAuthService';
 export * from './server/services/JwtService';
 export * from './server/services/UserDataService';
-export * from './server/services/MediaService';
 export * from './server/services/CurrencyFurterService/CurrencyFurterService';
 export * from './server/services/CurrencyFurterService/CurrencyModel';
 export * from './server/services/SixBankService/SixBankModel';
