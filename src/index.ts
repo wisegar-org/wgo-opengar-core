@@ -32,7 +32,6 @@ export * from './server/services/CurrencyFurterService/CurrencyFurterService';
 export * from './server/services/CurrencyFurterService/CurrencyModel';
 export * from './server/services/SixBankService/SixBankModel';
 export * from './server/services/SixBankService/SixBankService';
-export * from './server/services/user-services/UserPoliceService';
 export * from './server/services/TemplateService';
 export * from './server/services/ParseTemplateService';
 export * from './server/services/HandlebarsTemplateService';
