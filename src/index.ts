@@ -66,3 +66,4 @@ export * from './utils/ObjectExtensions';
  * @module Shared
  */
 export * from '@wisegar-org/wgo-core';
+export { UserPoliceService } from '@wisegar-org/wgo-core';
