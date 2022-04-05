@@ -59,11 +59,3 @@ export * from './server/decorators/models/RouteDefinition';
 //  ############################ //
 //  ###### UTILS EXPORTS ###### //
 export * from './utils/ObjectExtensions';
-
-//  ############################ //
-//  ###### SHARED EXPORTS ###### //
-/**
- * @module Shared
- */
-export * from '@wisegar-org/wgo-core';
-export { UserPoliceService } from '@wisegar-org/wgo-core';
