@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon",
     "build": "npx rimraf build && tsc",
-    "upgrade": "npm version prerelease && npm run build && npm publish",
+    "promote": "npm version prerelease && npm run build && npm publish",
     "update:dependencies": "npx rimraf node_modules/@wisegar-org && npm install @wisegar-org/wgo-core@latest --save",
     "test": "jest --detectOpenHandles"
   },
