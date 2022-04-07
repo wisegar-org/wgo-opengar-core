@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import * as dns from 'dns';
+import dns from 'dns';
 
 export const isNullOrUndefined = (obj: any) => {
   return _.isNull(obj) || _.isUndefined(obj);
