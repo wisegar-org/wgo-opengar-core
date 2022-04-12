@@ -1,4 +1,4 @@
-import { GetExpiresInKey, GetPrivateKey, GetPublicKey } from '@wisegar-org/wgo-core';
+import { GetExpiresInKey, GetPrivateKey, GetPublicKey } from '@wisegar-org/wgo-settings';
 import { Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
 

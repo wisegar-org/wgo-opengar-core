@@ -1,5 +1,5 @@
 import { Octokit } from '@octokit/core';
-import { GetGithubToken } from '@wisegar-org/wgo-core';
+import { GetGithubToken } from '@wisegar-org/wgo-settings';
 import { IssueForm } from '../models/IssueForm';
 
 export default class IssueService {

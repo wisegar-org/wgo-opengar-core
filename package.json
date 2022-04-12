@@ -22,8 +22,9 @@
   "keywords": [],
   "dependencies": {
     "@octokit/core": "^3.5.1",
-    "@wisegar-org/wgo-core": "0.0.1-build.18",
+    "@wisegar-org/wgo-core": "0.0.1-build.19",
     "@wisegar-org/wgo-object-extensions": "0.0.1-build.7",
+    "@wisegar-org/wgo-settings": "0.0.1-build.8",
     "axios": "0.26.1",
     "bcrypt": "^5.0.1",
     "handlebars": "4.7.7",
