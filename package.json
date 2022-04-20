@@ -22,7 +22,7 @@
   "keywords": [],
   "dependencies": {
     "@octokit/core": "^3.5.1",
-    "@wisegar-org/wgo-core": "0.0.1-build.19",
+    "@wisegar-org/wgo-core": "0.0.1-build.22",
     "@wisegar-org/wgo-object-extensions": "0.0.1-build.7",
     "@wisegar-org/wgo-settings": "0.0.1-build.8",
     "@wisegar-org/wgo-templating": "0.0.1-build.2",
@@ -30,8 +30,8 @@
     "bcrypt": "^5.0.1",
     "handlebars": "4.7.7",
     "jsonwebtoken": "^8.5.1",
-    "moment": "^2.29.1",
-    "nodemailer": "^6.5.0"
+    "moment": "^2.29.3",
+    "nodemailer": "^6.7.3"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
