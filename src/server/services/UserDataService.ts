@@ -7,10 +7,14 @@ import {
   SuccessResponse,
   ErrorResponse,
   Response,
-  EmailOptions,
+  // EmailOptions,
   LanguageEntity,
-  EmailServer,
+  // EmailServer,
 } from '@wisegar-org/wgo-core';
+import {
+  EmailOptions,
+  EmailServer,
+} from '@wisegar-org/wgo-mailer';
 import { Connection, Repository } from 'typeorm';
 import { AuthService } from '../../server/services/AuthService';
 import { AccessTokenData, generateAccessToken } from '../../server/services/JwtAuthService';

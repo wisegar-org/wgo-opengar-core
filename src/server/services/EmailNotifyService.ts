@@ -1,4 +1,4 @@
-import { EmailOptions, EmailServer, IEmailNotify } from '@wisegar-org/wgo-core';
+import { EmailOptions, EmailServer, IEmailNotify } from '@wisegar-org/wgo-mailer';
 import { GetEmailAppAddressKey, GetEmailAppAddressNameKey } from '@wisegar-org/wgo-settings';
 import { HandlebarsTemplateService } from '@wisegar-org/wgo-templating';
 
