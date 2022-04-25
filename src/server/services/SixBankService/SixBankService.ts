@@ -2,6 +2,9 @@ const apiUrl = 'https://api.six-group.com/api/epcd/bankmaster/v2/public';
 import axios from 'axios';
 import { ISixBankModel } from './SixBankModel';
 
+/**
+ * @deprecated use -> npm i  @wisegar-org/wgo-databank
+ */
 export const getSixBanks = async (): Promise<ISixBankModel[]> => {
   try {
     const response = await axios.get(`${apiUrl}`);

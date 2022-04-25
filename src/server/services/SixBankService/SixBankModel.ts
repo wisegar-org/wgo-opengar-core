@@ -1,3 +1,6 @@
+/**
+ * @deprecated use -> npm i  @wisegar-org/wgo-databank
+ */
 export interface ISixBankModel {
   /**
    * @description: The banks/financial institutions are divided into so-called bank groups. At present these are made up of the following:\n01 = Swiss National Bank\n02 = UBS Group\n03 = Reserve\n04 = Credit Suisse Group\n05 = Credit Suisse Group\n06 = Entris Banks\n07 = Cantonal Banks\n08 = Raiffeisen Banks and individual institutions\n09 = PostFinance\n

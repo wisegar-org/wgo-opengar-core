@@ -5,7 +5,9 @@
 const apiUrl = 'https://api.frankfurter.app';
 import axios from 'axios';
 import { CurrencyModel } from './CurrencyModel';
-
+/**
+ * @deprecated use -> npm i  @wisegar-org/wgo-databank
+ */
 export const getGlobalCurrencies = async () => {
   const response = await axios.get(`${apiUrl}/currencies`);
   const jsonData = response.data;
