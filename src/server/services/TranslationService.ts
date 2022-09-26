@@ -3,17 +3,20 @@ import { join } from 'path';
 import { Repository, ILike, Connection } from 'typeorm';
 import { LanguageService } from './LanguageService';
 import { CultureTranslation, TransaltionsType, TranslationsByCulture } from '../models/ILanguageTranslations';
-import { LanguageEntity, TranslationEntity } from '@wisegar-org/wgo-core';
+import { Context, LanguageEntity, TranslationEntity } from '@wisegar-org/wgo-core';
+import { HistoryService } from './HistoryService';
 
 export class TranslationService {
   translationRepository: Repository<TranslationEntity>;
   languageService: LanguageService;
+  historyService: HistoryService<TranslationEntity>;
   /**
    *
    */
-  constructor(conn: Connection) {
+  constructor(conn: Connection, context: Context) {
     this.translationRepository = conn.getRepository(TranslationEntity);
-    this.languageService = new LanguageService(conn);
+    this.languageService = new LanguageService(conn, context);
+    this.historyService = new HistoryService(TranslationEntity, conn, context);
   }
 
   async getTranslation(lang: number, key: string, trim = true): Promise<string> {
@@ -37,7 +40,9 @@ export class TranslationService {
 
   async setTranslation(lang: number, key: string, value: string) {
     const translationEntity = await this.setTranslationValue(lang, key, value);
-    return !!(await this.translationRepository.manager.save(translationEntity));
+    const result = await this.translationRepository.manager.save(translationEntity);
+    await this.historyService.createPutHistory(result);
+    return !!result;
   }
 
   async setTranslationValue(lang: number, key: string, value: string) {
@@ -114,8 +119,8 @@ export class TranslationService {
       translation.languageId = langId;
     }
     translation.value = value;
-    await this.translationRepository.manager.save(translation);
-
+    const result = await this.translationRepository.manager.save(translation);
+    await this.historyService.createPutHistory(result);
     return {
       message,
     };
@@ -164,7 +169,8 @@ export class TranslationService {
           translationsEntity.push(entity);
         }
       }
-      await this.translationRepository.manager.save(translationsEntity);
+      const result = await this.translationRepository.manager.save(translationsEntity);
+      await this.historyService.createPutManyHistory(result);
       unlinkSync(pathDoc);
       return {
         isSuccess: true,
@@ -274,7 +280,8 @@ export class TranslationService {
     });
 
     for (const translation of translations) {
-      await this.translationRepository.manager.remove(translation);
+      const result = await this.translationRepository.manager.remove(translation);
+      await this.historyService.createDeleteHardHistory(result);
     }
   }
 }

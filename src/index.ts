@@ -35,6 +35,7 @@ export * from './server/services/SixBankService/SixBankService';
 export * from './server/services/EmailNotifyService';
 export * from './server/services/LanguageService';
 export * from './server/services/TranslationService';
+export * from './server/services/HistoryService';
 export * from './server/Server';
 
 /**

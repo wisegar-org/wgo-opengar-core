@@ -1,18 +1,23 @@
-import { LanguageEntity, MediaEntity, TranslationEntity } from '@wisegar-org/wgo-core';
+import { Context, LanguageEntity, MediaEntity, TranslationEntity } from '@wisegar-org/wgo-core';
 import { Connection, Repository } from 'typeorm';
 import { ILanguage } from '../models/ILanguageTranslations';
+import { HistoryService } from './HistoryService';
 
 export class LanguageService {
   languageRepository: Repository<LanguageEntity>;
   mediaRepository: Repository<MediaEntity>;
   translationRepository: Repository<TranslationEntity>;
+  historyService: HistoryService<LanguageEntity>;
+  context: Context;
   /**
    *
    */
-  constructor(conn: Connection) {
+  constructor(conn: Connection, context: Context) {
     this.languageRepository = conn.getRepository(LanguageEntity);
     this.translationRepository = conn.getRepository(TranslationEntity);
     this.mediaRepository = conn.getRepository(MediaEntity);
+    this.historyService = new HistoryService(LanguageEntity, conn, context);
+    this.context = context;
   }
 
   async all(whitRelations: boolean = false) {
@@ -31,7 +36,9 @@ export class LanguageService {
     if (!!lang) return false;
 
     lang = new LanguageEntity();
-    return !!(await this.setProperties(lang, language));
+    const result = await this.setProperties(lang, language);
+    await this.historyService.createPostHistory(result);
+    return !!result;
   }
 
   async modify(language: ILanguage) {
@@ -53,8 +60,12 @@ export class LanguageService {
         langD.default = false;
       }
       await this.languageRepository.manager.save(defaultLangs);
+      await this.historyService.createPutManyHistory(defaultLangs);
     }
-    return !!(await this.setProperties(lang, language));
+
+    const result = await this.setProperties(lang, language);
+    await this.historyService.createPostHistory(result);
+    return !!result;
   }
 
   async getLanguageByCode(code: string) {

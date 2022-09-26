@@ -22,7 +22,7 @@
   "keywords": [],
   "dependencies": {
     "@octokit/core": "^3.5.1",
-    "@wisegar-org/wgo-core": "0.0.1-build.22",
+    "@wisegar-org/wgo-core": "^0.0.1-build.28",
     "@wisegar-org/wgo-mailer": "0.0.1-build.19",
     "@wisegar-org/wgo-object-extensions": "0.0.1-build.7",
     "@wisegar-org/wgo-settings": "0.0.1-build.8",

@@ -11,13 +11,12 @@ import {
   LanguageEntity,
   // EmailServer,
 } from '@wisegar-org/wgo-core';
-import {
-  EmailOptions,
-  EmailServer,
-} from '@wisegar-org/wgo-mailer';
+import { EmailOptions, EmailServer } from '@wisegar-org/wgo-mailer';
 import { Connection, Repository } from 'typeorm';
 import { AuthService } from '../../server/services/AuthService';
 import { AccessTokenData, generateAccessToken } from '../../server/services/JwtAuthService';
+import { HistoryService } from './HistoryService';
+import { Context } from 'vm';
 
 export class UserDataService {
   private _userRepository: Repository<UserEntity>;
@@ -26,14 +25,16 @@ export class UserDataService {
   private _connection: Connection;
   private _authService: AuthService;
   private _emailService: EmailServer;
+  private historyService: HistoryService<UserEntity>;
 
-  constructor(conn: Connection) {
+  constructor(conn: Connection, context: Context) {
     this._connection = conn;
     this._userRepository = this._connection.getRepository(UserEntity);
     this._roleRepository = this._connection.getRepository(RolEntity);
     this._languageRepository = this._connection.getRepository(LanguageEntity);
     this._authService = new AuthService(conn);
     this._emailService = new EmailServer();
+    this.historyService = new HistoryService(UserEntity, conn, context);
   }
 
   all = async (criteria?: any): Promise<Response<UserEntity[]>> => {
@@ -147,6 +148,7 @@ export class UserDataService {
     const userToCreate = new UserEntity(name, lastName, userName, email, hashedPassword, userRoles, isEmailConfirmed);
     try {
       let newUser = await this._userRepository.save(userToCreate);
+      await this.historyService.createPostHistory(newUser);
       newUser.roles = userRoles;
 
       if (!isEmailConfirmed) {
@@ -195,7 +197,8 @@ export class UserDataService {
       }
       const userRoles = await this._roleRepository.findByIds(roleIds);
       user.roles = userRoles;
-      await this._userRepository.save(user);
+      const result = await this._userRepository.save(user);
+      await this.historyService.createPutHistory(result);
       return SuccessResponse.Response(user);
     } catch (error) {
       return ErrorResponse.Response(error.message, "Error when add or remove user's roles");
@@ -210,7 +213,8 @@ export class UserDataService {
       }
       const lang = await this._languageRepository.findOne(langId);
       user.language = lang;
-      await this._userRepository.save(user);
+      const result = await this._userRepository.save(user);
+      await this.historyService.createPutHistory(result);
       return SuccessResponse.Response(user);
     } catch (error) {
       return ErrorResponse.Response(error.message, "Error when set user's language");
@@ -220,6 +224,7 @@ export class UserDataService {
   update = async (user: UserEntity): Promise<Response<UserEntity>> => {
     try {
       const newUser = await this._userRepository.save(user);
+      await this.historyService.createPutHistory(newUser);
       return SuccessResponse.Response(newUser);
     } catch (error) {
       const { message } = error;
@@ -235,6 +240,7 @@ export class UserDataService {
       if (user) {
         user.password = await bcrypt.hash(password, 10);
         this._userRepository.save(user);
+        await this.historyService.createPutHistory(user);
         return SuccessResponse.Response(user);
       }
       return ErrorResponse.Response('Error trying yo update user password');
@@ -253,6 +259,7 @@ export class UserDataService {
       return ErrorResponse.Response('Error trying to remove user.User not found');
     }
     const userRemoved = await this._userRepository.remove(userResp.result);
+    await this.historyService.createDeleteHardHistory(userRemoved);
     return SuccessResponse.Response(userRemoved, 'User removed successfully');
   };
 }
