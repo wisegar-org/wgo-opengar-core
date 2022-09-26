@@ -5,11 +5,11 @@ export class HistoryService<TEntity extends OGBaseEntity> {
   private conn: Connection;
   private repository: Repository<HistoryEntity>;
   private readonly type: ObjectType<TEntity>;
-  private context: Context;
+  private context?: Context;
   /**
    *
    */
-  constructor(type: ObjectType<TEntity>, conn: Connection, context: Context) {
+  constructor(type: ObjectType<TEntity>, conn: Connection, context?: Context) {
     this.conn = conn;
     this.repository = this.conn.getRepository(HistoryEntity);
     this.type = type;
@@ -44,6 +44,7 @@ export class HistoryService<TEntity extends OGBaseEntity> {
   }
 
   public async create(entity: HistoryEntity): Promise<HistoryEntity> {
+    if (!this.context) return undefined;
     if (!!entity.id) throw `Impossibile creare una nuova entity con un id valido`;
     const result = await this.repository.insert(entity);
     if (!result.identifiers || result.identifiers.length === 0) throw `Non è stato possibile registrare il nuovo record!`;
@@ -52,6 +53,7 @@ export class HistoryService<TEntity extends OGBaseEntity> {
   }
 
   public async createMany(historyEntities: HistoryEntity[]): Promise<HistoryEntity[]> {
+    if (!this.context) return undefined;
     const inserResult = await this.repository.insert(historyEntities);
     if (!inserResult.identifiers || inserResult.identifiers.length === 0) throw `Non è stato possibile registrare il nuovo record!`;
 
@@ -59,6 +61,7 @@ export class HistoryService<TEntity extends OGBaseEntity> {
   }
 
   public async createPostHistory(entity: TEntity, customMessage?: string) {
+    if (!this.context) return undefined;
     const historyModel = this.getHistoryModel(entity);
 
     historyModel.message = !customMessage ? `Creato` : customMessage;
@@ -67,6 +70,7 @@ export class HistoryService<TEntity extends OGBaseEntity> {
   }
 
   public async createPutHistory(entity: TEntity, customMessage?: string) {
+    if (!this.context) return undefined;
     const historyModel = this.getHistoryModel(entity);
     historyModel.action = Actions.Update;
     historyModel.message = !customMessage ? `Modificato` : customMessage;
@@ -74,6 +78,7 @@ export class HistoryService<TEntity extends OGBaseEntity> {
   }
 
   public async createPutManyHistory(entities: TEntity[], customMessage?: string) {
+    if (!this.context) return undefined;
     const historyModels = entities.map((entity) => this.getHistoryModel(entity));
     for (let historyEntityModel of historyModels) {
       historyEntityModel.action = Actions.Update;
@@ -84,6 +89,7 @@ export class HistoryService<TEntity extends OGBaseEntity> {
   }
 
   public async createDeleteHistory(entity: TEntity, customMessage?: string) {
+    if (!this.context) return undefined;
     const historyModel = this.getHistoryModel(entity);
     historyModel.action = Actions.SoftDelete;
     historyModel.message = !customMessage ? `Cancellato soft` : customMessage;
@@ -92,6 +98,7 @@ export class HistoryService<TEntity extends OGBaseEntity> {
   }
 
   public async createDeleteHardHistory(entity: TEntity, customMessage?: string) {
+    if (!this.context) return undefined;
     const historyModel = this.getHistoryModel(entity);
     historyModel.action = Actions.Delete;
     historyModel.message = !customMessage ? `Cancellato` : customMessage;
@@ -100,6 +107,7 @@ export class HistoryService<TEntity extends OGBaseEntity> {
   }
 
   public async createRestoreHistory(entity: TEntity, customMessage?: string) {
+    if (!this.context) return undefined;
     const historyModel = this.getHistoryModel(entity);
     historyModel.action = Actions.Restore;
     historyModel.message = !customMessage ? `Restore` : customMessage;

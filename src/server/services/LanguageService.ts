@@ -12,7 +12,7 @@ export class LanguageService {
   /**
    *
    */
-  constructor(conn: Connection, context: Context) {
+  constructor(conn: Connection, context?: Context) {
     this.languageRepository = conn.getRepository(LanguageEntity);
     this.translationRepository = conn.getRepository(TranslationEntity);
     this.mediaRepository = conn.getRepository(MediaEntity);

@@ -13,7 +13,7 @@ export class TranslationService {
   /**
    *
    */
-  constructor(conn: Connection, context: Context) {
+  constructor(conn: Connection, context?: Context) {
     this.translationRepository = conn.getRepository(TranslationEntity);
     this.languageService = new LanguageService(conn, context);
     this.historyService = new HistoryService(TranslationEntity, conn, context);

@@ -27,7 +27,7 @@ export class UserDataService {
   private _emailService: EmailServer;
   private historyService: HistoryService<UserEntity>;
 
-  constructor(conn: Connection, context: Context) {
+  constructor(conn: Connection, context?: Context) {
     this._connection = conn;
     this._userRepository = this._connection.getRepository(UserEntity);
     this._roleRepository = this._connection.getRepository(RolEntity);
