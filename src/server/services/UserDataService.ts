@@ -259,7 +259,7 @@ export class UserDataService {
       return ErrorResponse.Response('Error trying to remove user.User not found');
     }
     const userRemoved = await this._userRepository.remove(userResp.result);
-    await this.historyService.createDeleteHardHistory(userRemoved);
+    await this.historyService.createDeleteHardHistory(userResp.result);
     return SuccessResponse.Response(userRemoved, 'User removed successfully');
   };
 }

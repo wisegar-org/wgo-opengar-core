@@ -23,6 +23,13 @@ export class HistoryService<TEntity extends OGBaseEntity> {
     return history;
   }
 
+  public async getAllHistory() {
+    const history = await this.repository.find({
+      where: { entity: this.type.name },
+    });
+    return history;
+  }
+
   public getHistoryModel(entity: TEntity) {
     const {
       user: { userId, email },

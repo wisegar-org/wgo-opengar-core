@@ -281,7 +281,7 @@ export class TranslationService {
 
     for (const translation of translations) {
       const result = await this.translationRepository.manager.remove(translation);
-      await this.historyService.createDeleteHardHistory(result);
+      if (result) await this.historyService.createDeleteHardHistory(translation);
     }
   }
 }

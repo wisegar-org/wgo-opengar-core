@@ -64,7 +64,7 @@ export class LanguageService {
     }
 
     const result = await this.setProperties(lang, language);
-    await this.historyService.createPostHistory(result);
+    await this.historyService.createPutHistory(result);
     return !!result;
   }
 
