@@ -90,6 +90,15 @@ export class HistoryService<TEntity extends OGBaseEntity> {
     return inserResult.raw;
   }
 
+  public async createAccessHistory(entity: TEntity, customMessage?: string) {
+    if (!this.context) return undefined;
+    const historyModel = this.getHistoryModel(entity);
+
+    historyModel.message = !customMessage ? `Accesso` : customMessage;
+    historyModel.action = Actions.Access;
+    return this.create(Object.assign(new HistoryEntity(), historyModel));
+  }
+
   public async createPostHistory(entity: TEntity, customMessage?: string) {
     if (!this.context) return undefined;
     const historyModel = this.getHistoryModel(entity);

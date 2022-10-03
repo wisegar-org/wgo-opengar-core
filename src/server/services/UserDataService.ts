@@ -90,6 +90,7 @@ export class UserDataService {
           token: token,
           user: user,
         };
+        await this.historyService.createPutHistory(user, 'Login');
         return SuccessResponse.Response(tokenUser);
       }
     } catch (error) {
