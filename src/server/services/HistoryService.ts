@@ -57,6 +57,22 @@ export class HistoryService<TEntity extends OGBaseEntity> {
     };
   }
 
+  public async getHistoryPage(skip: number, take: number) {
+    return await this.getHistoryPageByCriteria(
+      {
+        entity: this.type.name,
+      },
+      { id: 'DESC' },
+      skip,
+      take
+    );
+  }
+
+  public async getHistoryPageByCriteria(whereQuery: any, orderQuery: any, skip: number, take: number) {
+    const history = await this.repository.find({ where: whereQuery, order: orderQuery, skip, take });
+    return history;
+  }
+
   public async create(entity: HistoryEntity): Promise<HistoryEntity> {
     if (!this.context) return undefined;
     if (!!entity.id) throw `Impossibile creare una nuova entity con un id valido`;
