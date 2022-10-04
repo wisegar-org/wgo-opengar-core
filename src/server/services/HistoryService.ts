@@ -157,6 +157,22 @@ export class HistoryService<TEntity extends OGBaseEntity> {
     return this.create(Object.assign(new HistoryEntity(), historyModel));
   }
 
+  public async getHistoryFilters() {
+    const entitiesFilter = await this.repository.createQueryBuilder('').select('distinct entity', 'entity').orderBy('entity', 'ASC').getRawMany();
+    const actionsFilter = await this.repository.createQueryBuilder('').select('distinct action', 'action').orderBy('action', 'ASC').getRawMany();
+    const usernamesFilter = await this.repository
+      .createQueryBuilder('')
+      .select('distinct username', 'username')
+      .orderBy('username', 'ASC')
+      .getRawMany();
+
+    return {
+      entities: entitiesFilter.map((item) => item.entity),
+      actions: actionsFilter.map((item) => item.action),
+      usernames: usernamesFilter.map((item) => item.username),
+    };
+  }
+
   public static ParseHistoryResponse(historyEntity: HistoryEntity) {
     return {
       action: historyEntity.action,
