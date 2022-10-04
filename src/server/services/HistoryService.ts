@@ -1,4 +1,4 @@
-import { Actions, Context, ErrorResponse, HistoryEntity, OGBaseEntity } from '@wisegar-org/wgo-core';
+import { Actions, Context, ErrorResponse, HistoryEntity, OGBaseEntity, UserEntity } from '@wisegar-org/wgo-core';
 import { Connection, ObjectType, Repository } from 'typeorm';
 
 export class HistoryService<TEntity extends OGBaseEntity> {
@@ -90,12 +90,16 @@ export class HistoryService<TEntity extends OGBaseEntity> {
     return inserResult.raw;
   }
 
-  public async createAccessHistory(entity: TEntity, customMessage?: string) {
-    if (!this.context) return undefined;
-    const historyModel = this.getHistoryModel(entity);
-
-    historyModel.message = !customMessage ? `Accesso` : customMessage;
-    historyModel.action = Actions.Access;
+  public async createAccessHistory(entity: UserEntity, customMessage?: string) {
+    const historyModel = {
+      action: Actions.Access,
+      entity: this.type.name,
+      message: !customMessage ? `Accesso` : customMessage,
+      recordId: entity.id,
+      userId: entity.id,
+      username: entity.email,
+      snapshot: '{}',
+    };
     return this.create(Object.assign(new HistoryEntity(), historyModel));
   }
 
