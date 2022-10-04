@@ -74,7 +74,6 @@ export class HistoryService<TEntity extends OGBaseEntity> {
   }
 
   public async create(entity: HistoryEntity): Promise<HistoryEntity> {
-    if (!this.context) return undefined;
     if (!!entity.id) throw `Impossibile creare una nuova entity con un id valido`;
     const result = await this.repository.insert(entity);
     if (!result.identifiers || result.identifiers.length === 0) throw `Non è stato possibile registrare il nuovo record!`;
