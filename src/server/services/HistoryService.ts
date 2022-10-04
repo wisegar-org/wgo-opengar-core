@@ -69,7 +69,7 @@ export class HistoryService<TEntity extends OGBaseEntity> {
   }
 
   public async getHistoryPageByCriteria(whereQuery: any, orderQuery: any, skip: number, take: number) {
-    const history = await this.repository.find({ where: whereQuery, order: orderQuery, skip, take });
+    const history = await this.repository.findAndCount({ where: whereQuery, order: orderQuery, skip, take });
     return history;
   }
 
@@ -164,6 +164,7 @@ export class HistoryService<TEntity extends OGBaseEntity> {
       userId: historyEntity.userId,
       username: historyEntity.username,
       snapshot: historyEntity.snapshot,
+      entity: historyEntity.entity,
     };
   }
 }

@@ -9,7 +9,7 @@ declare module 'express-serve-static-core' {
 export const AuthorizeUserRol = (roles: RolEntityEnum[] = []) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
-      if (req.context) {
+      if (req && req.context) {
         const context: Context = req.context;
         const validRroles =
           context.user && context.user.roles ? context.user.roles.filter((rol: string) => roles.indexOf(RolEntityEnum[rol]) !== -1) : [];
